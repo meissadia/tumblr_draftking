@@ -1,7 +1,6 @@
 # DraftKing for tumblr
 [![Gem Version](https://badge.fury.io/rb/tumblr_draftking.svg)](https://badge.fury.io/rb/tumblr_draftking)
 [![Code Climate](https://codeclimate.com/github/meissadia/tumblr_draftking/badges/gpa.svg)](https://codeclimate.com/github/meissadia/tumblr_draftking)
-[![Build Status](https://travis-ci.org/meissadia/tumblr_draftking.svg?branch=master)](https://travis-ci.org/meissadia/tumblr_draftking)
 [![Test Coverage](https://codeclimate.com/github/meissadia/tumblr_draftking/badges/coverage.svg)](https://codeclimate.com/github/meissadia/tumblr_draftking/coverage)
 
 Take the hassle out of managing your tumblr drafts!  
