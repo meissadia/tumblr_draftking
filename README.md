@@ -43,7 +43,8 @@ Or install it yourself as:
 
 ## Setup
 
-Running DK setup will walk you through connecting to your blog and will save the configuration for future use (~/.dkconfig)
+Running DK setup will walk you through connecting to your blog and will save the configuration for future use (~/.dkconfig)  
+
 1. Register an app: https://www.tumblr.com/oauth/apps  
 1. Access API Keys: https://api.tumblr.com/console/calls/user/info  
 You'll need four values:  
@@ -53,7 +54,7 @@ You'll need four values:
   * oauth_token_secret  
 
 
-  ```bash
+  ```ruby
   $ dk setup
 
   #> Register a new application for you Tumblr account at https://www.tumblr.com/oauth/apps
@@ -84,7 +85,7 @@ The CLI will walk you through connecting to your tumblr account the first time i
 
 Once you've got that configured, check the help to familiarize yourself with your options.
 
-```bash
+```ruby
 $ dk -h
 
 Usage:
@@ -141,7 +142,7 @@ Examples:
 #### Other Examples
 
 ##### Blog list
-```bash
+```ruby
 $ dk blogs
 #> #-------- Blogs --------#
 #> 1. 'first-blog-name'
@@ -152,7 +153,7 @@ $ dk blogs
 ##### Commenting
 Add the comment 'my blog rocks!' to all drafts of blog 'first-blog-name'
 
-```bash
+```ruby
 $ dk comment -c 'my blog rocks!'
 
 #> Adding draft comment "my blog rocks!": 32 / 32 [100%]
@@ -164,7 +165,7 @@ Add the comment 'my queue rolls!' to all queued posts of blog 'first-blog-name'
 
 `--source only compatible with 'comment' or 'strip'`  
 
-```bash
+```ruby
 $ dk comment -c 'my queue rolls!' --source q
 
 #> Adding queue comment "my queue rolls!": 32 / 32 [100%]
@@ -174,7 +175,7 @@ $ dk comment -c 'my queue rolls!' --source q
 ##### Stripping Comments
 Remove old comments from 'second-blog-name' drafts
 
-```bash
+```ruby
 $ dk strip -b 'second-blog-name'
 
 #> Stripping previous comments: 113 / 113 [100%]
@@ -185,7 +186,7 @@ $ dk strip -b 'second-blog-name'
 Add the comment "Q'd" to all of your drafts, remove old comments and move them into your Queue.
 Omitting the -b blog_name option defaults to using the main blog
 
-```bash
+```ruby
 $ dk c_and_m -c "Q'd" -k false
 
 #> Moving Drafts -> Queue: 113 / 113 [100%]
@@ -196,7 +197,7 @@ $ dk c_and_m -c "Q'd" -k false
 The dk console can act as a sandbox while you explore the api or you can use it to actively manage your account.  
 By default it runs in simulation mode so any changes you make will not affect your account.
 
-```bash
+```ruby
 $ dk console
 irb:> $dk.status
 irb:> $dk.strip_old_comments
