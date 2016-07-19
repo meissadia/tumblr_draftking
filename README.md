@@ -66,20 +66,20 @@ You'll need four values:
 ## Usage
 
 ### Program
+API keys are read from the file ~/.dkconfig which can be created using the CLI [Setup]
 
-    require 'tumblr_draftking'
-    dk = DK::Client.new({
-      consumer_key:       'your_value'
-      consumer_secret:    'your_value'
-      oauth_token:        'your_value'
-      oauth_token_secret: 'your_value'
-    })
+```ruby
+require 'tumblr_draftking'
+dk = DK::Client.new()
+```
+
+Documentation available on [rubydoc.info](http://www.rubydoc.info/gems/tumblr_draftking/0.1.0)
 
 ### Command Line Interface
 
 The CLI will walk you through connecting to your tumblr account the first time it's run.
 
-* See [Setup](#setup)
+* See [Setup]
 
 
 Once you've got that configured, check the help to familiarize yourself with your options.
@@ -217,3 +217,5 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/meissa
 <br/>
 <br/>
 (c) 2016 Meissa Dia
+
+[Setup]: #setup
