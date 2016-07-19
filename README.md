@@ -15,7 +15,7 @@ Take the hassle out of managing your tumblr drafts!
 + [Usage](#usage)
 	+ [Program](#program)
 	+ [Command Line Interface](#command-line-interface)
-	+ [My Workflow](#my-workflow)
+		+ [My Workflow](#my-workflow)
 		+ [Other Examples](#other-examples)
 			+ [Blog list](#blog-list)
 			+ [Commenting](#commenting)
@@ -125,7 +125,7 @@ Examples:
 
 ```
 
-### My Workflow
+#### My Workflow
 1. I'll usually manually add comments for posts where I want more detail and use a separator to indicate which portions should be added as tags.
 ```
   ~ MD ~ | architecture | landscape | blue
