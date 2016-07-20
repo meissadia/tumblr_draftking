@@ -28,15 +28,14 @@ module DK
         changed = post_add_comment(post, opts)   || changed
         changed = post_change_state(post, opts)  || changed
         changed = post_generate_tags(post, opts) || changed
-        if changed
-          success = save_post(post, opts)
-          next 0 unless success
-          @q_size += 1
-          @d_size -= 1
-          success
-        else
-          0
-        end
+        return 0 unless changed
+
+        success = save_post(post, opts)
+        next 0 unless success
+
+        @q_size += 1
+        @d_size -= 1
+        success
       end
     end
   end

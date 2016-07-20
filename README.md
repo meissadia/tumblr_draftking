@@ -8,8 +8,11 @@ Take the hassle out of managing your tumblr drafts!
 + Strip away old comments.
 + Easily replenish your queue using your drafts.
 
-Version 0.1.1
-+ Bugfix : Drafts were incorrectly being posted instead of being moved to the Queue. This has been corrected.
+Version 0.1.2
++ Bugfix : Comments were being replaced even when they contained the -c 'comment' text.
++ New    : CLI option -kt will keep existing tags. Default behavior is to only keep auto-generated tags.
+
+Please report any [issues](https://github.com/meissadia/tumblr_draftking/issues) you encounter!
 
 ## Table of Contents
 + [Installation](#installation)

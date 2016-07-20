@@ -20,6 +20,7 @@ namespace :build do
   desc 'Prepare gem deployment.'
   task :deployment do
     Rake::Task['rubo:fix'].execute
+    `ruby codeclimate.rb`
     puts Rake::Task['test'].execute
     puts Rake::Task['build:gem'].execute
   end

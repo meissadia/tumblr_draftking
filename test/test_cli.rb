@@ -3,7 +3,7 @@ require_relative 'test_helper'
 class TestCLI < Minitest::Test
   def test_process_opts
     cli_opts = %w(test_command -l 20 -c caption -f filter -k false
-                  -b tbn -S drafts -s -a -strip -m --source q)
+                  -b tbn -S drafts -s -m --source q -kt)
     command, opts = DK::Helper.process_opts(cli_opts)
     assert_equal 'test_command',    command
     assert_equal 20,                opts[:limit]
@@ -13,8 +13,7 @@ class TestCLI < Minitest::Test
     assert_equal 'tbn.tumblr.com',  opts[:blog_url]
     assert_equal 'drafts',          opts[:state]
     assert_equal true,              opts[:simulate]
-    assert_equal nil,               opts[:all]
-    assert_equal nil,               opts[:strip]
+    assert_equal true,              opts[:keep_tags]
     assert_equal true,              opts[:mute]
     assert_equal :queue,            opts[:source]
   end

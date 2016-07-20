@@ -87,8 +87,8 @@ module DK
                          reblog_key:         d['reblog_key'],
                          state:              options.fetch(:state,     DK::DRAFT),
                          attach_reblog_tree: options.fetch(:keep_tree, true),
-                         caption:            options.fetch(:comment,   d['caption']),
-                         tags:               options.fetch(:tags,      d['tags'])
+                         tags:               options.fetch(:tags,      d['tags']),
+                         caption:            d['caption'].empty? ? options.fetch(:comment, comment) || d['caption'] : d['caption']
       res['id'] ? 1 : 0
     end
 
@@ -99,7 +99,7 @@ module DK
 
     # Add a comment to a post
     def post_add_comment(post, opts = {})
-      caption = opts.fetch(:comment, @caption)
+      caption = opts.fetch(:comment, @comment)
       return false if caption.nil? || post['caption'].include?(caption)
       post['caption'] = caption
       true

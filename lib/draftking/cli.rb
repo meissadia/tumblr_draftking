@@ -33,6 +33,8 @@ module DK
           when '-k', '--keep'
             opts[:keep_tree] = get_flag_value(arg, argv, idx)
             skip = true
+          when '-kt',
+            opts[:keep_tags] = true
           when '-l', '--limit'
             opts[:limit] = get_flag_value(arg, argv, idx).to_i
             opts.delete(:all)
@@ -52,6 +54,8 @@ module DK
             opts[:source] = :draft if opts[:source] == 'd'
             opts[:source] = :queue if opts[:source] == 'q'
             skip = true
+          else
+            puts "Invalid option: #{arg}"
           end
         else
           command = arg
@@ -111,6 +115,7 @@ module DK
       res += "\n     -f, --filter    [STRING]          Only move posts who's comment contains the FILTER string."
       res += "\n                                         ex: -f 'only move these posts' "
       res += "\n     -k, --keep      [BOOL]            Keep previous comments when tagging. Default: FALSE"
+      res += "\n     -kt                               Keep existing tags in addition to newly generated tags. Default: FALSE (old tags removed)"
       res += "\n     -l, --limit     [NUMBER]          Restrict number of posts selected|modified. "
       res += "\n     -m, --mute                        Suppress progress messages."
       res += "\n     -s, --simulate                    Simulation mode: Display program output without modifying actual Tumblr data."
