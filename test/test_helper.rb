@@ -10,7 +10,7 @@ require 'minitest/autorun'
 require_relative '../lib/tumblr_draftking'
 
 def connect_to_client(blog = nil, tag = 'test_tag')
-  DK::Client.new(blog_name: blog, caption: tag, simulate: true)
+  DK::Client.new(blog_name: blog, comment: tag, simulate: true)
 end
 
 def load_draft_data(filename = 'test/all_drafts.json')

@@ -3,7 +3,7 @@ require_relative 'draftking/requires'
 module DK
   class Client
     require_relative 'draftking/client_includes'
-    attr_accessor :client, :caption, :simulate
+    attr_accessor :client, :comment, :simulate
     attr_accessor :blog_url, :blog_list, :blog_name
     attr_accessor :q_size, :d_size
 
@@ -19,7 +19,7 @@ module DK
     # Read Config
     def process_options(options)
       @blog_name = options[:blog_name]
-      @caption   = options[:caption]
+      @comment   = options[:comment]
       @simulate  = options[:simulate]
     end
 

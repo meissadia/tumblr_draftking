@@ -8,6 +8,9 @@ Take the hassle out of managing your tumblr drafts!
 + Strip away old comments.
 + Easily replenish your queue using your drafts.
 
+Version 0.1.1
++ Bugfix : Drafts were incorrectly being posted instead of being moved to the Queue. This has been corrected.
+
 ## Table of Contents
 + [Installation](#installation)
 + [Setup](#setup)

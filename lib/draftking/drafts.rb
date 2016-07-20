@@ -22,7 +22,7 @@ module DK
     def drafts_to_queue(options = {})
       options[:message] = 'Moving Drafts -> Queue: '
       options[:shuffle] = true
-      options[:state]   = DK::QUEUE
+      options[:state] ||= DK::QUEUE
       post_operation(options) do |post, opts, _|
         next 0 unless post_passes_filter?(post, opts)
         changed = post_add_comment(post, opts)   || changed

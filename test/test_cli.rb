@@ -25,6 +25,7 @@ class TestCLI < Minitest::Test
   end
 
   def test_comment_cli
+    skip
     opts = { comment: '~ MD ~', keep_tree: false, simulate: true, blog_url: 'ugly-test-blog.tumblr.com' }
     dk = connect_to_client
     assert_equal 4, dk.all_posts(blog_url: opts[:blog_url],

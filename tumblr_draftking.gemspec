@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.date           = Date.today.to_s
 
   s.summary        = 'Take the hassle out of managing your tumblr account!'
-  s.description    = %(Automate a number of tasks for your tumblr Drafts and Queue such as: tagging, stripping previous comments and moving Drafts to your Queue)
+  s.description    = %(Automate a number of tasks for your tumblr Drafts and Queue such as: tagging, stripping previous comments and moving Drafts to your Queue.  Visit the homepage or information on the latest release.)
 
   s.files          = Dir.glob('{bin,lib}/**/*') + ['README.md', 'LICENSE', '.yardopts', 'Rakefile']
   s.executables    = s.files.grep(%r{^bin/}).map { |f| File.basename(f) }

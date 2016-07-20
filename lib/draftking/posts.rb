@@ -71,7 +71,7 @@ module DK
     # @return [int] Number of modified posts
     def comment_posts(options = {})
       src = options[:source] == :queue ? 'queue' : 'draft'
-      comment = options.fetch(:comment, caption)
+      comment = options.fetch(:comment, comment)
       options[:message] = "Adding #{src} comment \'#{comment}\': "
       post_operation(options) do |post, opts, _|
         changed = post_add_comment(post, opts) || changed
@@ -122,8 +122,12 @@ module DK
 
     # Generate post tags from post comment
     def post_generate_tags(post, opts = {})
-      filter = opts.fetch(:filter, '')
-      tags = post['summary'].gsub(%r{[\/\\|]}, ',').gsub(' , ', ',').gsub(filter, '') # Generate tags from caption
+      filter  = opts.fetch(:filter,  '')
+      comment = opts.fetch(:comment, '')
+      tags  = post['reblog']['comment'].gsub(%r{<[/]*p>}, '')
+      tags  = tags.gsub(%r{[\/\\|]}, ',').gsub(' , ', ',').gsub(filter, '').gsub(comment, '') # Generate tags from caption
+      tags += opts.fetch(:tags, '')
+      tags += post['tags'] if opts[:keep_tags]
       unless post['tags'] == tags
         post['tags'] = tags
         return true
