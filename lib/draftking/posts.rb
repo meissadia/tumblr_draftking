@@ -16,6 +16,7 @@ module DK
         show_progress(current: index, total: total, message: message) unless options[:mute]
       end
       show_progress(message: message, done: true, modified: modified) unless options[:mute]
+      act_on_blog(name: options[:blog_name] || @blog_name)
       modified
     end
 
@@ -26,13 +27,13 @@ module DK
     def getposts(options)
       posts   = options[:test_data]
       posts ||= options[:limit] ?
-                some_posts(limit:     options[:limit],
-                           offset:    options.fetch(:offset,  0),
-                           before_id: options.fetch(:last_id, 0),
-                           blog_url:  options[:blog_url],
-                           source:    options.fetch(:source, :draft)) :
-                all_posts(blog_url: options[:blog_url],
-                          source:   options.fetch(:source, :draft)).uniq
+      some_posts(limit:     options[:limit],
+                 offset:    options.fetch(:offset,  0),
+                 before_id: options.fetch(:last_id, 0),
+                 blog_url:  options[:blog_url],
+                 source:    options.fetch(:source, :draft)) :
+      all_posts(blog_url: options[:blog_url],
+                source:   options.fetch(:source, :draft)).uniq
     end
 
     # Get up to 50 Drafts
@@ -66,77 +67,17 @@ module DK
     end
 
     # Add a comment to Posts
-    # @param options[:caption] [string] String to add as comment
+    # @param options[:comment] [string] String to add as comment
     # @param options[:limit] [Int] Max number of modified posts
     # @return [int] Number of modified posts
     def comment_posts(options = {})
       src = options[:source] == :queue ? 'queue' : 'draft'
-      comment = options.fetch(:comment, comment)
       options[:message] = "Adding #{src} comment \'#{comment}\': "
       post_operation(options) do |post, opts, _|
-        changed = post_add_comment(post, opts) || changed
-        changed ? save_post(post, opts) : 0
+        po = Post.new(post)
+        changed = po.replace_comment(comment: opts[:comment]) || changed
+        changed ? po.save(client: @client, simulate: @simulate) : 0
       end
     end
-
-    # Save a post
-    def save_post(d, options = {})
-      return 1 if @simulate
-      res = @client.edit tumblr_url(options.fetch(:blog_url, @blog_url)),
-                         id:                 d['id'],
-                         reblog_key:         d['reblog_key'],
-                         state:              options.fetch(:state,     DK::DRAFT),
-                         attach_reblog_tree: options.fetch(:keep_tree, true),
-                         tags:               options.fetch(:tags,      d['tags']),
-                         caption:            d['caption'].empty? ? options.fetch(:comment, comment) || d['caption'] : d['caption']
-      res['id'] ? 1 : 0
-    end
-
-    # Save an array of posts
-    def save_posts(posts, options = {})
-      posts.each { |p| save_post(p, options) }
-    end
-
-    # Add a comment to a post
-    def post_add_comment(post, opts = {})
-      caption = opts.fetch(:comment, @comment)
-      return false if caption.nil? || post['caption'].include?(caption)
-      post['caption'] = caption
-      true
-    end
-
-    # Change the state of a post
-    def post_change_state(post, opts = {})
-      state = opts[:state]
-      return false unless VALID_STATE.include?(state)
-      post['state'] = state
-      true
-    end
-
-    # Check if a post needs to be modified
-    def post_passes_filter?(post, options = {})
-      filter = options[:filter]
-      return true if filter.nil?
-      post['summary'].include?(filter)
-    end
-
-    # Generate post tags from post comment
-    def post_generate_tags(post, opts = {})
-      filter  = opts.fetch(:filter,  '')
-      comment = opts.fetch(:comment, '')
-      tags  = post['reblog']['comment'].gsub(%r{<[/]*p>}, '')
-      tags  = tags.gsub(%r{[\/\\|]}, ',').gsub(' , ', ',').gsub(filter, '').gsub(comment, '') # Generate tags from caption
-      tags += opts.fetch(:tags, '')
-      tags += post['tags'] if opts[:keep_tags]
-      unless post['tags'] == tags
-        post['tags'] = tags
-        return true
-      end
-      false
-    end
-
-    # def posts_available?
-    #   @q_size > 0
-    # end
   end
 end

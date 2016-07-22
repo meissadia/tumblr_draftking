@@ -9,6 +9,7 @@ require_relative 'helpers'
 require_relative 'drafts'
 require_relative 'queue'
 require_relative 'config'
+require_relative 'Post'
 require_relative 'posts'
 require_relative 'blog'
 include DK::Helper

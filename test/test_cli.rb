@@ -10,7 +10,7 @@ class TestCLI < Minitest::Test
     assert_equal 'caption',         opts[:comment]
     assert_equal 'filter',          opts[:filter]
     assert_equal false,             opts[:keep_tree]
-    assert_equal 'tbn.tumblr.com',  opts[:blog_url]
+    assert_equal 'tbn',             opts[:blog_name]
     assert_equal 'drafts',          opts[:state]
     assert_equal true,              opts[:simulate]
     assert_equal true,              opts[:keep_tags]
@@ -24,11 +24,14 @@ class TestCLI < Minitest::Test
   end
 
   def test_comment_cli
-    skip
-    opts = { comment: '~ MD ~', keep_tree: false, simulate: true, blog_url: 'ugly-test-blog.tumblr.com' }
-    dk = connect_to_client
-    assert_equal 4, dk.all_posts(blog_url: opts[:blog_url],
-                                 source:   opts.fetch(:source, :draft)).size
-    assert_equal 3, dk.comment_posts(opts)
+    opts = { comment: '~ MD ~', keep_tree: false, simulate: true, blog_name: 'ugly-test-blog' }
+    dk = TestData.connect_to_client
+    assert  0 <= dk.all_posts(blog_url: opts[:blog_url], source: opts.fetch(:source, :draft)).size
+    assert  1 <= dk.comment_posts(opts)
+  end
+
+  def test_print_list_blog
+    string = DK::CLI.print_blog_list(DK::Client.new(simulate: true, keys: TestData.keys))
+    refute_nil /#-*\s\w*\s-*#(\n\d*.\s\w*)*/.match(string)
   end
 end

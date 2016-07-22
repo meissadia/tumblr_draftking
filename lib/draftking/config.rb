@@ -1,26 +1,39 @@
 module DK
-  class DkConfig
-    # Configure Tumblr gem using
-    def self.configure_tumblr_gem(file = nil)
-      keys = file.nil? ? DkConfig.load_api_keys : DkConfig.load_api_keys(file)
+  class Config
+    # Check that all 4 keys have been provided
+    def self.validate_keys(api_keys)
+      return nil if api_keys.nil?
+      return nil unless api_keys.respond_to?(:keys)
+      return nil unless api_keys.keys.sort == VALID_KEYS
+      return nil if api_keys.values.include?(nil)
+      api_keys
+    end
+
+    # Configure tumblr gem
+    def self.configure_tumblr_gem(file: nil, keys: nil)
+      api_keys = keys || load_api_keys(file: file)
+      return false if api_keys.nil?
       Tumblr.configure do |config|
-        keys.each do |key, value|
+        api_keys.each do |key, value|
           config.send(:"#{key}=", value)
         end
       end
+      true
     end
 
     # Read API Keys from file
-    def self.load_api_keys(file = '.dkconfig')
-      file = File.join ENV['HOME'], '.dkconfig'
-      YAML.load_file(file) rescue YAML.parse_file(file)
+    def self.load_api_keys(file: nil)
+      file ||= File.join(ENV['HOME'], DK::CONFIG_FILENAME)
+      return nil unless File.exist?(file.to_s)
+      keys = YAML.load_file(file) rescue YAML.parse_file(file)
+      validate_keys(keys)
     end
 
     # Save API Keys to file
     def self.setup
       ARGV.clear
       config = {}
-      path   = File.join ENV['HOME'], '.dkconfig'
+      path   = File.join ENV['HOME'], DK::CONFIG_FILENAME
       puts
       puts 'Register a new application for you Tumblr account at https://www.tumblr.com/oauth/apps'
       puts 'Once complete, browse to https://api.tumblr.com/console/calls/user/info'
@@ -46,9 +59,9 @@ module DK
       puts
     end
 
-    # Check for .dkconfig file
+    # Check for configuration file
     def self.configured?
-      File.exist?(File.join(ENV['HOME'], '.dkconfig'))
+      File.exist?(File.join(ENV['HOME'], DK::CONFIG_FILENAME))
     end
 
     def self.command_valid?(command)

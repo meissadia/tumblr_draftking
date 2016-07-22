@@ -1,7 +1,7 @@
 require_relative 'test_helper'
 
 class TestDrafts < Minitest::Test
-  @@client    = connect_to_client # Make one connection to reduce overhead
+  @@client    = TestData.connect_to_client # Make one connection to reduce overhead
   @@test_data = load_draft_data
 
   def setup
@@ -42,11 +42,6 @@ class TestDrafts < Minitest::Test
     assert @dk.getposts({}).size == @dk.d_size, 'Get all available drafts'
   end
 
-  def test_list_blog
-    string = @dk.list_blogs
-    refute_nil /#-*\s\w*\s-*#(\n\d*.\s\w*)*/.match(string)
-  end
-
   def test_status
     string = @dk.status
     pattern = /(\w*\s\w*:\s\d*\n+)*/
@@ -54,22 +49,16 @@ class TestDrafts < Minitest::Test
   end
 
   def test_a_live_post
-    @dk.simulate = false
-    d = @dk.some_posts(before_id: 0, limit: 1)
-    assert_equal 1, @dk.save_post(d.first)
+    d = @dk.some_posts(before_id: 0, limit: 1).first
+    assert 0 <= DK::Post.new(d).save(client: @dk.client, simulate: false)
   end
 
   def test_drafts_to_queue
     draft_data = @@test_data.dup
     expected   = draft_data.size
-    assert_equal 93, expected
-    @dk.d_size = expected
-    @dk.q_size = 0
-    q_after    = expected - 1
+    moved      = expected - 1
     options = { filter: 'test_tag', test_data: draft_data }
-    @dk.drafts_to_queue(options)
 
-    assert_equal 1,       @dk.d_size, 'One draft should not pass filter'
-    assert_equal q_after, @dk.q_size, 'Queue has correct number of posts'
+    assert_equal moved, @dk.drafts_to_queue(options), 'One draft should not pass filter'
   end
 end

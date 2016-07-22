@@ -7,10 +7,10 @@ module DK
     # @param opts[:shuffle] [bool] Randomize the order in which Drafts get added to Queue
     # @return [int] Number of modified posts
     def strip_old_comments(options = {})
-      options[:message]   = 'Stripping previous comments: '
-      options[:keep_tree] = false
-      post_operation(options) do |post, opts|
-        save_post(post, opts)
+      options[:message] = 'Stripping previous comments: '
+      post_operation(options) do |post, _opts|
+        po = Post.new(post, keep_tree: false)
+        po.save(client: @client, simulate: @simulate)
       end
     end
 
@@ -24,18 +24,13 @@ module DK
       options[:shuffle] = true
       options[:state] ||= DK::QUEUE
       post_operation(options) do |post, opts, _|
-        next 0 unless post_passes_filter?(post, opts)
-        changed = post_add_comment(post, opts)   || changed
-        changed = post_change_state(post, opts)  || changed
-        changed = post_generate_tags(post, opts) || changed
+        po = Post.new(post, keep_tree: opts[:keep_tree])
+        next 0 unless po.passes_filter?(filter: opts[:filter])
+        changed = po.replace_comment(comment: opts[:comment]) || changed
+        changed = po.change_state(state: opts[:state])        || changed
+        changed = po.generate_tags(keep_tags: opts[:keep_tags], add_tags: opts[:add_tags], exclude: opts[:comment]) || changed
         return 0 unless changed
-
-        success = save_post(post, opts)
-        next 0 unless success
-
-        @q_size += 1
-        @d_size -= 1
-        success
+        po.save(client: @client, simulate: @simulate)
       end
     end
   end

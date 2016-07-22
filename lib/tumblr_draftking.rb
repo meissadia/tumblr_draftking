@@ -3,40 +3,45 @@ require_relative 'draftking/requires'
 module DK
   class Client
     require_relative 'draftking/client_includes'
-    attr_accessor :client, :comment, :simulate
-    attr_accessor :blog_url, :blog_list, :blog_name
+    attr_accessor :client, :simulate
+    attr_accessor :blog_url, :blog_name, :blog_list
     attr_accessor :q_size, :d_size
+    attr_accessor :comment
+    attr_accessor :user
 
     # Initialize instance of DraftKing for the specified blog
-    # @param blogName [String] blog name
-    # @param options[:caption] [String] Default post caption
+    # @param options[:blog_name] [String] Target blog name
+    # @param options[:comment] [String] Default post comment
     def initialize(options = {})
       process_options(options)
-      DK::DkConfig.configure_tumblr_gem
-      account_info(Tumblr::Client.new)
+      return unless configure_tumblr(options)
+      @client = Tumblr::Client.new
+      act_on_blog(name: options[:blog_name])
     end
 
     # Read Config
     def process_options(options)
-      @blog_name = options[:blog_name]
       @comment   = options[:comment]
       @simulate  = options[:simulate]
     end
 
+    # Configure tumblr_client gem
+    def configure_tumblr(options)
+      keys = DK::Config.validate_keys(options[:keys])
+      return DK::Config.configure_tumblr_gem(keys: keys) unless keys.nil?
+      DK::Config.configure_tumblr_gem(file: options[:config_file])
+    end
+
     # Collect Account Info
-    def account_info(client)
-      @client      = client
-      account      = JSON.parse(@client.info.to_json, object_class: OpenStruct)
-      @blog_name ||= account.user.blogs.first.name
-      @blog_url    = @blog_name + '.tumblr.com'
-      list         = []
-      account.user.blogs.each do |blog|
-        list << blog.name
+    def act_on_blog(name: nil)
+      @user      = JSON.parse(@client.info['user'].to_json, object_class: OpenStruct)
+      @blog_name = name.nil? ? @user.blogs.first.name : name.gsub('.tumblr.com', '')
+      @blog_url  = @blog_name + '.tumblr.com'
+      @user.blogs.each do |blog|
         next unless blog.name == @blog_name
         @q_size = blog.queue
         @d_size = blog.drafts
       end
-      @blog_list = list
     end
 
     # Print blog status
@@ -47,21 +52,6 @@ module DK
       res += "\nQueue space: #{queue_space}"
       puts res unless @simulate
       res
-    end
-
-    # Print blog list
-    def list_blogs
-      result = "\n#-------- Blogs --------#"
-      @blog_list.each_with_index do |blog, idx|
-        result += "\n#{idx + 1}. #{blog}"
-      end
-      puts result += "\n" unless @simulate
-      result if @simulate
-    end
-
-    # Version
-    def self.version
-      "tumblr_draftking #{DK::VERSION}"
     end
   end
 end

@@ -23,12 +23,9 @@ module DK
       options[:shuffle] = false
       options[:state]   = DK::DRAFT
       post_operation(options) do |post, opts, _|
-        next 0 unless post_passes_filter?(post, opts)
-        success = save_post(post, opts)
-        next 0 unless success
-        @q_size -= 1
-        @d_size += 1
-        1
+        po = Post.new(post)
+        next 0 if po.passes_filter?(filter: opts[:filter])
+        po.save(client: @client, simulate: @simulate)
       end
     end
 

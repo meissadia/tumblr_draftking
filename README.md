@@ -8,11 +8,8 @@ Take the hassle out of managing your tumblr drafts!
 + Strip away old comments.
 + Easily replenish your queue using your drafts.
 
-Version 0.1.2
-+ Bugfix : Comments were being replaced even when they contained the -c 'comment' text.
-+ New    : CLI option -kt will keep existing tags. Default behavior is to only keep auto-generated tags.
-
-Please report any [issues](https://github.com/meissadia/tumblr_draftking/issues) you encounter!
+Version 0.2.0
++ Please report any [issues](https://github.com/meissadia/tumblr_draftking/issues) you encounter!
 
 ## Table of Contents
 + [Installation](#installation)
@@ -49,7 +46,7 @@ Or install it yourself as:
 
 ## Setup
 
-Running DK setup will walk you through connecting to your blog and will save the configuration for future use (~/.dkconfig)  
+Running DK setup will save your configuration for future use (~/.dkconfig)  
 
 1. Register an app: https://www.tumblr.com/oauth/apps  
 1. Access API Keys: https://api.tumblr.com/console/calls/user/info  
@@ -59,25 +56,31 @@ You'll need four values:
   * oauth_token
   * oauth_token_secret  
 
+```ruby
+$ dk setup
+```
 
-  ```ruby
-  $ dk setup
-
-  #> Register a new application for you Tumblr account at https://www.tumblr.com/oauth/apps
-  #> Once complete, browse to https://api.tumblr.com/console/calls/user/info
-
-  #> Enter consumer key:
-
-  ```
 
 ## Usage
 
 ### Program
-API keys are read from the file ~/.dkconfig which can be created using the CLI [Setup]
+API Keys can be read from ~/.dkconfig (See: [Setup]) or you can pass them at the time of Client creation.
 
 ```ruby
 require 'tumblr_draftking'
+
+# Use default configuration file: ~/.dkconfig
 dk = DK::Client.new()
+
+# Specify your own configuration file
+dk = DK::Client.new({config_file: filename})
+
+# Define directly
+dk = DK::Client.new({ keys: { consumer_key:       'your value',
+                              consumer_secret:    'your value',
+                              oauth_token:        'your value',
+                              oauth_token_secret: 'your value' }})
+
 ```
 
 Documentation available on [rubydoc.info](http://www.rubydoc.info/gems/tumblr_draftking/0.1.0)
@@ -86,59 +89,22 @@ Documentation available on [rubydoc.info](http://www.rubydoc.info/gems/tumblr_dr
 
 The CLI will walk you through connecting to your tumblr account the first time it's run.
 
-* See [Setup]
-
+* See: [Setup]
 
 Once you've got that configured, check the help to familiarize yourself with your options.
 
 ```ruby
 $ dk -h
-
-Usage:
-   dk <COMMAND> [options]
-   dk -v/--version
-   dk -h/--help
-
-
-Commands:   Required  Optional
-   setup                          Configure and save API keys
-   console                        Load irb with
-   blogs                          Show blog list
-   status                         Display number of posts in Queue, Drafts
-   strip              [-blsS]     Remove previous comments from Drafts
-   move_drafts        [-bklsS]    Move from Drafts to Queue
-   comment   [-c]     [-bklsS]    Add comment to Posts
-   c_and_m   [-c]     [-bkls]     Add comment and move Drafts to Queue
-
-
-Options:
-   -b, --blog    [blog_name]      Blog name to use. Excluding this will default to main blog.
-                                    ex: 'my-blog-name'
-   -c, --comment [STRING]         Comment to add.
-                                    ex: -c 'add this comment'
-   -f, --filter  [STRING]         Only move posts who's comment contains the FILTER string.
-                                    ex: -f 'only move these posts'
-   -k, --keep    [BOOL]           Keep previous comments when tagging. Default: FALSE
-   -l, --limit   [NUMBER]         Restrict number of posts selected|modified.
-   -s, --simulate                 Simulation mode: Display program output without saving data.
-   -S, --state   [q|d|p]          Set post state: d-draft, q-queued, p-published
-   --source      [d|q]            Modify posts from your : d-drafts, q-queue
-
-
-Examples:
-   dk comment -c \"q\'d\"            # Add the comment \"q\'d\" to all Drafts of main blog
-   dk c_and_m -l 25 -f \"q\'d\"      # Caption with \"q\'d\" and then Move the first 25
-
 ```
 
 #### My Workflow
 1. I'll usually manually add comments for posts where I want more detail and use a separator to indicate which portions should be added as tags.
 ```
-  ~ MD ~ | architecture | landscape | blue
+  ~ MD ~ | architecture \ landscape / blue , yams
 ```
 1. Once I have my special cases taken care of I'll use DraftKing to automatically tag the rest, strip old comments and move them to my queue.  
   * It will preserve any comments which already have the '~ MD ~' tag, so I don't need to worry about losing my special cases.  
-  * It will also generate tags from the comment.  In the above case you would get: #architecture #landscape #blue  
+  * It will also generate tags from the comment.  In the above case you would get: #architecture #landscape #blue #yams
 
   ```
     $ dk c_and_m -c '~ MD ~' -k false  

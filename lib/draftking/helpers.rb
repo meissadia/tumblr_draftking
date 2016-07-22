@@ -23,7 +23,7 @@ module DK
     end
 
     def tumblr_url(s)
-      s += '.tumblr.com' unless blog_url.include?('.')
+      s += '.tumblr.com' unless s.include?('.')
       s
     end
   end

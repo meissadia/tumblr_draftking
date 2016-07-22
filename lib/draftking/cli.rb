@@ -22,7 +22,7 @@ module DK
         if arg[0].eql?('-')
           case arg
           when '-b', '--blog'
-            opts[:blog_url] = get_flag_value(arg, argv, idx) + '.tumblr.com'
+            opts[:blog_name] = get_flag_value(arg, argv, idx)
             skip = true
           when '-c', '--comment'
             opts[:comment] = get_flag_value(arg, argv, idx)
@@ -33,7 +33,7 @@ module DK
           when '-k', '--keep'
             opts[:keep_tree] = get_flag_value(arg, argv, idx)
             skip = true
-          when '-kt',
+          when '-kt'
             opts[:keep_tags] = true
           when '-l', '--limit'
             opts[:limit] = get_flag_value(arg, argv, idx).to_i
@@ -132,10 +132,21 @@ module DK
       res += "\n  For more information :"
       res += "\n     https://github.com/meissadia/tumblr_draftking"
       res + "\n\n\n"
-      # puts "   2. autopost - Autopost drafts. Defaults: 50 posts / 24 hours"
-      # puts "       option 1: hours -> # of hours to run"
-      # puts "       option 2: posts -> # of posts to move"
-      # puts "   3. tagq - Tag Queued posts using default tag"
+    end
+
+    # Print blog list
+    def self.print_blog_list(dk)
+      result = "\n#-------- Blogs --------#"
+      dk.user.blogs.each_with_index do |blog, idx|
+        result += "\n#{idx + 1}. #{blog.name}"
+      end
+      puts result += "\n" unless dk.simulate
+      result if dk.simulate
+    end
+
+    # Version
+    def self.version
+      "tumblr_draftking #{DK::VERSION}"
     end
   end
 end

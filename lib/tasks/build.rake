@@ -1,3 +1,6 @@
+require_relative '../../codeclimate.rb'
+include BuildVars
+
 namespace :build do
   desc 'Build gem.'
   task :gem do
@@ -8,7 +11,7 @@ namespace :build do
   desc 'Build and install gem.'
   task :install do
     Rake::Task['build:gem'].execute
-    file = `ls *.gem | head -n 1`
+    file = `ls -1r *.gem | head -n 1`
     puts `gem install #{file}`
   end
 
@@ -19,8 +22,9 @@ namespace :build do
 
   desc 'Prepare gem deployment.'
   task :deployment do
+    ENV['CODECLIMATE_REPO_TOKEN'] = CODECLIMATE_REPO_TOKEN
+    ENV['CI_FLAG'] = 'true'
     Rake::Task['rubo:fix'].execute
-    `ruby codeclimate.rb`
     puts Rake::Task['test'].execute
     puts Rake::Task['build:gem'].execute
   end
