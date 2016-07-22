@@ -70,7 +70,7 @@ API Keys can be read from ~/.dkconfig (See: [Setup]) or you can pass them at the
 require 'tumblr_draftking'
 
 # Use default configuration file: ~/.dkconfig
-dk = DK::Client.new()
+dk = DK::Client.new
 
 # Specify your own configuration file
 dk = DK::Client.new({config_file: filename})
@@ -83,7 +83,7 @@ dk = DK::Client.new({ keys: { consumer_key:       'your value',
 
 ```
 
-Documentation available on [rubydoc.info](http://www.rubydoc.info/gems/tumblr_draftking/0.1.0)
+Documentation available on [rubydoc.info](http://www.rubydoc.info/gems/tumblr_draftking/0.2.0)
 
 ### Command Line Interface
 
