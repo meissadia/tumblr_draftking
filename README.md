@@ -9,7 +9,9 @@ Take the hassle out of managing your tumblr drafts!
 + Easily replenish your queue using your drafts.
 
 Version 0.2.2
-
++ Improved documentation
++ Reduced test suite runtime
++ Code cleanup
 + Please report any [issues](https://github.com/meissadia/tumblr_draftking/issues) you encounter!
 
 ## Table of Contents
@@ -84,7 +86,7 @@ dk = DK::Client.new(keys: { consumer_key:       'your value',
 
 ```
 
-Documentation available on [rubydoc.info](http://www.rubydoc.info/gems/tumblr_draftking/0.1.0)
+Documentation available on [rubydoc.info](http://www.rubydoc.info/gems/tumblr_draftking/0.2.2)
 
 ### Command Line Interface
 
