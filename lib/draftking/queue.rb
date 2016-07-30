@@ -2,22 +2,20 @@ module DK
   #----------------------------- Queue Methods ----------------------------- #
   module TQueue
     # Number of posts in Queue
-    # @param recalculate [bool] Force recalculation of size
-    # @return [int] size of queue
+    # @return [Integer] size of queue
     def queue_size
       @q_size
     end
 
     # Number of posts that can be added to Queue
-    # @param recalculate [bool] Force recalculation of size
-    # @return [int] queue spaces available
+    # @return [Integer] queue spaces available
     def queue_space
       301 - queue_size
     end
 
-    # Move improperly tagged Queue to Drafts
-    # @param options[:tag] [bool] Any posts whose caption does not begin with :tag are moved to Drafts
-    # @return modified [int] Number of modified posts
+    # Move from Queue to Drafts
+    # @param options[:filter] [String] Any posts whose caption does not include :filter gets moved to Drafts
+    # @return [Int] Number of modified posts
     def move_to_drafts(options)
       options[:message] = 'Moving Queue ~> Drafts: '
       options[:shuffle] = false
@@ -30,7 +28,7 @@ module DK
     end
 
     # # Get a list of Queued posts
-    # # @param offset [int] return queued posts starting with offset index
+    # # @param offset [Integer] return queued posts starting with offset index
     # # @return [[Post]] Array of Post JSON objects
     # def some_queue(offset = 0, limit = 1)
     #   queue = @client.queue @blog_url, offset: offset, limit: limit
@@ -56,7 +54,7 @@ module DK
     # # @param caption [string] String to add as caption
     # # @param options[:all] [bool] Process entire Queue
     # # @param options[:skip] [String] Do not modify Queued posts that contain string
-    # # @return [int] Number of posts modified
+    # # @return [Integer] Number of posts modified
     # def comment_queue(caption, options)
     #   queue = options[:all] ? all_queue : some_queue(0, 50)
     #   skip = options[:skip]
@@ -77,7 +75,7 @@ module DK
     # end
 
     # # Tag Queued posts from comment
-    # # @return [int] Number of posts modified
+    # # @return [Integer] Number of posts modified
     # def tag_queue
     #   puts 'Tagging Queue'
     #   queue = all_queue
@@ -120,7 +118,7 @@ module DK
     # end
     #
     # def publish_post(d)
-    #   print "Posting: #{d['summary']} .."
+    #   prInteger "Posting: #{d['summary']} .."
     #   @client.edit @blog_url, id: d['id'], reblog_key: d['reblog_key'], caption: d['summary'], tags: d['tags'], state: 'published'
     #   @q_size -= 1
     #   puts '.Done'

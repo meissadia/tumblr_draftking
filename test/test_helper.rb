@@ -9,16 +9,14 @@ end
 require 'minitest/autorun'
 require_relative '../lib/tumblr_draftking'
 
-class TestData
-  def self.keys
-    DK::Config.load_api_keys(file: File.join(ENV['HOME'], '.dkconfig2'))
-  end
+def api_keys_for_test
+  DK::Config.load_api_keys(file: File.join(ENV['HOME'], '.dkconfig2'))
+end
 
-  def self.connect_to_client(blog: nil, comment: nil)
-    blog    = 'ugly-test-blog'
-    comment = 'test_tag'
-    DK::Client.new(keys: keys, blog_name: blog, comment: comment, simulate: true)
-  end
+def connect_to_client(blog: nil, comment: nil)
+  blog    ||= $test_blog
+  comment ||= $test_comment
+  DK::Client.new(keys: api_keys_for_test, blog_name: blog, comment: comment, simulate: true)
 end
 
 def load_draft_data(filename = 'test/all_drafts.json')
@@ -58,3 +56,9 @@ def post_with_comments
     }
   }
 end
+
+$test_tag     = 'test_tag'
+$test_blog    = 'ugly-test-blog'
+$test_comment = 'test_comment'
+$client    = connect_to_client
+$test_data = load_draft_data

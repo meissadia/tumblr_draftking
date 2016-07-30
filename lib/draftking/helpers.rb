@@ -1,6 +1,12 @@
 module DK
+  # Helper Methods
   module Helper
     # Display progress percentage
+    # @param current [Int] Progress Counter
+    # @param total [Int] # Items to be processed
+    # @param message [String] Display message for process
+    # @param done [Bool] Processing Complete?
+    # @param modified [Int] # of items modified
     def show_progress(current: 0, total: 0, message: '', done: false, modified: 0)
       if done
         indicator  = '√ '
@@ -22,9 +28,11 @@ module DK
       index < limit
     end
 
-    def tumblr_url(s)
-      s += '.tumblr.com' unless s.include?('.')
-      s
+    # Construct tumblr URL string
+    # @param blog_name [String] Blog Name
+    def tumblr_url(blog_name)
+      blog_name += '.tumblr.com' unless blog_name.include?('.')
+      blog_name
     end
   end
 end

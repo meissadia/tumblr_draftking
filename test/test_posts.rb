@@ -1,8 +1,7 @@
 require_relative 'test_helper'
 
 class TestPosts < Minitest::Test
-  @@test_blog = 'ugly-test-blog'
-  @@dk = TestData.connect_to_client # Make one connection to reduce overhead
+  @@dk = $client
 
   def test_post_passes_filter
     assert_equal false, DK::Post.new(post_no_comments).passes_filter?(filter: 'test'),   'Filter 1'
@@ -28,20 +27,21 @@ class TestPosts < Minitest::Test
   end
 
   def test_save_live_post
-    assert_equal @@test_blog, @@dk.blog_name
+    assert_equal $test_blog, @@dk.blog_name
+    @@dk.client.reblog @@dk.blog_name, id: 148_197_574_140, reblog_key: 'otmSvZBs', state: 'draft' unless @@dk.d_size > 0
     live_post = @@dk.some_posts(limit: 1).first
     assert_equal 1, DK::Post.new(live_post).save(client: @@dk.client)
   end
 
   def test_delete_live_post
     @@dk.client.reblog @@dk.blog_name, id: 148_197_574_140, reblog_key: 'otmSvZBs'
-    assert_equal @@test_blog, @@dk.blog_name
+    assert_equal $test_blog, @@dk.blog_name
     live_post = @@dk.client.posts(@@dk.blog_url, limit: 1)['posts'].first
     assert_equal 1, DK::Post.new(live_post).delete(client: @@dk.client)
   end
 
   def test_generate_tags
-    assert_equal @@test_blog, @@dk.blog_name
+    assert_equal $test_blog, @@dk.blog_name
     tags = DK::Post.new(post_with_comments).generate_tags
     assert_equal 'test comment', tags
 
@@ -56,8 +56,8 @@ class TestPosts < Minitest::Test
   end
 
   def test_getposts_drafts
-    assert_equal 1, @@dk.some_posts(limit: 1).size
-    assert 2 >= @@dk.some_posts(limit: 2).size
+    assert @@dk.some_posts(limit: 1).size == 1
+    assert @@dk.some_posts(limit: 2).size <= 2
     assert_equal @@dk.d_size, @@dk.all_posts.size
   end
 

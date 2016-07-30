@@ -15,7 +15,7 @@ when 'console'
 else
   DK::Config.setup unless DK::Config.configured?
   command, opts = DK::CLI.process_opts(ARGV)
-  abort("Invalid command: #{command}") unless DK::Config.command_valid?(command)
+  abort("Invalid command: #{command}") unless DK::CLI.command_valid?(command)
   # puts opts
   dk = DK::Client.new(opts)
   case command

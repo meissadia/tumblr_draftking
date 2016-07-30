@@ -10,7 +10,11 @@ Gem::Specification.new do |s|
   s.date           = Date.today.to_s
 
   s.summary        = 'Take the hassle out of managing your tumblr account!'
-  s.description    = %(Automate a number of tasks for your tumblr Drafts and Queue such as: tagging, stripping previous comments and moving Drafts to your Queue.  Visit the homepage for information on the latest release or to file a bug report!)
+  s.description    = %(
+  Automate a number of tasks for your tumblr Drafts and Queue such as: tagging, stripping
+  previous comments and moving Drafts to your Queue.  Visit the homepage for information on
+  the latest release or to file a bug report!
+  )
 
   s.files          = Dir.glob('{bin,lib}/**/*') + ['README.md', 'LICENSE', '.yardopts', 'Rakefile']
   s.executables    = s.files.grep(%r{^bin/}).map { |f| File.basename(f) }
@@ -18,7 +22,7 @@ Gem::Specification.new do |s|
   s.require_paths  = ['lib']
 
   s.platform       = Gem::Platform.local
-  s.required_ruby_version = '>= 2.0.0'
+  s.required_ruby_version = '>= 2.1.0'
   s.add_runtime_dependency     'tumblr_client', '~> 0.8.5'
   s.add_runtime_dependency     'psych', '2.0.8'
   s.add_development_dependency 'minitest', '~>5.9'

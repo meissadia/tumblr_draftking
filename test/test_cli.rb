@@ -24,14 +24,18 @@ class TestCLI < Minitest::Test
   end
 
   def test_comment_cli
-    opts = { comment: '~ MD ~', keep_tree: false, simulate: true, blog_name: 'ugly-test-blog' }
-    dk = TestData.connect_to_client
-    assert  0 <= dk.all_posts(blog_url: opts[:blog_url], source: opts.fetch(:source, :draft)).size
-    assert  1 <= dk.comment_posts(opts)
+    opts = { comment: '~ MD ~', keep_tree: false, simulate: true, blog_name: $test_blog, mute: true }
+    assert  0 <= $client.all_posts(blog_url: opts[:blog_url], source: opts.fetch(:source, :draft)).size
+    assert  1 <= $client.comment_posts(opts)
   end
 
   def test_print_list_blog
-    string = DK::CLI.print_blog_list(DK::Client.new(simulate: true, keys: TestData.keys))
+    string = DK::CLI.print_blog_list(DK::Client.new(simulate: true, keys: api_keys_for_test))
     refute_nil /#-*\s\w*\s-*#(\n\d*.\s\w*)*/.match(string)
+  end
+
+  def test_command_valid
+    assert_equal false, DK::CLI.command_valid?('jump')
+    assert_equal true,  DK::CLI.command_valid?('strip')
   end
 end

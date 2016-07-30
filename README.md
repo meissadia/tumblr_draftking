@@ -8,9 +8,8 @@ Take the hassle out of managing your tumblr drafts!
 + Strip away old comments.
 + Easily replenish your queue using your drafts.
 
-Version 0.2.1
-+ DK CLI: Keeping previous comments (-k option) was incorrectly defaulting to true.
-+ Improved code coverage
+Version 0.2.2
+
 + Please report any [issues](https://github.com/meissadia/tumblr_draftking/issues) you encounter!
 
 ## Table of Contents

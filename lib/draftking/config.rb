@@ -1,6 +1,8 @@
 module DK
+  # Instance Configuration Methods
   class Config
     # Check that all 4 keys have been provided
+    # @param api_keys [Hash] API Keys
     def self.validate_keys(api_keys)
       return nil if api_keys.nil?
       return nil unless api_keys.respond_to?(:keys)
@@ -10,6 +12,8 @@ module DK
     end
 
     # Configure tumblr gem
+    # @param file [String] JSON File with API Keys
+    # @param keys [Hash] Hash with API Keys
     def self.configure_tumblr_gem(file: nil, keys: nil)
       api_keys = keys || load_api_keys(file: file)
       return false if api_keys.nil?
@@ -22,6 +26,7 @@ module DK
     end
 
     # Read API Keys from file
+    # @param file [String] JSON File with API Keys
     def self.load_api_keys(file: nil)
       file ||= File.join(ENV['HOME'], DK::CONFIG_FILENAME)
       return nil unless File.exist?(file.to_s)
@@ -29,7 +34,7 @@ module DK
       validate_keys(keys)
     end
 
-    # Save API Keys to file
+    # Input and Save API Keys to file
     def self.setup
       ARGV.clear
       config = {}
@@ -59,13 +64,9 @@ module DK
       puts
     end
 
-    # Check for configuration file
+    # Check if API Key configuration file already exists
     def self.configured?
       File.exist?(File.join(ENV['HOME'], DK::CONFIG_FILENAME))
-    end
-
-    def self.command_valid?(command)
-      %w(blogs comment c_and_m move_drafts status strip).include?(command)
     end
   end
 end

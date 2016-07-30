@@ -1,6 +1,7 @@
 module DK
+  # Command Line Interface methods
   module CLI
-    # Launch IRB with tumblr_draftking loaded
+    # Launch IRB with tumblr_draftking loaded as $dk
     def launch_console
       require 'irb'
       require 'irb/completion'
@@ -10,6 +11,7 @@ module DK
     end
 
     # Build option hash from command line args
+    # @param argv [[String]] Command Line Arguments
     def process_opts(argv)
       opts = {}
       skip = false
@@ -22,21 +24,21 @@ module DK
         if arg[0].eql?('-')
           case arg
           when '-b', '--blog'
-            opts[:blog_name] = get_flag_value(arg, argv, idx)
+            opts[:blog_name] = get_flag_value(argv, idx)
             skip = true
           when '-c', '--comment'
-            opts[:comment] = get_flag_value(arg, argv, idx)
+            opts[:comment] = get_flag_value(argv, idx)
             skip = true
           when '-f', '--filter'
-            opts[:filter] = get_flag_value(arg, argv, idx)
+            opts[:filter] = get_flag_value(argv, idx)
             skip = true
           when '-k', '--keep'
-            opts[:keep_tree] = get_flag_value(arg, argv, idx)
+            opts[:keep_tree] = get_flag_value(argv, idx)
             skip = true
           when '-kt'
             opts[:keep_tags] = true
           when '-l', '--limit'
-            opts[:limit] = get_flag_value(arg, argv, idx).to_i
+            opts[:limit] = get_flag_value(argv, idx).to_i
             opts.delete(:all)
             skip = true
           when '-m', '--mute'
@@ -44,13 +46,13 @@ module DK
           when '-s', '--simulate'
             opts[:simulate] = true
           when '-S', '--state'
-            opts[:state] = get_flag_value(arg, argv, idx)
+            opts[:state] = get_flag_value(argv, idx)
             opts[:state] = DK::DRAFT     if opts[:state] == 'd'
             opts[:state] = DK::PUBLISH   if opts[:state] == 'p'
             opts[:state] = DK::QUEUE     if opts[:state] == 'q'
             skip = true
           when '--source'
-            opts[:source] = get_flag_value(arg, argv, idx)
+            opts[:source] = get_flag_value(argv, idx)
             opts[:source] = :draft if opts[:source] == 'd'
             opts[:source] = :queue if opts[:source] == 'q'
             skip = true
@@ -65,6 +67,8 @@ module DK
     end
 
     # Validate option flag values
+    # @param flag [String] Command Line option
+    # @param val [String] Value following CL option
     def check_opts_value(flag, val)
       if val[0] == '-'
         res  = "\nError:"
@@ -76,8 +80,10 @@ module DK
     end
 
     # Read flag's associated value
-    def get_flag_value(arg, args, idx)
-      invalid = check_opts_value(arg, args[idx + 1])
+    # @param args [[String]] Command Line Arguments
+    # @param indx [Integer] Index of flag in CL Arguments
+    def get_flag_value(args, idx)
+      invalid = check_opts_value(args[idx], args[idx + 1])
       unless invalid
         val = args[idx + 1]
         return true  if %w(true t).include?(val.downcase)
@@ -135,6 +141,7 @@ module DK
     end
 
     # Print blog list
+    # @param dk [DK::Client] Instance of DK
     def self.print_blog_list(dk)
       result = "\n#-------- Blogs --------#"
       dk.user.blogs.each_with_index do |blog, idx|
@@ -147,6 +154,12 @@ module DK
     # Version
     def self.version
       "tumblr_draftking #{DK::VERSION}"
+    end
+
+    # Validate CLI Command
+    # @param command [String] CLI Command
+    def self.command_valid?(command)
+      %w(blogs comment c_and_m move_drafts status strip).include?(command)
     end
   end
 end

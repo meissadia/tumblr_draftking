@@ -11,7 +11,7 @@ task default: :test
 
 desc 'Open documentation'
 task :show_docs do
-  ['README.md', 'CHANGELOG.md', 'coverage/index.html', 'rubocop/index.html'].each do |doc|
+  ['README.md', 'CHANGELOG.md', 'coverage/index.html', 'rubocop/report.html'].each do |doc|
     `open #{doc} -a "Google Chrome"`
   end
 end

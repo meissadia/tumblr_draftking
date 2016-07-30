@@ -1,6 +1,7 @@
 require_relative 'draftking/requires'
 
 module DK
+  # tumblr Client
   class Client
     require_relative 'draftking/client_includes'
     attr_accessor :client, :simulate
@@ -26,13 +27,16 @@ module DK
     end
 
     # Configure tumblr_client gem
+    # @param :file [String] JSON File with API Keys
+    # @param :keys [Hash] Hash with API Keys
     def configure_tumblr(options)
       keys = DK::Config.validate_keys(options[:keys])
       return DK::Config.configure_tumblr_gem(keys: keys) unless keys.nil?
       DK::Config.configure_tumblr_gem(file: options[:config_file])
     end
 
-    # Collect Account Info
+    # Collect/Refresh Account Info
+    # @param name [String] Name of blog to target
     def act_on_blog(name: nil)
       @user      = JSON.parse(@client.info['user'].to_json, object_class: OpenStruct)
       @blog_name = name.nil? ? @user.blogs.first.name : name.gsub('.tumblr.com', '')

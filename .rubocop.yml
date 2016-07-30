@@ -1,7 +1,22 @@
 inherit_from: .rubocop_todo.yml
 
+AllCops:
+  TargetRubyVersion: 2.1
+  Exclude:
+    - '_scratchpad.rb'
+    - 'lib/draftking/cli.rb'
+
 Style/GuardClause:
   Enabled: false
 
 Style/RescueModifier:
+  Enabled: false
+
+Style/GlobalVars:
+  Enabled: false
+
+Lint/AmbiguousRegexpLiteral:
+  Enabled: false
+
+Style/ClassVars:
   Enabled: false
