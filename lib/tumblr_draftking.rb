@@ -46,7 +46,7 @@ module DK
 
     # Print blog status
     def status
-      res  = " #------ #{@blog_name} ------#"
+      res  = "#------ #{@blog_name} ------#"
       res += "\nDraft size : #{@d_size}"
       res += "\nQueue size : #{queue_size}"
       res += "\nQueue space: #{queue_space}"

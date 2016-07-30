@@ -34,7 +34,7 @@ class TestPosts < Minitest::Test
   end
 
   def test_delete_live_post
-    skip
+    @@dk.client.reblog @@dk.blog_name, id: 148_197_574_140, reblog_key: 'otmSvZBs'
     assert_equal @@test_blog, @@dk.blog_name
     live_post = @@dk.client.posts(@@dk.blog_url, limit: 1)['posts'].first
     assert_equal 1, DK::Post.new(live_post).delete(client: @@dk.client)

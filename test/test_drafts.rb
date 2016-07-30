@@ -31,6 +31,7 @@ class TestDrafts < Minitest::Test
 
   def test_getdrafts
     # Valide Draft Numbers
+    @dk.act_on_blog name: @dk.blog_name
     assert @dk.d_size >= 0, 'Draft size has been initialized'
 
     opts = { limit: 12 }
@@ -49,6 +50,7 @@ class TestDrafts < Minitest::Test
   end
 
   def test_a_live_post
+    @dk.client.reblog @dk.blog_name, id: 148_197_574_140, reblog_key: 'otmSvZBs', state: 'draft' unless @dk.d_size > 0
     d = @dk.some_posts(before_id: 0, limit: 1).first
     assert 0 <= DK::Post.new(d).save(client: @dk.client, simulate: false)
   end

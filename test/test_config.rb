@@ -9,7 +9,7 @@ class TestConfig < Minitest::Test
     assert_equal expected, k.keys
   end
 
-  def test_others
+  def test_command_valid
     assert_equal false, DK::Config.command_valid?('jump')
     assert_equal true,  DK::Config.command_valid?('strip')
   end

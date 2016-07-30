@@ -10,7 +10,7 @@ module DK
       @summary = hash['summary']
       @blog_url   = tumblr_url(hash['blog_name'])
       @reblog_key = hash['reblog_key']
-      @keep_tree  = keep_tree.nil? ? true : keep_tree
+      @keep_tree  = keep_tree.nil? ? false : keep_tree
     end
 
     def to_s

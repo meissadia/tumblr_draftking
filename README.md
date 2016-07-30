@@ -8,7 +8,9 @@ Take the hassle out of managing your tumblr drafts!
 + Strip away old comments.
 + Easily replenish your queue using your drafts.
 
-Version 0.2.0
+Version 0.2.1
++ DK CLI: Keeping previous comments (-k option) was incorrectly defaulting to true.
++ Improved code coverage
 + Please report any [issues](https://github.com/meissadia/tumblr_draftking/issues) you encounter!
 
 ## Table of Contents
@@ -70,20 +72,20 @@ API Keys can be read from ~/.dkconfig (See: [Setup]) or you can pass them at the
 require 'tumblr_draftking'
 
 # Use default configuration file: ~/.dkconfig
-dk = DK::Client.new
+dk = DK::Client.new()
 
 # Specify your own configuration file
-dk = DK::Client.new({config_file: filename})
+dk = DK::Client.new(config_file: filename)
 
 # Define directly
-dk = DK::Client.new({ keys: { consumer_key:       'your value',
-                              consumer_secret:    'your value',
-                              oauth_token:        'your value',
-                              oauth_token_secret: 'your value' }})
+dk = DK::Client.new(keys: { consumer_key:       'your value',
+                            consumer_secret:    'your value',
+                            oauth_token:        'your value',
+                            oauth_token_secret: 'your value' })
 
 ```
 
-Documentation available on [rubydoc.info](http://www.rubydoc.info/gems/tumblr_draftking/0.2.0)
+Documentation available on [rubydoc.info](http://www.rubydoc.info/gems/tumblr_draftking/0.1.0)
 
 ### Command Line Interface
 
