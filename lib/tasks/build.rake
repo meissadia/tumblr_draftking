@@ -17,7 +17,7 @@ namespace :build do
 
   desc 'Inject table of contents into README.md'
   task :readme do
-    `ruby readme/generate_readme.rb`
+    `ruby readme/generate.rb`
   end
 
   desc 'Prepare gem deployment.'

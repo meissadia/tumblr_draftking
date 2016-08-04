@@ -11,9 +11,8 @@ task default: :test
 
 desc 'Open documentation'
 task :show_docs do
-  ['README.md', 'CHANGELOG.md', 'coverage/index.html', 'rubocop/report.html'].each do |doc|
-    `open #{doc} -a "Google Chrome"`
-  end
+  files = %w(README.md CHANGELOG.md coverage/index.html rubocop/report.html)
+  files.each { |doc| `open #{doc} -a "Google Chrome"` }
 end
 
 desc 'Push latest version of gem to remote server'

@@ -19,6 +19,10 @@ def connect_to_client(blog: nil, comment: nil)
   DK::Client.new(keys: api_keys_for_test, blog_name: blog, comment: comment, simulate: true)
 end
 
+def deployment?
+  ENV['CI_FLAG']
+end
+
 def load_draft_data(filename = 'test/all_drafts.json')
   JSON.parse(File.read(filename))
 end
@@ -60,5 +64,5 @@ end
 $test_tag     = 'test_tag'
 $test_blog    = 'ugly-test-blog'
 $test_comment = 'test_comment'
-$client    = connect_to_client
-$test_data = load_draft_data
+$client       = connect_to_client
+$test_data    = load_draft_data

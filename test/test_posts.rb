@@ -3,6 +3,11 @@ require_relative 'test_helper'
 class TestPosts < Minitest::Test
   @@dk = $client
 
+  def test_post_to_s
+    pattern = /(\w*\s=\s[\w\d\s]*\n)*/
+    refute_nil pattern.match(DK::Post.new(post_with_comments).to_s)
+  end
+
   def test_post_passes_filter
     assert_equal false, DK::Post.new(post_no_comments).passes_filter?(filter: 'test'),   'Filter 1'
     assert_equal true,  DK::Post.new(post_with_comments).passes_filter?(filter: 'test'), 'Filter 2'
@@ -43,16 +48,16 @@ class TestPosts < Minitest::Test
   def test_generate_tags
     assert_equal $test_blog, @@dk.blog_name
     tags = DK::Post.new(post_with_comments).generate_tags
-    assert_equal 'test comment', tags
+    assert_equal 'test comment,tumblr_draftking', tags
 
-    tags = DK::Post.new(post_with_comments).generate_tags(keep_tags: true)
+    tags = DK::Post.new(post_with_comments).generate_tags(keep_tags: true, credit: false)
     assert_equal 'test comment,existing,tags', tags
 
     add_tags = 'added tags,bonus tag'
     tags = DK::Post.new(post_with_comments).generate_tags(keep_tags: true, add_tags: add_tags)
-    assert_equal 'test comment,added tags,bonus tag,existing,tags', tags
+    assert_equal 'test comment,added tags,bonus tag,existing,tags,tumblr_draftking', tags
 
-    assert_equal 'tags', DK::Post.new(post_no_comments).generate_tags(keep_tags: true, exclude: 'existing')
+    assert_equal 'tags', DK::Post.new(post_no_comments).generate_tags(keep_tags: true, exclude: 'existing', credit: false)
   end
 
   def test_getposts_drafts
@@ -65,5 +70,11 @@ class TestPosts < Minitest::Test
     assert @@dk.some_posts(limit: 1, source: :queue).size <= 1
     assert @@dk.some_posts(limit: 2, source: :queue).size <= 2
     assert_equal @@dk.q_size, @@dk.all_posts(source: :queue).size
+  end
+
+  def test_reblog
+    post = DK::Post.new @@dk.some_posts(limit: 1).first
+    assert post.reblog(client: @@dk.client, simulate: true)
+    assert post.reblog(client: @@dk.client)
   end
 end

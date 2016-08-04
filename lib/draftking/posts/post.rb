@@ -1,16 +1,19 @@
+require_relative 'posts_helpers'
+include DK::Posts
+
 module DK
   # tumblr Post
   class Post
-    attr_accessor :id, :state, :tags, :comment, :summary, :reblog_key
+    attr_accessor :id, :state, :tags, :comment, :summary, :reblog_key, :keep_tree
     # @param hash [Hash] Post Data
     # @param keep_tree [Bool] Attach Reblog Tree?
     def initialize(hash, keep_tree: nil)
       return if hash.nil?
-      @id      = hash['id']
-      @state   = hash['state'] || DK::DRAFT
-      @tags    = hash['tags']
-      @comment = hash['reblog']['comment']
-      @summary = hash['summary']
+      @id         = hash['id']
+      @state      = hash['state'] || DK::DRAFT
+      @tags       = hash['tags']
+      @comment    = hash['reblog']['comment']
+      @summary    = hash['summary']
       @blog_url   = tumblr_url(hash['blog_name'])
       @reblog_key = hash['reblog_key']
       @keep_tree  = keep_tree.nil? ? false : keep_tree
@@ -66,7 +69,10 @@ module DK
     # @param simulate [Bool] Simulate Action?
     def reblog(client:, simulate: nil)
       return 1 if simulate
-      client.reblog @blog_url, id: @id, reblog_key: @reblog_key, comment: @comment
+      client.reblog @blog_url,
+                    id: @id,
+                    reblog_key: @reblog_key,
+                    comment: @comment
     end
 
     # Save a post
@@ -88,16 +94,16 @@ module DK
     # @param keep_tags [Bool] Preserve Existing Tags?
     # @param add_tags [String] New tags
     # @param exclude [String] Tags to exclude
-    def generate_tags(keep_tags: nil, add_tags: nil, exclude: nil)
-      tags  = @comment.gsub(%r{<(/)?p>}, '').gsub(%r{[\/\\|]}, ',').gsub(' , ', ',').gsub(@comment, '')
-      tags += ',' + add_tags unless add_tags.nil?
+    # @param credit [Bool] Give draftking a tag credit
+    def generate_tags(keep_tags: nil, add_tags: nil, exclude: nil, credit: true)
+      tags  = @comment.gsub(%r{<(/)?p>}, '').gsub(%r{[\/\\|]}, ',')
+      tags  = tags.gsub(' , ', ',').gsub(@comment, '')
+      tags += ',' + add_tags if add_tags
       tags += ',' + @tags.join(',') if keep_tags
       tags.gsub!(exclude.to_s, '')
-      tags.gsub!(/^\s*(,)*/, '')
-      unless @tags.join(',') == tags
-        @tags = tags
-        return @tags
-      end
+      tags += ',' + DK::CREDIT_TAG if credit
+      tags.gsub!(/^\s*(,)*/, '') # Remove leading commas
+      return @tags = tags unless @tags.join(',') == tags
       false
     end
   end

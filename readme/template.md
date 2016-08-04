@@ -18,26 +18,7 @@ Version 0.3.0
 + Please report any [issues](https://github.com/meissadia/tumblr_draftking/issues) you encounter!
 
 ## Table of Contents
-+ [Installation](#installation)
-+ [Setup](#setup)
-	+ [1. Register an app](#1.-register-an-app)
-	+ [2. Get oauth_token and oauth_token_secret](#2.-get-oauth_token-and-oauth_token_secret)
-	+ [3. Run setup](#3.-run-setup)
-+ [Usage](#usage)
-	+ [Command Line Interface](#command-line-interface)
-		+ [My Workflow](#my-workflow)
-		+ [Examples](#examples)
-			+ [Configured Accounts](#configured-accounts)
-			+ [Blog list](#blog-list)
-			+ [Commenting](#commenting)
-			+ [Drafts or Queue](#drafts-or-queue)
-			+ [Stripping Comments](#stripping-comments)
-			+ [Comment & Move](#comment-&-move)
-		+ [Testing Console](#testing-console)
-	+ [API](#api)
-+ [Built With](#built-with)
-+ [Contributing](#contributing)
-
+{{TOC}}
 
 ## Installation
 

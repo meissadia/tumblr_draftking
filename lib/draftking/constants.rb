@@ -8,4 +8,7 @@ module DK
   # Config
   CONFIG_FILENAME = '.dkconfig'.freeze
   VALID_KEYS = %w(consumer_key consumer_secret oauth_token oauth_token_secret).freeze
+
+  # Credit tag
+  CREDIT_TAG = 'tumblr_draftking'.freeze
 end

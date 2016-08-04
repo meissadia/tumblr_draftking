@@ -2,33 +2,4 @@
 require 'rubygems'
 require_relative '../lib/tumblr_draftking'
 
-case ARGV[0]
-when '--version', '-v'
-  puts DK::CLI.version
-when '--help', '-h', nil
-  puts DK::CLI.dk_help
-when 'setup'
-  DK::Config.setup
-when 'console'
-  DK::Config.setup unless DK::Config.configured?
-  DK::CLI.launch_console
-else
-  DK::Config.setup unless DK::Config.configured?
-  command, opts = DK::CLI.process_opts(ARGV)
-  abort("Invalid command: #{command}") unless DK::CLI.command_valid?(command)
-  # puts opts
-  dk = DK::Client.new(opts)
-  case command
-  when 'blogs'         # List blog names
-    dk.list_blogs
-  when 'comment'       # Comment
-    dk.comment_posts(opts)
-  when 'c_and_m', 'move_drafts' # Comment and Move
-    dk.drafts_to_queue(opts)
-    dk.status
-  when 'status'        # Drafts, Queue sizes
-    dk.status
-  when 'strip'         # Strip old comments
-    dk.strip_old_comments(opts)
-  end
-end
+DK::CLI.start(ARGV)

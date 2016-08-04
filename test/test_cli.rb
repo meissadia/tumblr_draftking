@@ -1,41 +1,69 @@
 require_relative 'test_helper'
 
 class TestCLI < Minitest::Test
-  def test_process_opts
-    cli_opts = %w(test_command -l 20 -c caption -f filter -k false
-                  -b tbn -S drafts -s -m --source q -kt)
-    command, opts = DK::Helper.process_opts(cli_opts)
-    assert_equal 'test_command',    command
-    assert_equal 20,                opts[:limit]
-    assert_equal 'caption',         opts[:comment]
-    assert_equal 'filter',          opts[:filter]
-    assert_equal false,             opts[:keep_tree]
-    assert_equal 'tbn',             opts[:blog_name]
-    assert_equal 'drafts',          opts[:state]
-    assert_equal true,              opts[:simulate]
-    assert_equal true,              opts[:keep_tags]
-    assert_equal true,              opts[:mute]
-    assert_equal :queue,            opts[:source]
+  @@cli = DK::CLI.new [], simulate: true, blog: $test_blog, mute: true, keep_tree: true
+
+  def test_user_interactions
+    skip unless deployment?
+
+    # Setup
+    file = '.test.dkconfig'
+    assert @@cli.setup.include?(file)
+
+    # Accounts
+    cli = @@cli.dup
+    cli.options = { delete: true }
+    cli.accounts # Delete account: test
+
+    cli.options = { switch: true }
+    cli.accounts # Choose 0
+    cli.accounts # Choose utb
   end
 
-  def test_check_opts_value
-    val = DK::Helper.check_opts_value('-f', '-f2') rescue 'recovered'
-    assert 'recovered' == val
+  def test_comment
+    comment = '~MD~'
+    assert  1 <= @@cli.comment(comment)
   end
 
-  def test_comment_cli
-    opts = { comment: '~ MD ~', keep_tree: false, simulate: true, blog_name: $test_blog, mute: true }
-    assert  0 <= $client.all_posts(blog_url: opts[:blog_url], source: opts.fetch(:source, :draft)).size
-    assert  1 <= $client.comment_posts(opts)
+  def test_tag
+    cli = @@cli.dup
+    cli.options = { simulate: true, blog: $test_blog, mute: true }
+    assert_equal $client.d_size, cli.tag, 'Tag fail'
   end
 
-  def test_print_list_blog
-    string = DK::CLI.print_blog_list(DK::Client.new(simulate: true, keys: api_keys_for_test))
-    refute_nil /#-*\s\w*\s-*#(\n\d*.\s\w*)*/.match(string)
+  def test_strip
+    assert_equal $client.d_size, @@cli.strip, 'Strip fail'
   end
 
-  def test_command_valid
-    assert_equal false, DK::CLI.command_valid?('jump')
-    assert_equal true,  DK::CLI.command_valid?('strip')
+  def test_move_drafts
+    assert_equal $client.d_size, @@cli.movedrafts, 'Move Drafts'
+  end
+
+  def test_blogs
+    result = @@cli.blogs
+    pattern = /#-*\s\w*\s-*#(\n\d*.\s\w*)*/
+    refute_nil pattern.match(result)
+  end
+
+  def test_status
+    strings = @@cli.status('ugly-test-blog')
+    pattern = /(\w*\s\w*:\s\d*\n+)*/
+    strings.all? do |string|
+      assert string.nil? || pattern.match(string)
+    end
+  end
+
+  def test_version
+    pattern = /tumblr_draftking\s(\d+\.?){3}/
+    cli = @@cli.dup
+    cli.options = { simulate: true }
+    refute_nil pattern.match(cli.version)
+  end
+
+  def test_options
+    ops = [:add_tags, :blog, :comment, :filter, :keep_comments, :keep_tags, :limit, :mute, :publish, :simulate, :source, :state, :credit]
+    assert DK::Options.op_strings.keys.all? { |op| ops.include?(op) }
+    pattern = /^Comma separated string of tags to add.\n\n/
+    assert pattern.match DK::Options.descriptions(ops)
   end
 end

@@ -1,61 +1,17 @@
-require_relative 'draftking/requires'
+require 'bundler/setup'
+require 'yaml'
+require 'tumblr_client'
+require 'thor'
 
-module DK
-  # tumblr Client
-  class Client
-    require_relative 'draftking/client_includes'
-    attr_accessor :client, :simulate
-    attr_accessor :blog_url, :blog_name, :blog_list
-    attr_accessor :q_size, :d_size
-    attr_accessor :comment
-    attr_accessor :user
+# Workarounds for issues with depended upon projects
+require_relative 'draftking/dependency_patches'
 
-    # Initialize instance of DraftKing for the specified blog
-    # @param options[:blog_name] [String] Target blog name
-    # @param options[:comment] [String] Default post comment
-    def initialize(options = {})
-      process_options(options)
-      return unless configure_tumblr(options)
-      @client = Tumblr::Client.new
-      act_on_blog(name: options[:blog_name])
-    end
-
-    # Read Config
-    def process_options(options)
-      @comment   = options[:comment]
-      @simulate  = options[:simulate]
-    end
-
-    # Configure tumblr_client gem
-    # @param :file [String] JSON File with API Keys
-    # @param :keys [Hash] Hash with API Keys
-    def configure_tumblr(options)
-      keys = DK::Config.validate_keys(options[:keys])
-      return DK::Config.configure_tumblr_gem(keys: keys) unless keys.nil?
-      DK::Config.configure_tumblr_gem(file: options[:config_file])
-    end
-
-    # Collect/Refresh Account Info
-    # @param name [String] Name of blog to target
-    def act_on_blog(name: nil)
-      @user      = JSON.parse(@client.info['user'].to_json, object_class: OpenStruct)
-      @blog_name = name.nil? ? @user.blogs.first.name : name.gsub('.tumblr.com', '')
-      @blog_url  = @blog_name + '.tumblr.com'
-      @user.blogs.each do |blog|
-        next unless blog.name == @blog_name
-        @q_size = blog.queue
-        @d_size = blog.drafts
-      end
-    end
-
-    # Print blog status
-    def status
-      res  = "#------ #{@blog_name} ------#"
-      res += "\nDraft size : #{@d_size}"
-      res += "\nQueue size : #{queue_size}"
-      res += "\nQueue space: #{queue_space}"
-      puts res unless @simulate
-      res
-    end
-  end
-end
+# dk
+require_relative 'draftking/constants'
+require_relative 'draftking/version'
+require_relative 'draftking/cli'
+require_relative 'draftking/config'
+require_relative 'draftking/posts'
+require_relative 'draftking/drafts'
+require_relative 'draftking/queue'
+require_relative 'draftking/client'

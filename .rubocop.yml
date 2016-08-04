@@ -1,22 +1,19 @@
-inherit_from: .rubocop_todo.yml
-
 AllCops:
   TargetRubyVersion: 2.1
   Exclude:
     - '_scratchpad.rb'
-    - 'lib/draftking/cli.rb'
-
-Style/GuardClause:
-  Enabled: false
-
-Style/RescueModifier:
-  Enabled: false
+    - 'lib/draftking/future_queue_methods.rb'
+    - 'readme/generate_readme.rb'
+    - 'tumblr_draftking.gemspec'
 
 Style/GlobalVars:
   Enabled: false
 
-Lint/AmbiguousRegexpLiteral:
-  Enabled: false
-
 Style/ClassVars:
   Enabled: false
+
+Metrics/LineLength:
+  Exclude:
+    - 'codeclimate.rb'
+    - 'lib/draftking/cli_options.rb'
+    - 'test/*.rb'

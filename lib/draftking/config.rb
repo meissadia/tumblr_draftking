@@ -1,3 +1,5 @@
+require_relative 'config/config_setup'
+
 module DK
   # Instance Configuration Methods
   class Config
@@ -6,7 +8,7 @@ module DK
     def self.validate_keys(api_keys)
       return nil if api_keys.nil?
       return nil unless api_keys.respond_to?(:keys)
-      return nil unless api_keys.keys.sort == VALID_KEYS
+      return nil unless VALID_KEYS.all? { |k| api_keys.keys.include?(k) }
       return nil if api_keys.values.include?(nil)
       api_keys
     end
@@ -15,7 +17,7 @@ module DK
     # @param file [String] JSON File with API Keys
     # @param keys [Hash] Hash with API Keys
     def self.configure_tumblr_gem(file: nil, keys: nil)
-      api_keys = keys || load_api_keys(file: file)
+      api_keys = keys || load_api_keys(file: file) || load_api_keys(file: home_path_file(available_configs.first))
       return false if api_keys.nil?
       Tumblr.configure do |config|
         api_keys.each do |key, value|
@@ -28,45 +30,63 @@ module DK
     # Read API Keys from file
     # @param file [String] JSON File with API Keys
     def self.load_api_keys(file: nil)
-      file ||= File.join(ENV['HOME'], DK::CONFIG_FILENAME)
+      file ||= home_path_file(DK::CONFIG_FILENAME)
       return nil unless File.exist?(file.to_s)
-      keys = YAML.load_file(file) rescue YAML.parse_file(file)
+      keys = begin
+        YAML.load_file(file)
+      rescue
+        YAML.parse_file(file)
+      end
       validate_keys(keys)
     end
 
-    # Input and Save API Keys to file
-    def self.setup
-      ARGV.clear
-      config = {}
-      path   = File.join ENV['HOME'], DK::CONFIG_FILENAME
-      puts
-      puts 'Register a new application for you Tumblr account at https://www.tumblr.com/oauth/apps'
-      puts 'Once complete, browse to https://api.tumblr.com/console/calls/user/info'
-      puts
-      print 'Enter consumer key: '
-      config['consumer_key'] = gets.chomp.gsub(/[\'\']/, '')
-
-      print 'Enter consumer secret: '
-      config['consumer_secret'] = gets.chomp.gsub(/[\'\']/, '')
-
-      print 'Enter oath token: '
-      config['oauth_token'] = gets.chomp.gsub(/[\'\']/, '')
-
-      print 'Enter oath token secret: '
-      config['oauth_token_secret'] = gets.chomp.gsub(/[\'\']/, '')
-
-      # Save credentials
-      File.open(path, 'w') do |f|
-        f.write YAML.dump config
-      end
-
-      puts "\nConfiguration saved to #{path}"
-      puts
+    # Save Configuration to File
+    def self.save_file(config:, account: '', mute: false)
+      account = '.' + account unless account.empty?
+      path = home_path_file(account + DK::CONFIG_FILENAME)
+      File.open(path, 'w') { |f| f.write YAML.dump config }
+      puts "\nConfiguration saved to #{path} #{'(Default)' if account.empty?}" unless mute
+      path
+    rescue
+      false
     end
 
-    # Check if API Key configuration file already exists
+    # Get input without quotes
+    def self.get_input
+      ARGV.clear
+      gets.chomp.gsub(/[\'\"]/, '')
+    end
+
+    # Does default configuration file exists
     def self.configured?
-      File.exist?(File.join(ENV['HOME'], DK::CONFIG_FILENAME))
+      !available_configs.empty?
+    end
+
+    # All .dkconfig files in home directory
+    def self.available_configs
+      glob = home_path_file('*' + DK::CONFIG_FILENAME)
+      Dir.glob(glob, File::FNM_DOTMATCH).map { |f| f.split('/').last }
+    end
+
+    # Path to file in home directory
+    def self.home_path_file(fname)
+      File.join Dir.home, fname
+    end
+
+    # Copy API Keys from alternate file to the default configuration file
+    def self.switch_default_config(file, mute = false)
+      return true if file.eql? DK::CONFIG_FILENAME
+      save_file config: load_api_keys(file: home_path_file(file)), mute: mute
+    end
+
+    # Delete a configuration file from the home directory
+    def self.delete_config(file)
+      File.delete(home_path_file(file))
+      true
+    rescue
+      false
     end
   end
 end
+
+DK::Config.available_configs

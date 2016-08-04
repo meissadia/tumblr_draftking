@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
   the latest release or to file a bug report!
   )
 
-  s.files          = Dir.glob('{bin,lib}/**/*') + ['README.md', 'LICENSE', '.yardopts', 'Rakefile']
+  s.files          = Dir.glob('{bin,lib}/**/*') + ['README.md', 'CHANGELOG.md', 'LICENSE', '.yardopts', 'Rakefile']
   s.executables    = s.files.grep(%r{^bin/}).map { |f| File.basename(f) }
   s.test_files     = s.files.grep(%r{^(test|spec|features)/})
   s.require_paths  = ['lib']
@@ -25,6 +25,7 @@ Gem::Specification.new do |s|
   s.required_ruby_version = '>= 2.1.0'
   s.add_runtime_dependency     'tumblr_client', '~> 0.8.5'
   s.add_runtime_dependency     'psych', '2.0.8'
-  s.add_development_dependency 'minitest', '~>5.9'
+  s.add_runtime_dependency     'thor', '~> 0.19.1'
+  s.add_development_dependency 'minitest', '~> 5.9'
   s.add_development_dependency 'rake', '~> 10.4'
 end
