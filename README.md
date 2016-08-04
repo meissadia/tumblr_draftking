@@ -37,6 +37,7 @@ Version 0.3.0
 		+ [Testing Console](#testing-console)
 	+ [API](#api)
 + [Built With](#built-with)
++ [Test Suite](#test-suite)
 + [Contributing](#contributing)
 
 
@@ -232,6 +233,12 @@ Documentation available on [rubydoc.info](http://www.rubydoc.info/gems/tumblr_dr
 + [simplecov](https://github.com/colszowka/simplecov)
 + [Thor]
 + [tumblr](https://github.com/tumblr/tumblr_client)
+
+## Test Suite
+1. Configure your test account configuration using `$ dk setup` and save it as default.
+1. `$ cp ~/.dkconfig ~/.dkconfig2`
+1. Update test/test_helper.rb to point to your test blog: $test_blog
+1. `$ rake`
 
 ## Contributing
 

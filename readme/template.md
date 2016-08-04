@@ -214,6 +214,12 @@ Documentation available on [rubydoc.info](http://www.rubydoc.info/gems/tumblr_dr
 + [Thor]
 + [tumblr](https://github.com/tumblr/tumblr_client)
 
+## Test Suite
+1. Configure your test account configuration using `$ dk setup` and save it as default.
+1. `$ cp ~/.dkconfig ~/.dkconfig2`
+1. Update test/test_helper.rb to point to your test blog: $test_blog
+1. `$ rake`
+
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/meissadia/tumblr_draftking.
