@@ -7,6 +7,7 @@ Take the hassle out of managing your tumblr drafts!
 + **Automated addition of comments and tags.**
 + **Strip away old comments.**
 + **Easily replenish your queue.**
++ **Manage multiple accounts.**
 
 Version 0.3.0
 + New CLI! The Command Line Interface has been rebuilt using [Thor](https://github.com/erikhuda/thor)
@@ -65,8 +66,7 @@ Once you've got that configured, check the help to familiarize yourself with you
 ```ruby
 $ dk -h
 ```
-<br/>
-<br/>
+
 #### My Workflow
 I manually add comments for posts where I want more detail, using a separator ( / | , \ ) to identify tags.  
 + These tags/comment will not be removed by dk.
@@ -181,6 +181,7 @@ irb:> $dk.strip_old_comments
 irb:> $dk.simulate = false
 
 ```
+
 ### API
 By default, API Keys are read from ~/\*.dkconfig (See: [Setup]) or you can pass them at the time of Client creation.
 
