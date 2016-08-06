@@ -1,5 +1,8 @@
 # Changelog :: tumblr_draftking
 
+## 0.3.1
++ Update credit tag
+
 ## 0.3.0
 + New CLI! The Command Line Interface has been redone using [Thor](https://github.com/erikhuda/thor)
 + CLI can now save and switch between multiple [account configurations](./README.md#configured-accounts)
