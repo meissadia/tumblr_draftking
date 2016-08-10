@@ -30,15 +30,19 @@ class TestDrafts < Minitest::Test
     $client.act_on_blog(name: $client.blog_name)
     assert $client.d_size >= 0, 'Draft size has been initialized'
 
-    opts = { limit: 12 }
-    assert $client.getposts(opts).size <= 12, 'Get a specific number of drafts'
+    client = $client.dup
+    client.limit     = 12
+    client.test_data = nil
+    assert client.get_posts.size <= 12, 'Get a specific number of drafts'
 
-    opts = { test_data: $test_data }
-    msg  = 'Use test data when present'
-    assert $client.getposts(opts).size == $test_data.size, msg
+    msg = 'Use test data when present'
+    client.test_data = $test_data.dup
+    assert client.get_posts.size == $test_data.size, msg
 
     msg = 'Get all available drafts'
-    assert $client.getposts({}).size == $client.d_size, msg
+    client.test_data = nil
+    client.limit     = nil
+    assert client.get_posts.size == client.d_size, msg
   end
 
   def test_drafts_to_queue

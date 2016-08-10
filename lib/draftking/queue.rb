@@ -8,8 +8,8 @@ module DK
       options[:message] = 'Moving Queue ~> Drafts: '
       options[:shuffle] = false
       options[:state]   = DK::DRAFT
-      post_operation(options) do |post, opts, _|
-        !post.passes_filter?(filter: opts[:filter])
+      post_operation(options) do |post, _|
+        !post.passes_filter?(filter: @filter)
       end
     end
   end

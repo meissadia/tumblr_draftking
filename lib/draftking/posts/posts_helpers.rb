@@ -32,17 +32,18 @@ module DK
       [indicator, newline, progress]
     end
 
-    # index < limit
-    def index_within_limit?(index, limit)
-      return true if limit.nil? || limit == 0
-      index < limit
-    end
-
     # Construct tumblr URL string
     # @param blog_name [String] Blog Name
     def tumblr_url(blog_name)
       blog_name += '.tumblr.com' unless blog_name.include?('.')
       blog_name
+    end
+
+    # Convert source symbol to string
+    # @param symbol [Symbol] Source Symbol
+    def source_string(symbol)
+      return 'draft' unless symbol
+      symbol.to_s
     end
   end
 end

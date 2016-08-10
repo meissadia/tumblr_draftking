@@ -32,10 +32,12 @@ class TestPosts < Minitest::Test
   end
 
   def test_save_live_post
-    assert_equal $test_blog, @@dk.blog_name
-    @@dk.client.reblog @@dk.blog_name, id: 148_197_574_140, reblog_key: 'otmSvZBs', state: 'draft' unless @@dk.d_size > 0
-    live_post = @@dk.some_posts(limit: 1).first
-    assert_equal 1, DK::Post.new(live_post).save(client: @@dk.client)
+    dk = @@dk.dup
+    assert_equal $test_blog, dk.blog_name
+    dk.client.reblog dk.blog_name, id: 148_197_574_140, reblog_key: 'otmSvZBs', state: 'draft' unless dk.d_size > 0
+    dk.limit = 1
+    live_post = dk.some_posts.first
+    assert_equal 1, DK::Post.new(live_post).save(client: dk.client)
   end
 
   def test_delete_live_post
@@ -48,33 +50,42 @@ class TestPosts < Minitest::Test
   def test_generate_tags
     assert_equal $test_blog, @@dk.blog_name
     tags = DK::Post.new(post_with_comments).generate_tags
-    assert_equal 'test comment,tumblr_draftking', tags
+    assert_equal 'test comment,tumblr-draftking', tags
 
     tags = DK::Post.new(post_with_comments).generate_tags(keep_tags: true, credit: false)
     assert_equal 'test comment,existing,tags', tags
 
     add_tags = 'added tags,bonus tag'
     tags = DK::Post.new(post_with_comments).generate_tags(keep_tags: true, add_tags: add_tags)
-    assert_equal 'test comment,added tags,bonus tag,existing,tags,tumblr_draftking', tags
+    assert_equal 'test comment,added tags,bonus tag,existing,tags,tumblr-draftking', tags
 
     assert_equal 'tags', DK::Post.new(post_no_comments).generate_tags(keep_tags: true, exclude: 'existing', credit: false)
   end
 
   def test_getposts_drafts
-    assert @@dk.some_posts(limit: 1).size == 1
-    assert @@dk.some_posts(limit: 2).size <= 2
-    assert_equal @@dk.d_size, @@dk.all_posts.size
+    dk = @@dk.dup
+    dk.limit = 1
+    assert dk.some_posts.size == 1
+    dk.limit = 2
+    assert dk.some_posts.size <= 2
+    assert_equal dk.d_size, dk.all_posts.size
   end
 
   def test_getposts_queue
-    assert @@dk.some_posts(limit: 1, source: :queue).size <= 1
-    assert @@dk.some_posts(limit: 2, source: :queue).size <= 2
-    assert_equal @@dk.q_size, @@dk.all_posts(source: :queue).size
+    dk = @@dk.dup
+    dk.limit  = 1
+    dk.source = :queue
+    assert dk.some_posts.size <= 1
+    dk.limit = 2
+    assert dk.some_posts.size <= 2
+    assert_equal dk.q_size, dk.all_posts.size
   end
 
   def test_reblog
-    post = DK::Post.new @@dk.some_posts(limit: 1).first
-    assert post.reblog(client: @@dk.client, simulate: true)
-    assert post.reblog(client: @@dk.client)
+    dk = @@dk.dup
+    dk.limit = 1
+    post = DK::Post.new dk.some_posts.first
+    assert post.reblog(client: dk.client, simulate: true)
+    assert post.reblog(client: dk.client)
   end
 end

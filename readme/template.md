@@ -1,4 +1,5 @@
-![DraftKing](./readme/draftking.png)
+![DraftKing](./readme/logo-draftking.png)
+DraftKing is not associate with tumblr  
 [![Gem Version](https://badge.fury.io/rb/tumblr_draftking.svg)](https://badge.fury.io/rb/tumblr_draftking)
 [![Code Climate](https://codeclimate.com/github/meissadia/tumblr_draftking/badges/gpa.svg)](https://codeclimate.com/github/meissadia/tumblr_draftking)
 [![Test Coverage](https://codeclimate.com/github/meissadia/tumblr_draftking/badges/coverage.svg)](https://codeclimate.com/github/meissadia/tumblr_draftking/coverage)
@@ -9,13 +10,9 @@ Take the hassle out of managing your tumblr drafts!
 + **Easily replenish your queue.**
 + **Manage multiple accounts.**
 
-Version 0.3.0
-+ New CLI! The Command Line Interface has been rebuilt using [Thor](https://github.com/erikhuda/thor)
-+ CLI can now save and switch between multiple [account configurations](./README.md#configured-accounts)
-+ Added a [CHANGELOG](./CHANGELOG.md)
-+ Added a repository header image
-+ Improved test coverage
-+ Cleared out [.rubocop_todo.yml](./.rubocop_todo.yml) to reflect true codeclimate
+Version 0.4.0
++ Code refactoring
++ New header image
 + Please report any [issues](https://github.com/meissadia/tumblr_draftking/issues) you encounter!
 
 ## Table of Contents

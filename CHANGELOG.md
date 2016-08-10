@@ -1,5 +1,10 @@
 # Changelog :: tumblr_draftking
 
+## 0.4.0
++ Code refactoring: consolidate option processing to simplify code.
++ Updated header image
+
+
 ## 0.3.1
 + Update credit tag
 
