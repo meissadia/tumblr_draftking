@@ -1,4 +1,4 @@
-<img style='width:100%' src='./readme/logo-draftking.png'/>
+<img style='width:100%' src='./readme/logo-draftking.png'/>  
 DraftKing is not associate with tumblr  
 [![Gem Version](https://badge.fury.io/rb/tumblr_draftking.svg)](https://badge.fury.io/rb/tumblr_draftking)
 [![Code Climate](https://codeclimate.com/github/meissadia/tumblr_draftking/badges/gpa.svg)](https://codeclimate.com/github/meissadia/tumblr_draftking)
