@@ -10,9 +10,8 @@ Take the hassle out of managing your tumblr drafts!
 + **Easily replenish your queue.**
 + **Manage multiple accounts.**
 
-Version 0.4.0
-+ Code refactoring
-+ New header image
+Version 0.4.1
++ Bugfix: Actions on queued posts (such as tagging) were publishing instead of leaving posts in queue. 
 + Please report any [issues](https://github.com/meissadia/tumblr_draftking/issues) you encounter!
 
 ## Table of Contents
@@ -230,6 +229,7 @@ Documentation available on [rubydoc.info](http://www.rubydoc.info/gems/tumblr_dr
 + [simplecov](https://github.com/colszowka/simplecov)
 + [Thor]
 + [tumblr](https://github.com/tumblr/tumblr_client)
++ [Lions](http://www.dafont.com/lions.font)
 
 ## Test Suite
 1. Configure your test account configuration using `$ dk setup` and save it as default.

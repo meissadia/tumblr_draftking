@@ -22,10 +22,12 @@ module DK
 
     def process_options(options)
       opts = options.inject({}) { |memo, (k, v)| memo[k.to_sym] = v; memo }
-      opts[:source]    = process_source(options[:source])
-      opts[:state]     = DK::PUBLISH if options[:publish]
       opts[:blog_name] = options[:blog] if options[:blog]
       opts[:keep_tree] = options[:keep_comments] if options[:keep_comments]
+      opts[:source]    = process_source(options[:source])
+      opts[:state]     = DK::PUBLISH if options[:publish]
+      opts[:state]   ||= DK::QUEUE   if opts[:source] == :queue
+      opts[:state]   ||= DK::DRAFT
       opts
     end
   end

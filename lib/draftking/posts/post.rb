@@ -10,7 +10,7 @@ module DK
     def initialize(hash, keep_tree: nil)
       return if hash.nil?
       @id         = hash['id']
-      @state      = hash['state'] || DK::DRAFT
+      @state      = process_state(hash['state'])
       @tags       = hash['tags']
       @comment    = hash['reblog']['comment']
       @summary    = hash['summary']
@@ -105,6 +105,14 @@ module DK
       tags.gsub!(/^\s*(,)*/, '') # Remove leading commas
       return @tags = tags unless @tags.join(',') == tags
       false
+    end
+
+    private
+
+    def process_state(state)
+      return DK::DRAFT unless state
+      return DK::QUEUE if state == 'queued'
+      state
     end
   end
 end

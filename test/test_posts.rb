@@ -50,14 +50,14 @@ class TestPosts < Minitest::Test
   def test_generate_tags
     assert_equal $test_blog, @@dk.blog_name
     tags = DK::Post.new(post_with_comments).generate_tags
-    assert_equal 'test comment,tumblr-draftking', tags
+    assert_equal 'test comment,DraftKing for tumblr', tags
 
     tags = DK::Post.new(post_with_comments).generate_tags(keep_tags: true, credit: false)
     assert_equal 'test comment,existing,tags', tags
 
     add_tags = 'added tags,bonus tag'
     tags = DK::Post.new(post_with_comments).generate_tags(keep_tags: true, add_tags: add_tags)
-    assert_equal 'test comment,added tags,bonus tag,existing,tags,tumblr-draftking', tags
+    assert_equal 'test comment,added tags,bonus tag,existing,tags,DraftKing for tumblr', tags
 
     assert_equal 'tags', DK::Post.new(post_no_comments).generate_tags(keep_tags: true, exclude: 'existing', credit: false)
   end
