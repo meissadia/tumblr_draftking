@@ -25,7 +25,7 @@ module DK
     def drafts_to_queue(options = {})
       options[:message] = 'Moving Drafts -> Queue: '
       options[:shuffle] = true
-      options[:state] ||= DK::QUEUE
+      options[:state]   = DK::QUEUE
       post_operation(options) do |post, _|
         next false unless post.passes_filter?(filter: @filter)
         changed = post.replace_comment(comment: @comment)

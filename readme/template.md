@@ -10,8 +10,8 @@ Take the hassle out of managing your tumblr drafts!
 + **Easily replenish your queue.**
 + **Manage multiple accounts.**
 
-Version 0.4.1
-+ Bugfix: Actions on queued posts (such as tagging) were publishing instead of leaving posts in queue. 
+Version 0.4.2
++ Bugfix: Drafts not moving to queue
 + Please report any [issues](https://github.com/meissadia/tumblr_draftking/issues) you encounter!
 
 ## Table of Contents
