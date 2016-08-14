@@ -11,12 +11,8 @@ DraftKing for tumblr takes the hassle out of managing your draft queue!
 + **Randomize post order to add variety.**
 + **Manage multiple accounts.**
 
-Version 0.4.3
-+ Performance improvement: Faster processing of posts with threading
-+ Bugfix: Missing 'console' command
-+ Bugfix: Passing a Limit > 50 was only applying to first 50 posts
-+ Bugfix: Non-queue related operations were being limited by available queue space
-+ Automated injection of change log information into README
+Version 0.4.4
++ CLI now displays a notification when a new version is available
 
 + Please report any [issues] you encounter!
 

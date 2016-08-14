@@ -49,16 +49,14 @@ module DK
     # Create queue of Posts for worker threads
     def posts_to_queue(posts)
       work_q = Queue.new
-      posts.each{|p| work_q.push(p) }
+      posts.each { |p| work_q.push(p) }
       work_q
     end
 
     # Determine number of modified posts
     def calculate_result(result_q)
       modified = 0
-      until result_q.empty? do
-        modified += result_q.pop
-      end
+      modified += result_q.pop until result_q.empty?
       modified
     end
 

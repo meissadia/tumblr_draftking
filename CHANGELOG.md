@@ -1,4 +1,7 @@
 # Changelog :: tumblr_draftking
+## Version 0.4.4
++ CLI now displays a notification when a new version is available
+
 ## Version 0.4.3
 + Performance improvement: Faster processing of posts with multi-threading
 + Bugfix: Missing 'console' command

@@ -2,4 +2,9 @@
 require 'rubygems'
 require_relative '../lib/tumblr_draftking'
 
+# Display 'update available'
+require 'open-uri'
+versions = open('https://rubygems.org/api/v1/versions/tumblr_draftking.json').read
+latest   = JSON.parse(versions, object_class: OpenStruct).first.number
+puts "** UPDATE: DraftKing for tumblr v#{latest} now available! **" if latest != DK::VERSION
 DK::CLI.start(ARGV)

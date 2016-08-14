@@ -8,7 +8,7 @@ module DK
     # @return [int] Number of modified posts
     def strip_old_comments(options = {})
       options[:message] = 'Stripping previous comments: '
-      post_operation(options) do |_, index|
+      post_operation(options) do |_, _|
         true
       end
     end

@@ -39,7 +39,6 @@ def generate_clog(filename)
   pattern.match(data)[0]
 end
 
-
 # Table of Contents
 file_name = 'readme/template.md'
 new_text = read_file(file_name).gsub(/{{TOC}}/, generate_toc(file_name))
