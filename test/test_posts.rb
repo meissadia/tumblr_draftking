@@ -88,4 +88,11 @@ class TestPosts < Minitest::Test
     assert post.reblog(client: dk.client, simulate: true)
     assert post.reblog(client: dk.client)
   end
+
+  def test_limited_posts
+    skip if @@dk.d_size < 52
+    dk = @@dk.dup
+    dk.limit = 52
+    dk.all_posts.take(dk.limit) == dk.limited_posts
+  end
 end

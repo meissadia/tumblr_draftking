@@ -1,19 +1,25 @@
 # Changelog :: tumblr_draftking
-## 0.4.2
+## Version 0.4.3
++ Performance improvement: Faster processing of posts with multi-threading
++ Bugfix: Missing 'console' command
++ Bugfix: Passing a Limit > 50 was only applying to first 50 posts
++ Bugfix: Non-queue related operations were being limited by available queue space
++ Automated injection of change log information into README
+
+## Version 0.4.2
 + Bugfix: Drafts not moving to queue
 
-## 0.4.1
+## Version 0.4.1
 + Bugfix for queued posts.  Posts in the queue have a state 'queued'. In order to save them back in the queue state needs to be changed to 'queue'.
 
-## 0.4.0
+## Version 0.4.0
 + Code refactoring: consolidate option processing to simplify code.
 + Updated header image
 
-
-## 0.3.1
+## Version 0.3.1
 + Update credit tag
 
-## 0.3.0
+## Version 0.3.0
 + New CLI! The Command Line Interface has been redone using [Thor](https://github.com/erikhuda/thor)
 + CLI can now save and switch between multiple [account configurations](./README.md#configured-accounts)
 + Added a [CHANGELOG](./CHANGELOG.md)
@@ -21,7 +27,7 @@
 + Improved test coverage
 + Cleared out [.rubocop_todo.yml](./.rubocop_todo.yml) to reflect true codeclimate
 
-## 0.2.2
+## Version 0.2.2
 + Improved documentation
 + Reduced test suite runtime
 + Code cleanup

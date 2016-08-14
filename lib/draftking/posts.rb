@@ -1,5 +1,6 @@
 require_relative 'posts/posts_helpers'
 require_relative 'posts/post'
+require 'thread'
 
 module DK
   # Post operations common to queue/draft
@@ -14,26 +15,51 @@ module DK
     # @param options[:simulate] [bool] Simulation?
     # @return [int] Number of modified posts
     def post_operation(options)
-      posts, total, modified = setup_operation(options)
-
-      posts.each_with_index do |post, index|
-        po = Post.new(post, keep_tree: @keep_tree)
-        changed   = yield(po, index) || !po.keep_tree
-        modified += (changed ? po.save(client: @client, simulate: @simulate) : 0)
-        show_progress(current: index, total: total, message: message) unless @mute
+      work_q, total, result_q = setup_operation(options)
+      workers = (0...4).map do
+        Thread.new do
+          begin
+            while post = work_q.pop(true)
+              po = Post.new(post, keep_tree: @keep_tree)
+              changed = yield(po, result_q.size) || !po.keep_tree
+              result_q.push((changed ? po.save(client: @client, simulate: @simulate) : 0))
+              show_progress(current: result_q.size, total: total, message: message) unless @mute
+            end
+          rescue ThreadError # Queue empty
+          end
+        end
       end
-
+      workers.map(&:join)
+      modified = calculate_result(result_q)
       show_progress(message: message, done: true, modified: modified) unless @mute
       act_on_blog(name: @blog_name) # Refresh account info
       modified
     end
 
+    # Common initialization for post operations
     def setup_operation(options)
       process_options(options)
       act_on_blog(name: @blog_name)
       posts = @shuffle ? get_posts.shuffle : get_posts
-      posts = posts.take(@limit || @q_space)
-      [posts, posts.size, 0]
+      posts = posts.take(@limit) if @limit
+      work_q = posts_to_queue(posts)
+      [work_q, work_q.size, Queue.new]
+    end
+
+    # Create queue of Posts for worker threads
+    def posts_to_queue(posts)
+      work_q = Queue.new
+      posts.each{|p| work_q.push(p) }
+      work_q
+    end
+
+    # Determine number of modified posts
+    def calculate_result(result_q)
+      modified = 0
+      until result_q.empty? do
+        modified += result_q.pop
+      end
+      modified
     end
 
     # Add a comment to Posts
@@ -89,12 +115,11 @@ module DK
     def get_posts
       return @test_data if @test_data
       return all_posts.uniq unless @limit
-      some_posts(offset: @offset, before_id: @before_id)
+      return some_posts(offset: @offset, before_id: @before_id) if @limit <= 50
+      limited_posts
     end
 
-    # Get up to 50 Drafts
-    # @param blog_url [string] URL of blog to read from
-    # @param source [Symbol] Get posts from :draft or :queue
+    # Get up to 50 Posts
     # @param before_id [Int] [:draft] ID of post to begin reading from
     # @param offset [Int] [:queue] Post index to start reading from
     # @return [[Post]] Array of Post Hash data
@@ -106,7 +131,20 @@ module DK
       result.is_a?(Integer) ? [] : result
     end
 
-    # Collect all Drafts
+    # Get @limit # of Posts
+    def limited_posts
+      result = []
+      until result.size >= @limit
+        chunk = some_posts(offset: @offset, before_id: @before_id)
+        break if chunk.empty?
+        result += chunk
+        @offset    = chunk.size
+        @before_id = chunk.last['id']
+      end
+      result.take(@limit)
+    end
+
+    # Collect all Posts
     # @param last_id [Int] ID of post to begin reading from (for reading Drafts)
     # @param offset [Int] Post index to start reading from (for reading Queue)
     # @param blog_url [string] URL of blog to read from

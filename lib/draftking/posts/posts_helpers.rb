@@ -45,5 +45,11 @@ module DK
       return 'draft' unless symbol
       symbol.to_s
     end
+
+    # index < limit
+    def index_within_limit?(index, limit)
+      return true if limit.nil? || limit == 0
+      index < limit
+    end
   end
 end

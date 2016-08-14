@@ -4,15 +4,21 @@ DraftKing is not associated with tumblr
 [![Code Climate](https://codeclimate.com/github/meissadia/tumblr_draftking/badges/gpa.svg)](https://codeclimate.com/github/meissadia/tumblr_draftking)
 [![Test Coverage](https://codeclimate.com/github/meissadia/tumblr_draftking/badges/coverage.svg)](https://codeclimate.com/github/meissadia/tumblr_draftking/coverage)
 
-Take the hassle out of managing your tumblr drafts!  
-+ **Automated addition of comments and tags.**
+DraftKing for tumblr takes the hassle out of managing your draft queue!  
++ **Automate the addition of comments and tags.**
 + **Strip away old comments.**
 + **Easily replenish your queue.**
++ **Randomize post order to add variety.**
 + **Manage multiple accounts.**
 
-Version 0.4.2
-+ Bugfix: Drafts not moving to queue
-+ Please report any [issues](https://github.com/meissadia/tumblr_draftking/issues) you encounter!
+Version 0.4.3
++ Performance improvement: Faster processing of posts with threading
++ Bugfix: Missing 'console' command
++ Bugfix: Passing a Limit > 50 was only applying to first 50 posts
++ Bugfix: Non-queue related operations were being limited by available queue space
++ Automated injection of change log information into README
+
++ Please report any [issues] you encounter!
 
 ## Table of Contents
 + [Installation](#installation)
@@ -250,3 +256,4 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/meissa
 
 [Setup]: #setup
 [Thor]: https://github.com/erikhuda/thor
+[issues]: https://github.com/meissadia/tumblr_draftking/issues

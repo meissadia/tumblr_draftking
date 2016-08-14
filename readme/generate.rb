@@ -1,3 +1,4 @@
+# Read file contents
 def read_file(file_name)
   file = File.open(file_name, 'r')
   data = file.read
@@ -5,6 +6,7 @@ def read_file(file_name)
   data
 end
 
+# Build table of contents string from README template
 def generate_toc(filename)
   data = read_file(filename)
   base = 2
@@ -30,7 +32,21 @@ def generate_toc(filename)
   result
 end
 
+# Inject Change information for latest version
+def generate_clog(filename)
+  data = read_file(filename)
+  pattern = /(Version\s(?:\d\.?)*\n(?:.\n?)*)/
+  pattern.match(data)[0]
+end
+
+
+# Table of Contents
 file_name = 'readme/template.md'
-old_text = read_file(file_name)
-new_text = old_text.gsub(/{{TOC}}/, generate_toc(file_name))
+new_text = read_file(file_name).gsub(/{{TOC}}/, generate_toc(file_name))
+
+# Change log
+file_name = 'CHANGELOG.md'
+new_text = new_text.gsub(/{{CLOG}}/, generate_clog(file_name))
+
+# Update file
 File.open('README.md', 'w') { |file| file.write new_text }
