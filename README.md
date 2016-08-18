@@ -11,8 +11,8 @@ DraftKing for tumblr takes the hassle out of managing your draft queue!
 + **Randomize post order to add variety.**
 + **Manage multiple accounts.**
 
-Version 0.4.4
-+ CLI now displays a notification when a new version is available
+Version 0.4.5
++ Bugfix: movedrafts incorrectly limited by size of queue instead of available space in queue.
 
 + Please report any [issues] you encounter!
 

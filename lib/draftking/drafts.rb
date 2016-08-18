@@ -27,7 +27,7 @@ module DK
       options[:shuffle] = true
       options[:state]   = DK::QUEUE
       post_operation(options) do |post, index|
-        next false unless index_within_limit?(index, @q_size)
+        next false unless index_within_limit?(index, @q_space)
         next false unless post.passes_filter?(filter: @filter)
         changed = post.replace_comment(comment: @comment)
         changed = post.change_state(state: @state) || changed

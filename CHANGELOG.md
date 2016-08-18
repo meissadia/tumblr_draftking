@@ -1,4 +1,7 @@
 # Changelog :: tumblr_draftking
+## Version 0.4.5
++ Bugfix: movedrafts incorrectly limited by size of queue instead of available space in queue.
+
 ## Version 0.4.4
 + CLI now displays a notification when a new version is available
 
