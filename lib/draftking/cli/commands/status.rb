@@ -16,7 +16,7 @@ module DK
       res  = "\n#------ #{blog.name} ------#"
       res += "\nDrafts      : #{blog.drafts}"
       res += "\nQueued      : #{blog.queue}"
-      res += "\nQueue space : #{301 - blog.queue.to_i}\n\n"
+      res += "\nQueue space : #{300 - blog.queue.to_i}\n\n"
       puts res unless simulate
       res
     end

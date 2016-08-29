@@ -16,12 +16,12 @@ module DK
     # @return [int] Number of modified posts
     def post_operation(options)
       work_q, total, result_q = setup_operation(options)
-      workers = (0...4).map do
+      workers = (0...3).map do
         Thread.new do
           begin
             while post = work_q.pop(true)
               po = Post.new(post, keep_tree: @keep_tree)
-              changed = yield(po, result_q.size) || !po.keep_tree
+              changed = yield(po, result_q.size)
               result_q.push((changed ? po.save(client: @client, simulate: @simulate) : 0))
               show_progress(current: result_q.size, total: total, message: message) unless @mute
             end

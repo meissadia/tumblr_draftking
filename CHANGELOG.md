@@ -1,4 +1,8 @@
 # Changelog :: tumblr_draftking
+## Version 0.4.6
++ Bugfix: Automatic determination of movable post limits not being applied when removing old comments
++ Bugfix: Calculation of Queue space adjusted to reflect limit of 300, instead of 301.
+
 ## Version 0.4.5
 + Bugfix: movedrafts incorrectly limited by size of queue instead of available space in queue.
 

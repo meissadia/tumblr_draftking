@@ -66,7 +66,7 @@ module DK
         @blog   = blog
         @q_size = blog.queue
         @d_size = blog.drafts
-        @q_space = 301 - @q_size
+        @q_space = 300 - @q_size
       end
     end
   end
