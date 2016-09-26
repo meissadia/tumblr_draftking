@@ -22,12 +22,12 @@ class TestCLI < Minitest::Test
 
   def test_comment
     comment = '~MD~'
-    assert  1 <= @@cli.comment(comment)
+    assert  1 <= @@cli.comment(comment), 'Add comment to at least 1 live post'
   end
 
   def test_tag
     cli = @@cli.dup
-    cli.options = { simulate: true, blog: $test_blog, mute: true }
+    cli.options = { simulate: true, blog: $test_blog, mute: true, credit: true }
     assert_equal $client.d_size, cli.tag, 'Tag fail'
   end
 
@@ -61,7 +61,7 @@ class TestCLI < Minitest::Test
   end
 
   def test_options
-    ops = [:add_tags, :blog, :comment, :filter, :keep_comments, :keep_tags, :limit, :mute, :publish, :simulate, :source, :state, :credit]
+    ops = [:add_tags, :blog, :comment, :key_text, :keep_comments, :keep_tags, :limit, :mute, :publish, :simulate, :source, :state, :credit]
     assert DK::Options.op_strings.keys.all? { |op| ops.include?(op) }
     pattern = /^Comma separated string of tags to add.\n\n/
     assert pattern.match DK::Options.descriptions(ops)

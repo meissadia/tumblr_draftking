@@ -11,7 +11,7 @@ module DK
     LONGDESC
     option :limit,         type: :numeric, aliases: :l, desc: Options.op_strings[:limit]
     option :blog,          type: :string,  aliases: :b, desc: Options.op_strings[:blog]
-    option :filter,        type: :string,  aliases: :f, desc: Options.op_strings[:filter]
+    option :key_text, type: :string, aliases: :f, desc: Options.op_strings[:key_text]
     option :comment,       type: :string,  aliases: :c, desc: Options.op_strings[:comment]
     option :add_tags,      type: :string,  aliases: :t, desc: Options.op_strings[:add_tags]
     option :simulate,      type: :boolean, aliases: :s, desc: Options.op_strings[:simulate]

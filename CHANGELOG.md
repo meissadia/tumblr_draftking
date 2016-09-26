@@ -1,4 +1,9 @@
 # Changelog :: tumblr_draftking
+## Version 0.4.7
++ Bugfix: Handle HTML post comments without getting crazy auto-generated tags
++ Posts now handle logic about their state (changed)
++ Refactored Post Operation threading logic
+
 ## Version 0.4.6
 + Bugfix: Automatic determination of movable post limits not being applied when removing old comments
 + Bugfix: Calculation of Queue space adjusted to reflect limit of 300, instead of 301.

@@ -31,7 +31,7 @@ module DK
       @before_id = options[:before_id] || 0
       @comment   = options[:comment]   || @comment.to_s
       @credit    = options[:credit]    || @credit
-      @filter    = options[:filter]    || @filter
+      @key_text  = options[:key_text]  || @key_text
       @keep_tree = options[:keep_tree] || @keep_tree
       @keep_tags = options[:keep_tags] || @keep_tags
       @limit     = options[:limit]

@@ -14,26 +14,28 @@ module DK
     # @param options[:test_data] [[Hash]] Array of post hash data
     # @param options[:simulate] [bool] Simulation?
     # @return [int] Number of modified posts
-    def post_operation(options)
-      work_q, total, result_q = setup_operation(options)
-      workers = (0...3).map do
-        Thread.new do
-          begin
-            while post = work_q.pop(true)
-              po = Post.new(post, keep_tree: @keep_tree)
-              changed = yield(po, result_q.size)
-              result_q.push((changed ? po.save(client: @client, simulate: @simulate) : 0))
-              show_progress(current: result_q.size, total: total, message: message) unless @mute
-            end
-          rescue ThreadError # Queue empty
-          end
-        end
-      end
+    def post_operation(options, &block)
+      work, total, results = setup_operation(options)
+      workers = (0...DK::MAX_THREADS).map { Thread.new { generate_worker(work, results, total, block) } }
       workers.map(&:join)
-      modified = calculate_result(result_q)
+      modified = calculate_result(results)
       show_progress(message: message, done: true, modified: modified) unless @mute
       act_on_blog(name: @blog_name) # Refresh account info
       modified
+    end
+
+    def generate_worker(*data, block)
+      work, results, total = data
+      begin
+        while post = work.pop(true)
+          po = Post.new(post, keep_tree: @keep_tree)
+          block.call(po, results.size) # Do work on Post
+          po.save(client: @client, simulate: @simulate)
+          results.push(po)
+          show_progress(current: results.size, total: total, message: message) unless @mute
+        end
+      rescue ThreadError # Queue empty
+      end
     end
 
     # Common initialization for post operations
@@ -42,8 +44,8 @@ module DK
       act_on_blog(name: @blog_name)
       posts = @shuffle ? get_posts.shuffle : get_posts
       posts = posts.take(@limit) if @limit
-      work_q = posts_to_queue(posts)
-      [work_q, work_q.size, Queue.new]
+      work = posts_to_queue(posts)
+      [work, work.size, Queue.new]
     end
 
     # Create queue of Posts for worker threads
@@ -56,7 +58,7 @@ module DK
     # Determine number of modified posts
     def calculate_result(result_q)
       modified = 0
-      modified += result_q.pop until result_q.empty?
+      modified += result_q.pop.saved until result_q.empty?
       modified
     end
 
@@ -73,12 +75,12 @@ module DK
       src = source_string(options[:source])
       options[:message] = "Adding #{src} comment \'#{comment}\': "
       post_operation(options) do |post, _|
-        changed = post.replace_comment(comment: @comment)
-        changed = post.generate_tags(keep_tags: @keep_tags,
-                                     add_tags:  @tags,
-                                     exclude:   @comment,
-                                     credit:    @credit) || changed if @tags
-        changed
+        post.replace_comment(comment: @comment)
+        post.generate_tags(keep_tags: @keep_tags,
+                           add_tags: @tags,
+                           exclude: @comment,
+                           credit: @credit)
+        # binding.pry
       end
     end
 

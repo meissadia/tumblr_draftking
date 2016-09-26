@@ -49,10 +49,10 @@ class TestDrafts < Minitest::Test
     draft_data = $test_data.dup
     expected   = draft_data.size
     moved      = expected - 1
-    options = { filter: 'test_tag', test_data: draft_data,
-                mute: true,         keep_tree: true }
+    options = { key_text: 'test_tag', test_data: draft_data,
+                mute: true, keep_tree: true }
 
-    msg = 'One draft should not pass filter'
+    msg = 'One draft should not pass key_text'
     assert_equal moved, $client.drafts_to_queue(options), msg
   end
 end

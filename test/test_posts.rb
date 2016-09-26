@@ -8,10 +8,10 @@ class TestPosts < Minitest::Test
     refute_nil pattern.match(DK::Post.new(post_with_comments).to_s)
   end
 
-  def test_post_passes_filter
-    assert_equal false, DK::Post.new(post_no_comments).passes_filter?(filter: 'test'),   'Filter 1'
-    assert_equal true,  DK::Post.new(post_with_comments).passes_filter?(filter: 'test'), 'Filter 2'
-    assert_equal false, DK::Post.new(post_with_comments).passes_filter?(filter: 'bc'),   'Filter 3'
+  def test_post_passes_key_text
+    assert_equal false, DK::Post.new(post_no_comments).has_key_text?(key_text: 'test'),   'key_text 1'
+    assert_equal true,  DK::Post.new(post_with_comments).has_key_text?(key_text: 'test'), 'key_text 2'
+    assert_equal false, DK::Post.new(post_with_comments).has_key_text?(key_text: 'bc'),   'key_text 3'
   end
 
   def test_post_change_state
@@ -37,7 +37,9 @@ class TestPosts < Minitest::Test
     dk.client.reblog dk.blog_name, id: 148_197_574_140, reblog_key: 'otmSvZBs', state: 'draft' unless dk.d_size > 0
     dk.limit = 1
     live_post = dk.some_posts.first
-    assert_equal 1, DK::Post.new(live_post).save(client: dk.client)
+    post = DK::Post.new(live_post)
+    post.changed = true
+    assert_equal 1, post.save(client: dk.client)
   end
 
   def test_delete_live_post
@@ -49,17 +51,17 @@ class TestPosts < Minitest::Test
 
   def test_generate_tags
     assert_equal $test_blog, @@dk.blog_name
-    tags = DK::Post.new(post_with_comments).generate_tags
-    assert_equal 'test comment,DraftKing for tumblr', tags
+    tags = DK::Post.new(post_with_comments).generate_tags(credit: true)
+    assert_equal 'test comment,DraftKing for tumblr', tags.join(',')
 
     tags = DK::Post.new(post_with_comments).generate_tags(keep_tags: true, credit: false)
-    assert_equal 'test comment,existing,tags', tags
+    assert_equal 'test comment,existing,tags', tags.join(',')
 
     add_tags = 'added tags,bonus tag'
     tags = DK::Post.new(post_with_comments).generate_tags(keep_tags: true, add_tags: add_tags)
-    assert_equal 'test comment,added tags,bonus tag,existing,tags,DraftKing for tumblr', tags
+    assert_equal 'test comment,added tags,bonus tag,existing,tags', tags.join(',')
 
-    assert_equal 'tags', DK::Post.new(post_no_comments).generate_tags(keep_tags: true, exclude: 'existing', credit: false)
+    assert_equal 'tags', DK::Post.new(post_no_comments).generate_tags(keep_tags: true, exclude: 'existing', credit: false).join(',')
   end
 
   def test_getposts_drafts
@@ -94,5 +96,19 @@ class TestPosts < Minitest::Test
     dk = @@dk.dup
     dk.limit = 52
     dk.all_posts.take(dk.limit) == dk.limited_posts
+  end
+
+  def test_clear_tags
+    post = DK::Post.new(post_with_comments)
+    refute post.tags.empty?
+    post.clear_tags
+    assert post.tags.empty?
+  end
+
+  def test_html_comments
+    post = DK::Post.new(post_no_comments)
+    post.comment = "<center id='crazy'><i>M/D</i></center>"
+    post.generate_tags(exclude: 'M,D')
+    assert_equal [], post.tags
   end
 end

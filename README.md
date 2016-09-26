@@ -11,9 +11,10 @@ DraftKing for tumblr takes the hassle out of managing your draft queue!
 + **Randomize post order to add variety.**
 + **Manage multiple accounts.**
 
-Version 0.4.6
-+ Bugfix: Automatic determination of movable post limits not being applied when removing old comments
-+ Bugfix: Calculation of Queue space adjusted to reflect limit of 300, instead of 301.
+Version 0.4.7
++ Bugfix: Handle HTML post comments without getting crazy auto-generated tags
++ Posts now handle logic about their state (changed)
++ Refactored Post Operation threading logic
 
 + Please report any [issues] you encounter!
 

@@ -7,7 +7,7 @@ module DK
       d[:add_tags]      = 'Comma separated string of tags to add.'
       d[:blog]          = 'Name of blog to use. Excluding this will default to main blog.'
       d[:comment]       = 'Comment to add to any posts which do not already contain it.'
-      d[:filter]        = "Only apply command to posts who's comment contains the FILTER string."
+      d[:key_text] = "Only apply command to posts who's comment contains the key_text string."
       d[:keep_comments] = 'Keep the previous comments on a post.'
       d[:keep_tags]     = 'Keep existing tags, in addition to newly generated tags.'
       d[:limit]         = 'Restrict number of posts selected.'
