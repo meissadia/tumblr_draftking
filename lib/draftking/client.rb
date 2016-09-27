@@ -40,7 +40,7 @@ module DK
       @test_data = options[:test_data] || @test_data
       @tags      = options[:add_tags]  || @tags
       @comment   = options[:comment]   || @comment.to_s
-      @auto_tag  = options[:tags]      || true
+      @auto_tag  = options[:tags].nil? ? true : options[:tags]
       @source    = options[:source]    || :draft
       @before_id = options[:before_id] || 0
       @offset    = options[:offset]    || 0

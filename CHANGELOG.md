@@ -1,4 +1,7 @@
 # Changelog :: tumblr_draftking
+## Version 0.5.2
++ Bugfix: CLI --no-tags option suppresses tag auto-generation (comment, movedrafts, tag)
+
 ## Version 0.5.1
 + New! CLI --no-tags option suppresses tag auto-generation (comment, movedrafts, tag)
 
