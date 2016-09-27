@@ -5,7 +5,7 @@ module DK
   # Tumblr Post
   class Post
     attr_accessor :id, :state, :tags, :comment, :summary, :reblog_key
-    attr_accessor :keep_tree, :changed, :saved
+    attr_accessor :keep_tree, :changed, :saved, :blog_url
 
     # @param hash [Hash] Post Data
     # @param keep_tree [Bool] Attach Reblog Tree?

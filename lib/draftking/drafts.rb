@@ -8,20 +8,23 @@ module DK
     # @return [int] Number of modified posts
     def strip_old_comments(options = {})
       options[:message] = 'Stripping previous comments: '
-      post_operation(options) do |post, _|
+      mod_count, mod_posts = post_operation(options) do |post, _|
         post.changed = true
       end
+      mod_count
     end
 
     def strip_tags(options = {})
       options[:message] = 'Stripping previous comments: '
-      post_operation(options) do |post, _|
+      mod_count, mod_posts = post_operation(options) do |post, _|
         post.clear_tags
       end
+      mod_count
     end
 
     # Move Drafts to Queue
     # @param options[:credit] [Bool] Give DK credit?
+    # @param options[:comment] [String] HTML or Text Comment
     # @param options[:limit] [int] Limit number of posts selected
     # @param options[:key_text] [string] Modify only posts containing key_text string
     # @param options[:mute] [String] Suppress progress indicator
@@ -33,16 +36,17 @@ module DK
       options[:message] = 'Moving Drafts -> Queue: '
       options[:shuffle] = true
       options[:state]   = DK::QUEUE
-      post_operation(options) do |post, index|
+      mod_count, mod_posts = post_operation(options) do |post, index|
         next false unless index_within_limit?(index, @q_space)
         next false unless post.has_key_text?(key_text: @key_text)
         post.replace_comment(comment: @comment)
         post.change_state(state: @state)
         post.generate_tags(keep_tags: @keep_tags,
-                           add_tags:  @tags,
-                           exclude:   @comment,
-                           credit:    @credit)
+                           add_tags: @tags,
+                           exclude: @comment,
+                           credit: @credit)
       end
+      mod_count
     end
   end
 end

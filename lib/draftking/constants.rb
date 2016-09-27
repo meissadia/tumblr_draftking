@@ -17,4 +17,8 @@ module DK
 
   # Scaling
   MAX_THREADS = 3
+
+  # PostReporter
+  REPORT_TITLE  = 'Post Report'.freeze
+  REPORT_FIELDS = %w(id state comment tags).freeze
 end

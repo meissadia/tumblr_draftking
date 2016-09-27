@@ -18,10 +18,11 @@ module DK
       work, total, results = setup_operation(options)
       workers = (0...DK::MAX_THREADS).map { Thread.new { generate_worker(work, results, total, block) } }
       workers.map(&:join)
-      modified = calculate_result(results)
-      show_progress(message: message, done: true, modified: modified) unless @mute
+      mod_count, mod_posts = calculate_result(results)
+      show_progress(message: message, done: true, modified: mod_count) unless @mute
+      PostReporter.new(title: REPORT_TITLE, posts: mod_posts, fields: REPORT_FIELDS).show unless @mute
       act_on_blog(name: @blog_name) # Refresh account info
-      modified
+      [mod_count, mod_posts]
     end
 
     def generate_worker(*data, block)
@@ -57,9 +58,15 @@ module DK
 
     # Determine number of modified posts
     def calculate_result(result_q)
-      modified = 0
-      modified += result_q.pop.saved until result_q.empty?
-      modified
+      mod_count = 0
+      mod_posts = []
+      loop do
+        post = result_q.pop
+        mod_count += post.saved
+        mod_posts << post if post.saved > 0
+        break if result_q.empty?
+      end
+      [mod_count, mod_posts]
     end
 
     # Add a comment to Posts
@@ -74,14 +81,14 @@ module DK
     def comment_posts(options = {})
       src = source_string(options[:source])
       options[:message] = "Adding #{src} comment \'#{comment}\': "
-      post_operation(options) do |post, _|
+      mod_count, mod_posts = post_operation(options) do |post, _|
         post.replace_comment(comment: @comment)
         post.generate_tags(keep_tags: @keep_tags,
                            add_tags: @tags,
                            exclude: @comment,
                            credit: @credit)
-        # binding.pry
       end
+      mod_count
     end
 
     # @param options[:credit] [Bool] Give dk credit?
@@ -96,12 +103,13 @@ module DK
     def tag_posts(options)
       src = source_string(options[:source])
       options[:message] = "Tagging #{src} with #{options[:add_tags]}: "
-      post_operation(options) do |post, _|
+      mod_count, mod_posts = post_operation(options) do |post, _|
         post.generate_tags(keep_tags: @keep_tags,
                            add_tags:  @tags,
                            exclude:   @comment,
                            credit:    @credit)
       end
+      mod_count
     end
 
     # Determine draft data to use.

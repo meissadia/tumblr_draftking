@@ -1,4 +1,10 @@
 # Changelog :: tumblr_draftking
+## Version 0.5.0
++ New! PostReporter - Display summary of modified posts
++ Breaking change: DK::Posts#post_operation now returns both a count of modified posts and the actual posts.
++ Fix: Added accessors for DK::Client.state
++ Fix: Added accessors for DK::Post.blog_url
+
 ## Version 0.4.7
 + Bugfix: Handle HTML post comments without getting crazy auto-generated tags
 + Posts now handle logic about their state (changed)

@@ -1,9 +1,9 @@
 Reporter class?
   Add preview report of
     - # Untagged items (sim mode)
-    - Resulting comment and tags (sim mode)
-  Add live report
-    - More detailed action summary (live mode)
+    √ Resulting comment and tags (sim mode)
+  Add result report
+    √ More detailed action summary (live mode)
 
 Post Operations
   - Return modified posts instead of just #?
