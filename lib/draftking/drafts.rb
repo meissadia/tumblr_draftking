@@ -44,7 +44,7 @@ module DK
         post.generate_tags(keep_tags: @keep_tags,
                            add_tags: @tags,
                            exclude: @comment,
-                           credit: @credit)
+                           credit: @credit) if @auto_tag
       end
       mod_count
     end

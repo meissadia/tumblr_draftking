@@ -11,13 +11,11 @@ DraftKing for tumblr takes the hassle out of managing your draft queue!
 + **Randomize post order to add variety.**
 + **Manage multiple accounts.**
 
-Version 0.5.0
-+ New! PostReporter - Display summary of modified posts
-+ Breaking change: DK::Posts#post_operation now returns both a count of modified posts and the actual posts.
-+ Fix: Added accessors for DK::Client.state
-+ Fix: Added accessors for DK::Post.blog_url
+Version 0.5.1
++ New! CLI --no-tags option suppresses tag auto-generation (comment, movedrafts, tag)
 
 + Please report any [issues] you encounter!
++ [Change Log](./CHANGELOG.md)
 
 ## Table of Contents
 + [Installation](#installation)

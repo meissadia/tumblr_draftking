@@ -1,4 +1,7 @@
 # Changelog :: tumblr_draftking
+## Version 0.5.1
++ New! CLI --no-tags option suppresses tag auto-generation (comment, movedrafts, tag)
+
 ## Version 0.5.0
 + New! PostReporter - Display summary of modified posts
 + Breaking change: DK::Posts#post_operation now returns both a count of modified posts and the actual posts.

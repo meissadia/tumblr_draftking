@@ -1,13 +1,8 @@
 Reporter class?
   Add preview report of
     - # Untagged items (sim mode)
-    √ Resulting comment and tags (sim mode)
-  Add result report
-    √ More detailed action summary (live mode)
 
 Post Operations
-  - Return modified posts instead of just #?
-  - Calculate modified separately
   - Expose all modifications in one post operation and trigger with flags?
 
 Progress indicator

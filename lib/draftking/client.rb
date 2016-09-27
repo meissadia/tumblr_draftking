@@ -13,7 +13,7 @@ module DK
     attr_accessor :comment,  :blog_name, :offset,    :limit
     attr_accessor :shuffle,  :keep_tree, :test_data, :mute
     attr_accessor :simulate, :keep_tags, :before_id, :credit
-    attr_accessor :message,  :source,    :state
+    attr_accessor :message,  :source,    :auto_tag,  :state
 
     # Initialize instance of DraftKing for the specified blog
     # @param options[:blog_name] [String] Target blog name
@@ -28,22 +28,23 @@ module DK
     # Read Config
     def process_options(options)
       @blog_name = options[:blog_name] || @blog_name
-      @before_id = options[:before_id] || 0
-      @comment   = options[:comment]   || @comment.to_s
       @credit    = options[:credit]    || @credit
       @key_text  = options[:key_text]  || @key_text
       @keep_tree = options[:keep_tree] || @keep_tree
       @keep_tags = options[:keep_tags] || @keep_tags
-      @limit     = options[:limit]
       @message   = options[:message]   || @message
       @mute      = options[:mute]      || @mute
-      @offset    = options[:offset]    || 0
-      @source    = options[:source]    || :draft
       @shuffle   = options[:shuffle]   || @shuffle
       @simulate  = options[:simulate]  || @simulate
       @state     = options[:state]     || @state
-      @tags      = options[:add_tags]  || @tags
       @test_data = options[:test_data] || @test_data
+      @tags      = options[:add_tags]  || @tags
+      @comment   = options[:comment]   || @comment.to_s
+      @auto_tag  = options[:tags]      || true
+      @source    = options[:source]    || :draft
+      @before_id = options[:before_id] || 0
+      @offset    = options[:offset]    || 0
+      @limit     = options[:limit]
     end
 
     # Configure tumblr_client gem
@@ -63,9 +64,9 @@ module DK
       @blog_url  = tumblr_url(@blog_name)
       @user.blogs.each do |blog|
         next unless blog.name == @blog_name
-        @blog   = blog
-        @q_size = blog.queue
-        @d_size = blog.drafts
+        @blog    = blog
+        @q_size  = blog.queue
+        @d_size  = blog.drafts
         @q_space = 300 - @q_size
       end
     end

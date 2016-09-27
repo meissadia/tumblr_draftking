@@ -84,9 +84,9 @@ module DK
       mod_count, mod_posts = post_operation(options) do |post, _|
         post.replace_comment(comment: @comment)
         post.generate_tags(keep_tags: @keep_tags,
-                           add_tags: @tags,
-                           exclude: @comment,
-                           credit: @credit)
+                           add_tags:  @tags,
+                           exclude:   @comment,
+                           credit:    @credit) if @auto_tag
       end
       mod_count
     end
@@ -107,7 +107,7 @@ module DK
         post.generate_tags(keep_tags: @keep_tags,
                            add_tags:  @tags,
                            exclude:   @comment,
-                           credit:    @credit)
+                           credit:    @credit) if @auto_tag
       end
       mod_count
     end

@@ -17,6 +17,7 @@ module DK
       d[:source]        = 'Modify posts from your : d-drafts, q-queue'
       d[:state]         = 'Set post state: d-draft, q-queued'
       d[:credit]        = 'Give draftking credit with a tag'
+      d[:tags]          = 'Auto-Generate tags based on user comment.'
       d
     end
 

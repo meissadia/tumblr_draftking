@@ -13,6 +13,7 @@ DraftKing for tumblr takes the hassle out of managing your draft queue!
 
 {{CLOG}}
 + Please report any [issues] you encounter!
++ [Change Log](./CHANGELOG.md)
 
 ## Table of Contents
 {{TOC}}
