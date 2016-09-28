@@ -36,6 +36,7 @@ class TestDrafts < Minitest::Test
     assert client.get_posts.size <= 12, 'Get a specific number of drafts'
 
     msg = 'Use test data when present'
+    client.limit     = nil
     client.test_data = $test_data.dup
     assert client.get_posts.size == $test_data.size, msg
 

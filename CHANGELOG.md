@@ -1,4 +1,12 @@
 # Changelog :: tumblr_draftking
+## Version 0.6.0
++ New! (Reporter) replaces PostReporter. Reporter is generic and can report on any class.
++ New! (Reporter) Added simulation indication.
++ New! (Reporter) Documentation
++ Fix: (CLI::movedrafts) Show correct # of posts being processed
++ (Reporter) Logic tweaks
++ (Post)     Removed named parameters for methods with single parameter (Post) to clean up code
+
 ## Version 0.5.2
 + Bugfix: CLI --no-tags option suppresses tag auto-generation (comment, movedrafts, tag)
 

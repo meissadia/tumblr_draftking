@@ -1,36 +1,55 @@
 require 'terminal-table'
 
 module DK
-  # PostReporter
-  class PostReporter
-    attr_accessor :posts, :headers, :rows, :fields
+  # Generate report of object data
+  class Reporter
+    attr_accessor :headers, :rows, :fields, :title, :objects, :last
     def initialize(opts)
-      @posts   = opts[:posts]
-      @fields  = populate_fields(opts[:fields])
+      @objects = opts[:objects]
+      @title   = build_title(opts)
+      @fields  = populate_fields(opts[:fields], @objects.first)
       @headers = populate_headers(opts[:headers])
-      @title   = opts[:title]
     end
 
-    def populate_fields(fields)
+    # Report Title
+    # @param opts[:simulate] [Boolean] Show simulation indicator
+    # @param opts[:title] [String] Report Title
+    def build_title(opts)
+      "#{opts[:title]}#{REPORT_SIM if opts[:simulate]}"
+    end
+
+    # Determine Field List
+    # @param fields [[Symbol]] Field Symbol Array
+    # @param obj [Object] Example Object
+    # @return [[Symbol]] Field List
+    def populate_fields(fields, obj = nil)
+      # Report all fields, unless specified.
       return fields if fields
-      res = @posts.first.instance_variables.map do |x|
+      obj.instance_variables.map do |x|
         x = x.to_s.delete('@')
-        @posts.first.respond_to?(x) ? x : nil
-      end.compact
+        obj.respond_to?(x) ? x : nil
+      end.compact if obj
     end
 
+    # Determine Display Headers
+    # @param headers [[String]] Column Headers
+    # @return [[String]]
     def populate_headers(headers)
+      # Use field names as headers, unless specified
       return headers if headers
       return @fields.map(&:to_s) if @fields
     end
 
+    # Collect report data
     def populate_report_rows
-      @rows = [] # clear existing report data
-      @posts.each do |post|
-        @rows << @fields.map { |field| post.send(field.to_sym) }
+      # Read data based on field list
+      @rows = []
+      @objects.each do |object|
+        @rows << @fields.map { |field| object.send(field.to_sym) }
       end
     end
 
+    # Display Report
     def show
       populate_report_rows
       opts = { rows: @rows, headings: @headers, title: @title }

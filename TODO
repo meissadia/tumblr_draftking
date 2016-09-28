@@ -1,9 +1,3 @@
-Reporter class?
-  Add preview report of
-    - # Untagged items (sim mode)
-
 Post Operations
   - Expose all modifications in one post operation and trigger with flags?
-
-Progress indicator
-  - Show # actually being processed (currently shows all available for dk md)
+  ++ Maybe for webUI. Wire up form data for each Post method

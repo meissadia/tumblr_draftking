@@ -9,22 +9,22 @@ class TestPosts < Minitest::Test
   end
 
   def test_post_passes_key_text
-    assert_equal false, DK::Post.new(post_no_comments).has_key_text?(key_text: 'test'),   'key_text 1'
-    assert_equal true,  DK::Post.new(post_with_comments).has_key_text?(key_text: 'test'), 'key_text 2'
-    assert_equal false, DK::Post.new(post_with_comments).has_key_text?(key_text: 'bc'),   'key_text 3'
+    assert_equal false, DK::Post.new(post_no_comments).has_key_text?('test'),   'key_text 1'
+    assert_equal true,  DK::Post.new(post_with_comments).has_key_text?('test'), 'key_text 2'
+    assert_equal false, DK::Post.new(post_with_comments).has_key_text?('bc'),   'key_text 3'
   end
 
   def test_post_change_state
     post = DK::Post.new(post_no_comments)
-    assert_equal true, post.change_state(state: DK::QUEUE), 'Valid state'
+    assert_equal true, post.change_state(DK::QUEUE), 'Valid state'
     assert_equal DK::QUEUE, post.state
   end
 
   def test_post_add_comment
     # Test Post Tagging - Single
-    nc   = DK::Post.new(post_no_comments).replace_comment(comment: 'test')
-    wc   = DK::Post.new(post_with_comments).replace_comment(comment: 'test')
-    skip = DK::Post.new(post_with_comments).replace_comment(comment: 'skip')
+    nc   = DK::Post.new(post_no_comments).replace_comment_with('test')
+    wc   = DK::Post.new(post_with_comments).replace_comment_with('test')
+    skip = DK::Post.new(post_with_comments).replace_comment_with('skip')
 
     assert_equal true,  nc,   'post_add_comment no comment'
     assert_equal false, wc,   'post_add_comment already commented'

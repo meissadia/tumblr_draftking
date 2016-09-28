@@ -36,11 +36,12 @@ module DK
       options[:message] = 'Moving Drafts -> Queue: '
       options[:shuffle] = true
       options[:state]   = DK::QUEUE
+      options[:limit] ||= @q_space
       mod_count, mod_posts = post_operation(options) do |post, index|
         next false unless index_within_limit?(index, @q_space)
-        next false unless post.has_key_text?(key_text: @key_text)
-        post.replace_comment(comment: @comment)
-        post.change_state(state: @state)
+        next false unless post.has_key_text?(@key_text)
+        post.replace_comment_with(@comment)
+        post.change_state(@state)
         post.generate_tags(keep_tags: @keep_tags,
                            add_tags: @tags,
                            exclude: @comment,

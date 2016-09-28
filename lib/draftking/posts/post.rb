@@ -38,7 +38,7 @@ module DK
 
     # Change the state of a post
     # @param state [String] New State
-    def change_state(state:)
+    def change_state(state)
       return false unless VALID_STATE.include?(state)
       return false if @state == state
       @state = state
@@ -47,7 +47,7 @@ module DK
 
     # Add a comment to a post
     # @param comment [String] New Comment
-    def replace_comment(comment:)
+    def replace_comment_with(comment)
       return false if comment.nil? || @comment.include?(comment)
       @comment = comment
       @changed = true
@@ -55,7 +55,7 @@ module DK
 
     # Check if a post needs to be modified
     # @param key_text [String] key_text
-    def has_key_text?(key_text:)
+    def has_key_text?(key_text)
       return true if key_text.nil?
       @comment.include?(key_text)
     end

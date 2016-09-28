@@ -20,11 +20,12 @@ module DK
       workers.map(&:join)
       mod_count, mod_posts = calculate_result(results)
       show_progress(message: message, done: true, modified: mod_count) unless @mute
-      PostReporter.new(title: REPORT_TITLE, posts: mod_posts, fields: REPORT_FIELDS).show unless @mute
+      Reporter.new(objects: mod_posts, title: REPORT_TITLE, fields: REPORT_FIELDS, simulate: @simulate).show unless @mute
       act_on_blog(name: @blog_name) # Refresh account info
       [mod_count, mod_posts]
     end
 
+    # Work queue processor
     def generate_worker(*data, block)
       work, results, total = data
       begin
@@ -44,7 +45,6 @@ module DK
       process_options(options)
       act_on_blog(name: @blog_name)
       posts = @shuffle ? get_posts.shuffle : get_posts
-      posts = posts.take(@limit) if @limit
       work = posts_to_queue(posts)
       [work, work.size, Queue.new]
     end
@@ -82,7 +82,7 @@ module DK
       src = source_string(options[:source])
       options[:message] = "Adding #{src} comment \'#{comment}\': "
       mod_count, mod_posts = post_operation(options) do |post, _|
-        post.replace_comment(comment: @comment)
+        post.replace_comment_with(@comment)
         post.generate_tags(keep_tags: @keep_tags,
                            add_tags:  @tags,
                            exclude:   @comment,
@@ -121,7 +121,7 @@ module DK
     # @param options[:offset] [Int] [:queue] Post index to start reading from
     # @return [[Post]] Array of Post Hash data
     def get_posts
-      return @test_data if @test_data
+      return some_test_data if @test_data
       return all_posts.uniq unless @limit
       return some_posts(offset: @offset, before_id: @before_id) if @limit <= 50
       limited_posts
@@ -162,6 +162,11 @@ module DK
       chunk = some_posts(before_id: last_id, offset: offset)
       return chunk if chunk.empty?
       chunk + all_posts(last_id: chunk.last['id'], offset: offset + chunk.size)
+    end
+
+    # Handle limits for test data
+    def some_test_data
+      @limit ? @test_data.take(@limit) : @test_data
     end
   end
 end
