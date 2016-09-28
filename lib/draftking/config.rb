@@ -13,7 +13,7 @@ module DK
       api_keys
     end
 
-    # Configure tumblr gem
+    # Configure Tumblr gem
     # @param file [String] JSON File with API Keys
     # @param keys [Hash] Hash with API Keys
     def self.configure_tumblr_gem(file: nil, keys: nil)

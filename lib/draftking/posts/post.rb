@@ -61,7 +61,7 @@ module DK
     end
 
     # Delete a Post
-    # @param client [Tumblr::Client] Instance of tumblr Client
+    # @param client [Tumblr::Client] Instance of Tumblr Client
     # @param simulate [Bool] Simulate Action?
     def delete(client:, simulate: nil)
       return 1 if simulate
@@ -71,7 +71,7 @@ module DK
     end
 
     # Reblog a Post
-    # @param client [Tumblr::Client] Instance of tumblr Client
+    # @param client [Tumblr::Client] Instance of Tumblr Client
     # @param simulate [Bool] Simulate Action?
     def reblog(client:, simulate: nil)
       return 1 if simulate
@@ -82,7 +82,7 @@ module DK
     end
 
     # Save a post
-    # @param client [Tumblr::Client] Instance of tumblr Client
+    # @param client [Tumblr::Client] Instance of Tumblr Client
     # @param simulate [Bool] Simulate Action?
     def save(client:, simulate: nil)
       return 0 unless @changed

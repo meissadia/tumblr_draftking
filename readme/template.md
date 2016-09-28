@@ -1,10 +1,10 @@
 <img style='width:100%' src='./readme/logo-draftking.png'/>  
-DraftKing is not associated with tumblr  
+DraftKing is not associated with Tumblr  
 [![Gem Version](https://badge.fury.io/rb/tumblr_draftking.svg)](https://badge.fury.io/rb/tumblr_draftking)
 [![Code Climate](https://codeclimate.com/github/meissadia/tumblr_draftking/badges/gpa.svg)](https://codeclimate.com/github/meissadia/tumblr_draftking)
 [![Test Coverage](https://codeclimate.com/github/meissadia/tumblr_draftking/badges/coverage.svg)](https://codeclimate.com/github/meissadia/tumblr_draftking/coverage)
 
-DraftKing for tumblr takes the hassle out of managing your draft queue!  
+DraftKing for Tumblr takes the hassle out of managing your draft queue!  
 + **Automate the addition of comments and tags.**
 + **Strip away old comments.**
 + **Easily replenish your queue.**
@@ -54,7 +54,7 @@ Setup will walk you through saving your configuration for future use.
 
 ### Command Line Interface
 
-The CLI will walk you through connecting to your tumblr account the first time it's run.
+The CLI will walk you through connecting to your Tumblr account the first time it's run.
 
 * See: [Setup]
 

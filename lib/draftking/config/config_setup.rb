@@ -17,7 +17,7 @@ module DK
     # Setup instructions
     def self.setup_display_instructions
       puts "\n * Instructions *"
-      puts '1. Register a new application for your tumblr account at https://www.tumblr.com/oauth/apps'
+      puts '1. Register a new application for your Tumblr account at https://www.tumblr.com/oauth/apps'
       puts '2. Once complete, browse to https://api.tumblr.com/console/calls/user/info'
       puts '     to get your API keys.'
     end

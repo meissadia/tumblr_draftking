@@ -13,7 +13,7 @@ module DK
   VALID_KEYS = %w(consumer_key consumer_secret oauth_token oauth_token_secret).freeze
 
   # Credit Tag
-  CREDIT_TAG = 'DraftKing for tumblr'.freeze
+  CREDIT_TAG = 'DraftKing for Tumblr'.freeze
 
   # Scaling
   MAX_THREADS = 3

@@ -32,7 +32,7 @@ module DK
       [indicator, newline, progress]
     end
 
-    # Construct tumblr URL string
+    # Construct Tumblr URL string
     # @param blog_name [String] Blog Name
     def tumblr_url(blog_name)
       blog_name += '.tumblr.com' unless blog_name.include?('.')

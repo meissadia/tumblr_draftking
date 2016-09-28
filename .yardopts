@@ -1,5 +1,5 @@
 --readme README.md
---title 'DraftKing for tumblr API Documentation'
+--title 'DraftKing for Tumblr API Documentation'
 --charset utf-8
 'lib/**/*.rb'
 -

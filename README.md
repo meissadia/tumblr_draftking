@@ -1,23 +1,18 @@
 <img style='width:100%' src='./readme/logo-draftking.png'/>  
-DraftKing is not associated with tumblr  
+DraftKing is not associated with Tumblr  
 [![Gem Version](https://badge.fury.io/rb/tumblr_draftking.svg)](https://badge.fury.io/rb/tumblr_draftking)
 [![Code Climate](https://codeclimate.com/github/meissadia/tumblr_draftking/badges/gpa.svg)](https://codeclimate.com/github/meissadia/tumblr_draftking)
 [![Test Coverage](https://codeclimate.com/github/meissadia/tumblr_draftking/badges/coverage.svg)](https://codeclimate.com/github/meissadia/tumblr_draftking/coverage)
 
-DraftKing for tumblr takes the hassle out of managing your draft queue!  
+DraftKing for Tumblr takes the hassle out of managing your draft queue!  
 + **Automate the addition of comments and tags.**
 + **Strip away old comments.**
 + **Easily replenish your queue.**
 + **Randomize post order to add variety.**
 + **Manage multiple accounts.**
 
-Version 0.6.0
-+ New! (Reporter) replaces PostReporter. Reporter is generic and can report on any class.
-+ New! (Reporter) Added simulation indication.
-+ New! (Reporter) Documentation
-+ Fix: (CLI::movedrafts) Show correct # of posts being processed
-+ (Reporter) Logic tweaks
-+ (Post)     Removed named parameters for methods with single parameter (Post) to clean up code
+Version 0.6.0.1
++ Changing text 'tumblr' to 'Tumblr'
 
 + Please report any [issues] you encounter!
 + [Change Log](./CHANGELOG.md)
@@ -81,7 +76,7 @@ Setup will walk you through saving your configuration for future use.
 
 ### Command Line Interface
 
-The CLI will walk you through connecting to your tumblr account the first time it's run.
+The CLI will walk you through connecting to your Tumblr account the first time it's run.
 
 * See: [Setup]
 

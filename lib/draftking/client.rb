@@ -1,6 +1,6 @@
 
 module DK
-  # tumblr Client
+  # Tumblr Client
   class Client
     include DK::TDrafts
     include DK::TQueue

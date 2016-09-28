@@ -9,9 +9,9 @@ Gem::Specification.new do |s|
   s.license        = 'Apache'
   s.date           = Date.today.to_s
 
-  s.summary        = 'Take the hassle out of managing your tumblr account!'
+  s.summary        = 'Take the hassle out of managing your Tumblr account!'
   s.description    = %(
-  Automate a number of tasks for your tumblr Drafts and Queue such as: tagging, stripping
+  Automate a number of tasks for your Tumblr Drafts and Queue such as: tagging, stripping
   previous comments and moving Drafts to your Queue.  Visit the homepage for information on
   the latest release or to file a bug report!
   )

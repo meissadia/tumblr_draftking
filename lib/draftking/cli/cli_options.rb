@@ -14,7 +14,7 @@ module DK
       d[:limit]         = 'Restrict number of posts selected.'
       d[:mute]          = 'Suppress progress messages.'
       d[:publish]       = 'Indicate that posts should be moved to the Published state.'
-      d[:simulate]      = 'Simulation mode: Display program output without modifying actual tumblr data.'
+      d[:simulate]      = 'Simulation mode: Display program output without modifying actual Tumblr data.'
       d[:source]        = 'Modify posts from your : d-drafts, q-queue'
       d[:state]         = 'Set post state: d-draft, q-queued'
       d[:tags]          = 'Auto-Generate tags based on user comment.'

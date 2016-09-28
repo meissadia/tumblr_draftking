@@ -1,4 +1,7 @@
 # Changelog :: tumblr_draftking
+## Version 0.6.0.1
++ Changing text 'tumblr' to 'Tumblr'
+
 ## Version 0.6.0
 + New! (Reporter) replaces PostReporter. Reporter is generic and can report on any class.
 + New! (Reporter) Added simulation indication.
