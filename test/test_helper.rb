@@ -9,8 +9,12 @@ end
 require 'minitest/autorun'
 require_relative '../lib/tumblr_draftking'
 
+def config_default_filename
+  File.join(ENV['HOME'], '.dkconfig2')
+end
+
 def api_keys_for_test
-  DK::Config.load_api_keys(file: File.join(ENV['HOME'], '.dkconfig2'))
+  DK::Config.load_api_keys(file: config_default_filename)
 end
 
 def connect_to_client(blog: nil, comment: nil)

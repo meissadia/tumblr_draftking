@@ -3,10 +3,12 @@ module DK
   class Config
     # Walk user through setup process
     def self.setup
-      config = {}
+      config = OpenStruct.new
+      config.user_commands = []
+      config.api_keys = {}
 
       setup_display_instructions
-      account, as_default = setup_input_config_info
+      account, as_default = setup_input_config_info(config)
       setup_input_keys(config)
 
       # Save credentials
@@ -23,10 +25,11 @@ module DK
     end
 
     # Account input dialog
-    def self.setup_input_config_info
+    def self.setup_input_config_info(config)
       puts "\n * Configuration Settings *"
       print 'Enter configuration name (account name): '
       account = get_input
+      config.config_name = account
 
       print 'Use this as your default config? (y/N): '
       defconfig = get_input.downcase
@@ -38,16 +41,16 @@ module DK
     def self.setup_input_keys(config)
       puts "\n * API Key Input *"
       print 'Enter consumer key: '
-      config['consumer_key'] = get_input
+      config.api_keys['consumer_key'] = get_input
 
       print 'Enter consumer secret: '
-      config['consumer_secret'] = get_input
+      config.api_keys['consumer_secret'] = get_input
 
       print 'Enter oath token: '
-      config['oauth_token'] = get_input
+      config.api_keys['oauth_token'] = get_input
 
       print 'Enter oath token secret: '
-      config['oauth_token_secret'] = get_input
+      config.api_keys['oauth_token_secret'] = get_input
     end
   end
 end

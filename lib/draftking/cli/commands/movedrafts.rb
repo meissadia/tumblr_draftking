@@ -21,13 +21,12 @@ module DK
     option :keep_comments, type: :boolean, aliases: :K, desc: Options.op_strings[:keep_comments]
     option :credit,        type: :boolean, desc: Options.op_strings[:credit], default: true
     option :tags,          type: :boolean, desc: Options.op_strings[:tags],   default: true
+    option :config,        type: :string,  desc: Options.op_strings[:config]
     def movedrafts
       configured?
       opts   = process_options(options)
       dk     = get_dk_instance(opts)
-      result = dk.drafts_to_queue(opts)
-      self.class.status_print(dk.blog, dk.simulate)
-      result
+      dk.drafts_to_queue(opts)
     end
     map 'md' => :movedrafts
   end

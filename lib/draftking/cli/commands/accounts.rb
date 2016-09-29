@@ -3,31 +3,40 @@ module DK
     desc 'accounts', 'Manage configured accounts'
     option :delete, type: :boolean, aliases: :d, desc: 'Delete account configuration'
     option :switch, type: :boolean, aliases: :s, desc: 'Switch default account configuration'
+    option :config, type: :string,  desc: Options.op_strings[:config]
     def accounts
       files = DK::Config.available_configs
       show_accounts(files)
       return if options.empty? # Empty = no action to take
       puts accounts_input_dialogue(options)
-      choice = DK::Config.get_input
+      opts = process_options(options)
+      choice = config_to_num(opts[:config]) || DK::Config.get_input
       return if /[^0-9]/ =~ choice
       file = files[choice.to_i]
-      accounts_action(file, options)
+      return if file.nil?
+      msg = accounts_action(file, opts)
+      show_accounts(DK::Config.available_configs, msg)
     end
 
     private
 
     # Show available accounts
-    # @param account_list [[String]] List of configuration files
-    def show_accounts(account_list)
-      puts "\n* ---- Accounts ---- *"
+    # @param account_list [[String]] List of configuration file names
+    def show_accounts(account_list, _msg = nil)
+      title  = 'Accounts'
+      fields = %w(# name default file)
+      rows   = []
       account_list.each_with_index do |config, idx|
-        (puts "    #{idx}. (Default)"; next) if config == DK::CONFIG_FILENAME
-        puts "    #{idx}. #{accounts_extract_name(config)}" # Only show account name
+        file = DK::Config.home_path_file(config)
+        conf = DK::Config.new(file: file)
+        default = ' (X)' if conf.is_default?
+        rows << [idx, conf.config_name, default, file]
       end
-      puts
+      Reporter.new(title: title, rows: rows, headings: fields).show
     end
 
     def accounts_input_dialogue(options)
+      return if options[:config]
       return "\nEnter # to use as DEFAULT ('x' to exit): " if options[:switch]
       return "\nEnter # to DELETE ('x' to exit): "         if options[:delete]
     end
@@ -35,7 +44,8 @@ module DK
     def accounts_action(filename, options)
       msg = accounts_delete(filename) if options[:delete]
       msg = accounts_switch(filename) if options[:switch]
-      puts msg + "\n\n"
+      puts "#{msg}\n\n" if msg
+      msg
     end
 
     def accounts_extract_name(filename)

@@ -1,6 +1,11 @@
 # Changelog :: tumblr_draftking
 ## Version 0.7.0
-+ New! (post_operation) Reporter dependency injected via options[:reporter], allowing custom report formats.
++ New! (CLI) Store [custom commands](#custom-commands) in .dkconfig then view/execute them using DK ($> dk custom)
++ New! (Posts) #post_operation Reporter dependency injected via options[:reporter], allowing custom report formats.
++ New! (CLI) Manually check for updates using `dk update` (no more auto-notifications)
++ New! (CLI) Updated UI
++ New! (Config) Restructured .dkconfig file format and DK::Config to accommodate new functionality.
++ New! (CLI) Use Reporter for all content output
 
 ## Version 0.6.0.1
 + Changing text 'tumblr' to 'Tumblr'

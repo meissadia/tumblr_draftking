@@ -7,10 +7,22 @@ class TestReporter < Minitest::Test
       opts.each_pair { |k, v| send("#{k}=", v) }
     end
   end
+  class CustomReporter < DK::Reporter
+    def initialize(opts)
+      super(opts)
+    end
+
+    def show
+      populate_report_rows
+      @headers = @headers.map { |x| x.to_s + '-CUSTOM' }
+      opts = { rows: @rows, headings: @headers, title: @title }
+      puts Terminal::Table.new(opts) unless @rows.empty?
+    end
+  end
 
   def test_report_on_objects
     objects = (1..5).map { |x| Sprinkler.new(id: x, on: [true, false].sample, distance: [1, 2, 3, 4].sample) }
-    report = DK::Reporter.new(objects: objects, title: 'Sprinkler Configuration Report')
+    report = CustomReporter.new(objects: objects, title: 'Sprinkler Configuration Report')
     refute report.fields.empty?,  'Default of fields failed'
     refute report.headers.empty?, 'Default of headers failed'
     report.show

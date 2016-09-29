@@ -61,8 +61,8 @@ module DK
     def calculate_result(result_q)
       mod_count = 0
       mod_posts = []
-      loop do
-        post = result_q.pop
+      return [mod_count, mod_posts] if result_q.empty?
+      while post = result_q.pop
         mod_count += post.saved
         mod_posts << post if post.saved > 0
         break if result_q.empty?
@@ -82,7 +82,7 @@ module DK
     def comment_posts(options = {})
       src = source_string(options[:source])
       options[:message] = "Adding #{src} comment \'#{comment}\': "
-      mod_count, mod_posts = post_operation(options) do |post, _|
+      mod_count, _mod_posts = post_operation(options) do |post, _|
         post.replace_comment_with(@comment)
         post.generate_tags(keep_tags: @keep_tags,
                            add_tags:  @tags,
@@ -104,7 +104,7 @@ module DK
     def tag_posts(options)
       src = source_string(options[:source])
       options[:message] = "Tagging #{src} with #{options[:add_tags]}: "
-      mod_count, mod_posts = post_operation(options) do |post, _|
+      mod_count, _mod_posts = post_operation(options) do |post, _|
         post.generate_tags(keep_tags: @keep_tags,
                            add_tags:  @tags,
                            exclude:   @comment,

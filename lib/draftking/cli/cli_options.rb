@@ -7,6 +7,7 @@ module DK
       d[:add_tags]      = 'Comma separated string of tags to add.'
       d[:blog]          = 'Name of blog to use. Excluding this will default to main blog.'
       d[:comment]       = 'Comment to add to any posts which do not already contain it.'
+      d[:config]        = 'Name or # of Config to use (`dk accounts` for list)'
       d[:credit]        = 'Give draftking credit with a tag'
       d[:keep_comments] = 'Keep the previous comments on a post.'
       d[:keep_tags]     = 'Keep existing tags, in addition to newly generated tags.'

@@ -8,7 +8,7 @@ module DK
       options[:message] = 'Moving Queue ~> Drafts: '
       options[:shuffle] = false
       options[:state]   = DK::DRAFT
-      mod_count, mod_posts = post_operation(options) do |post, _|
+      mod_count, _mod_posts = post_operation(options) do |post, _|
         post.changed = !post.has_key_text?(@key_text)
       end
       mod_count

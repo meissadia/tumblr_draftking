@@ -1,24 +1,20 @@
 module DK
   class CLI < Thor
     desc 'status <BLOG>', 'Display queue/draft status for a blog.'
+    option :config, type: :string, desc: Options.op_strings[:config]
     def status(blog = nil)
       configured?
+      title  = 'Status Report'
+      fields = %w(Blog Drafts Queued Q.Space)
       opts = process_options(options.dup.merge(blog: blog))
-      dk = get_dk_instance(opts)
-      dk.user.blogs.map do |b|
-        next unless blog.nil? || b.name == blog
-        self.class.status_print(b, dk.simulate)
-      end
-    end
-
-    # Print blog status
-    def self.status_print(blog, simulate = false)
-      res  = "\n#------ #{blog.name} ------#"
-      res += "\nDrafts      : #{blog.drafts}"
-      res += "\nQueued      : #{blog.queue}"
-      res += "\nQueue space : #{300 - blog.queue.to_i}\n\n"
-      puts res unless simulate
-      res
+      dk   = get_dk_instance(opts)
+      rows = dk.user.blogs.map do |b|
+               next unless blog.nil? || b.name == blog
+               [b.name, b.drafts, b.queue, 300 - b.queue.to_i]
+             end.compact rescue []
+      report = Reporter.new(title: title, rows: rows, headings: fields)
+      report.show unless simulate
+      report
     end
   end
 end

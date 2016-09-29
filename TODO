@@ -2,12 +2,9 @@ Post Operations
   - Expose all modifications in one post operation and trigger with flags?
   ++ Maybe for webUI. Wire up form data for each Post method
 
-User Defined Commands
-  + New! (CLI) Store custom commands in .dkconfig and trigger them using DK ($> dk custom_command)
-    - have to rework the way keys are read/verified
-    + Restructure of DK configuration file format to accommodate new functionality.
-  Enable passing of account name?/config file path?/config_name? as CLI option
-
-
-Reporter -> post_operation
-  √ Inject Reporter object, allowing Reporter sub-classes to implement new output formats
+CLI
+√ !: Verify Setup
+√ !: Adapter for old Config format
+√ C: Use Reporter for all content output
++ F: Command Wizard - generate cli commands
++ F: Add --config for console?

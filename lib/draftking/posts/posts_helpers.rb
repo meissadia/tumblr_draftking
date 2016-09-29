@@ -48,7 +48,7 @@ module DK
 
     # index < limit
     def index_within_limit?(index, limit)
-      return true if limit.nil? || limit == 0
+      return true if limit.nil? || limit.zero?
       index < limit
     end
   end

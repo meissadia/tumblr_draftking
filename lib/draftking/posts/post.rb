@@ -6,18 +6,26 @@ module DK
   class Post
     attr_accessor :id, :state, :tags, :comment, :summary, :reblog_key
     attr_accessor :keep_tree, :changed, :saved, :blog_url
+    attr_accessor :image
+    attr_reader   :data
 
     # @param hash [Hash] Post Data
     # @param keep_tree [Bool] Attach Reblog Tree?
     def initialize(hash, keep_tree: nil)
       return if hash.nil?
-      @id         = hash['id']
-      @state      = process_state(hash['state'])
-      @tags       = hash['tags']
-      @comment    = hash['reblog']['comment']
-      @summary    = hash['summary']
-      @blog_url   = tumblr_url(hash['blog_name'])
-      @reblog_key = hash['reblog_key']
+      @data       = JSON.parse(hash.to_json, object_class: OpenStruct)
+      @id         = @data.id # hash['id']
+      @state      = process_state(@data.state) # hash['state'])
+      @tags       = @data.tags # hash['tags']
+      @comment    = @data.reblog.comment # hash['reblog']['comment']
+      @summary    = @data.summary # hash['summary']
+      @blog_url   = tumblr_url(@data.blog_name) # hash['blog_name'])
+      @reblog_key = @data.reblog_key # hash['reblog_key']
+      @image      = begin
+                      @data.photos.first.original_size.url
+                    rescue
+                      nil
+                    end
       @keep_tree  = keep_tree.nil? ? false : keep_tree
       @changed    = false
       @saved      = 0
@@ -94,7 +102,7 @@ module DK
                         attach_reblog_tree: @keep_tree,
                         tags:               @tags.join(','),
                         caption:            @comment
-      return 0 unless res['id']
+      return 0 unless res && res['id']
       @changed = false
       @saved   = 1
     end

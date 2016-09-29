@@ -11,6 +11,7 @@ module DK
     option :keep_tags,     type: :boolean, aliases: :k, desc: Options.op_strings[:keep_tags]
     option :keep_comments, type: :boolean, aliases: :K, desc: Options.op_strings[:keep_comments]
     option :credit,        type: :boolean, desc: Options.op_strings[:credit], default: false
+    option :config,        type: :string,  desc: Options.op_strings[:config]
     def tag
       opts = process_options(options)
       dk = get_dk_instance(opts)

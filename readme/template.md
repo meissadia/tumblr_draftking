@@ -5,6 +5,7 @@ DraftKing is not associated with Tumblr
 [![Test Coverage](https://codeclimate.com/github/meissadia/tumblr_draftking/badges/coverage.svg)](https://codeclimate.com/github/meissadia/tumblr_draftking/coverage)
 
 DraftKing for Tumblr takes the hassle out of managing your draft queue!  
++ **(New!) Save and name your own DK commands!**
 + **Automate the addition of comments and tags.**
 + **Strip away old comments.**
 + **Easily replenish your queue.**
@@ -63,6 +64,35 @@ Once you've got that configured, check the help to familiarize yourself with you
 ```ruby
 $ dk -h
 ```
+
+#### Custom Commands
+You can store your DK commands in your configuration file's (i.e. ~/.dkconfig) user_commands array.  
+
+Configuration file with two custom commands: tag_with_cool & show_other_account_status
+```
+---
+:config_name: utb
+:api_keys:
+  consumer_key: [your_consumer_key]
+  consumer_secret: [your_consumer_secret]
+  oauth_token: [your_oauth_token]
+  oauth_token_secret: [your_oauth_token_secret]
+:user_commands:
+  tag_with_cool:
+    command: dk tag -t cool -c cool
+    description: Add the tag and comment 'cool' to posts
+    config_name: utb
+  show_other_account_status:
+    command: dk status --config account2
+    description: Show the status blogs under account2
+    config_name: account2
+```
+
+Trigger custom command example:
+```
+$> dk tag_with_cool
+```
+
 
 #### My Workflow
 I manually add comments for posts where I want more detail, using a separator ( / | , \ ) to identify tags.  

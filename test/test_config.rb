@@ -1,6 +1,11 @@
 require_relative './test_helper'
 
 class TestConfig < Minitest::Test
+  def test_read_default_config
+    config = DK::Config.new
+    assert config.api_keys.keys.all? { |x| DK::VALID_KEYS.include?(x) }
+  end
+
   # Validate import of API Keys
   def test_keys
     # API Keys from file (~/.dkconfig2)
@@ -26,14 +31,14 @@ class TestConfig < Minitest::Test
   end
 
   def test_save_file_delete_config
-    assert DK::Config.save_file(config: api_keys_for_test, account: 'test_account', mute: true)
+    assert DK::Config.save_file(config: DK::Config.new(file: config_default_filename).config, account: 'test_account', mute: true)
     assert DK::Config.delete_config('.test_account.dkconfig')
     refute DK::Config.delete_config('.test_account.dkconfig')
   end
 
   def test_switch_default
     # Setup
-    assert DK::Config.save_file(config: api_keys_for_test, account: 'test_account', mute: true)
+    assert DK::Config.save_file(config: DK::Config.new(file: config_default_filename).config, account: 'test_account', mute: true)
 
     # Exercise
     assert DK::Config.switch_default_config('.test_account.dkconfig', true)

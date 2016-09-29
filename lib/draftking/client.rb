@@ -19,9 +19,9 @@ module DK
     # @param options[:blog_name] [String] Target blog name
     # @param options[:comment] [String] Default post comment
     def initialize(options = {})
-      process_options(options)
       return unless configure_tumblr_client(options)
       @client = Tumblr::Client.new
+      process_options(options)
       act_on_blog(name: @blog_name)
     end
 
@@ -59,6 +59,7 @@ module DK
     # Collect/Refresh Account Info
     # @param name [String] Name of blog to target
     def act_on_blog(name: nil)
+      return if @client.info['status'] == 401
       @user = JSON.parse(@client.info['user'].to_json, object_class: OpenStruct)
       @blog_name = name ? name.gsub('.tumblr.com', '') : @user.blogs.first.name
       @blog_url  = tumblr_url(@blog_name)
@@ -69,6 +70,10 @@ module DK
         @d_size  = blog.drafts
         @q_space = 300 - @q_size
       end
+    end
+
+    def connected?
+      !@client.nil?
     end
   end
 end

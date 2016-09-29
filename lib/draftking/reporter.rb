@@ -7,7 +7,8 @@ module DK
     def initialize(opts)
       @objects = opts[:objects]
       @title   = build_title(opts)
-      @fields  = populate_fields(opts[:fields], @objects.first)
+      @rows    = opts[:rows]
+      @fields  = @rows ? nil : populate_fields(opts[:fields], @objects.first)
       @headers = populate_headers(opts[:headers])
     end
 
@@ -43,6 +44,7 @@ module DK
     # Collect report data
     def populate_report_rows
       # Read data based on field list
+      return if @rows
       @rows = []
       @objects.each do |object|
         @rows << @fields.map { |field| object.send(field.to_sym) }
@@ -52,8 +54,9 @@ module DK
     # Display Report
     def show
       populate_report_rows
-      opts = { rows: @rows, headings: @headers, title: @title }
+      opts = { rows: @rows, headings: @headers || [], title: @title }
       puts Terminal::Table.new(opts) unless @rows.empty?
     end
+    alias to_s show
   end
 end
