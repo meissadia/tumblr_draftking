@@ -1,4 +1,7 @@
 # Changelog :: tumblr_draftking
+## Version 0.7.0
++ New! (post_operation) Reporter dependency injected via options[:reporter], allowing custom report formats.
+
 ## Version 0.6.0.1
 + Changing text 'tumblr' to 'Tumblr'
 

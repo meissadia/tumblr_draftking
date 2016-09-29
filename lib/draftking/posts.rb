@@ -15,12 +15,12 @@ module DK
     # @param options[:simulate] [bool] Simulation?
     # @return [int] Number of modified posts
     def post_operation(options, &block)
-      work, total, results = setup_operation(options)
+      work, total, results, reporter = setup_operation(options)
       workers = (0...DK::MAX_THREADS).map { Thread.new { generate_worker(work, results, total, block) } }
       workers.map(&:join)
       mod_count, mod_posts = calculate_result(results)
       show_progress(message: message, done: true, modified: mod_count) unless @mute
-      Reporter.new(objects: mod_posts, title: REPORT_TITLE, fields: REPORT_FIELDS, simulate: @simulate).show unless @mute
+      reporter.new(objects: mod_posts, title: REPORT_TITLE, fields: REPORT_FIELDS, simulate: @simulate).show unless @mute
       act_on_blog(name: @blog_name) # Refresh account info
       [mod_count, mod_posts]
     end
@@ -46,7 +46,8 @@ module DK
       act_on_blog(name: @blog_name)
       posts = @shuffle ? get_posts.shuffle : get_posts
       work = posts_to_queue(posts)
-      [work, work.size, Queue.new]
+      reporter = options[:reporter] || DK::Reporter
+      [work, work.size, Queue.new, reporter]
     end
 
     # Create queue of Posts for worker threads
