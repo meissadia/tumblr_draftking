@@ -32,7 +32,7 @@ module DK
         default = ' (X)' if conf.is_default?
         rows << [idx, conf.config_name, default, file]
       end
-      Reporter.new(title: title, rows: rows, headings: fields).show
+      Reporter.new(title: title, rows: rows, headers: fields).show
     end
 
     def accounts_input_dialogue(options)

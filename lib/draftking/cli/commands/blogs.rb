@@ -17,7 +17,7 @@ module DK
       fields = %w(# blog_name)
       rows   = []
       dk.user.blogs.each_with_index { |blog, idx| rows << [idx + 1, blog.name] }
-      report = Reporter.new(title: title, rows: rows, headings: fields)
+      report = Reporter.new(title: title, rows: rows, headers: fields)
 
       report.show unless dk.simulate
       report

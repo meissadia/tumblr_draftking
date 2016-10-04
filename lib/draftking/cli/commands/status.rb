@@ -12,7 +12,7 @@ module DK
                next unless blog.nil? || b.name == blog
                [b.name, b.drafts, b.queue, 300 - b.queue.to_i]
              end.compact rescue []
-      report = Reporter.new(title: title, rows: rows, headings: fields)
+      report = Reporter.new(title: title, rows: rows, headers: fields)
       report.show unless simulate
       report
     end
