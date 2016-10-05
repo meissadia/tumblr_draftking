@@ -6,6 +6,7 @@
 + New! (CLI) Updated UI
 + New! (Config) Restructured .dkconfig file format and DK::Config to accommodate new functionality.
 + New! (CLI) Use Reporter for all content output
++ Bugfix: 'bin/dk' not found error when no default config file is present 
 
 ## Version 0.6.0.1
 + Changing text 'tumblr' to 'Tumblr'

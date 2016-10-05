@@ -70,8 +70,8 @@ module DK
     def self.validate_keys(api_keys)
       return nil if api_keys.nil?
       return nil unless api_keys.respond_to?(:keys)
-      return nil unless api_keys.keys.all? { |k| VALID_KEYS.include?(k.to_s) }
-      return nil if api_keys.values.include?(nil)
+      return {}  unless api_keys.keys.all? { |k| VALID_KEYS.include?(k.to_s) }
+      return {}  if api_keys.values.include?(nil)
       api_keys
     end
 
@@ -81,6 +81,7 @@ module DK
     def self.configure_tumblr_gem(file: nil, keys: nil)
       api_keys = keys || load_api_keys(file: file) || load_api_keys(file: home_path_file(available_configs.first))
       return false if api_keys.nil?
+      return false unless api_keys.size == 4
       Tumblr.configure do |config|
         api_keys.each do |key, value|
           config.send(:"#{key}=", value)
@@ -93,7 +94,7 @@ module DK
     # @param file [String] JSON File with API Keys
     def self.load_api_keys(file: nil)
       file ||= home_path_file(DK::CONFIG_FILENAME)
-      exec('bin/dk setup') unless File.exist?(file.to_s)
+      exec('dk setup') unless File.exist?(file.to_s)
       validate_keys(DK::Config.new(file: file).api_keys)
     end
 

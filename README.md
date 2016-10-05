@@ -19,6 +19,7 @@ Version 0.7.0
 + New! (CLI) Updated UI
 + New! (Config) Restructured .dkconfig file format and DK::Config to accommodate new functionality.
 + New! (CLI) Use Reporter for all content output
++ Bugfix: 'bin/dk' not found error when no default config file is present 
 
 + Please report any [issues] you encounter!
 + [Change Log](./CHANGELOG.md)
