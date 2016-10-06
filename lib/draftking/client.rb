@@ -60,7 +60,6 @@ module DK
     # @param name [String] Name of blog to target
     def act_on_blog(name: nil)
       return unless connected?
-      return if @client.info['status'] == 401
       @user = JSON.parse(@client.info['user'].to_json, object_class: OpenStruct)
       @blog_name = name ? name.gsub('.tumblr.com', '') : @user.blogs.first.name
       @blog_url  = tumblr_url(@blog_name)
@@ -74,7 +73,7 @@ module DK
     end
 
     def connected?
-      !@client.nil?
+      @client && @client.info['status'] != 401
     end
   end
 end

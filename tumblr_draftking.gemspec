@@ -21,7 +21,6 @@ Gem::Specification.new do |s|
   s.test_files     = s.files.grep(%r{^(test|spec|features)/})
   s.require_paths  = ['lib']
 
-  s.platform       = Gem::Platform.local
   s.required_ruby_version = '>= 2.1.0'
   s.add_runtime_dependency 'tumblr_client', '~> 0.8.5'
   s.add_runtime_dependency 'psych', '2.0.8'
