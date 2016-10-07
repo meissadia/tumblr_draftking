@@ -3,8 +3,5 @@ Post Operations
   ++ Maybe for webUI. Wire up form data for each Post method
 
 CLI
-√ !: Verify Setup
-√ !: Adapter for old Config format
-√ C: Use Reporter for all content output
 + F: Command Wizard - generate cli commands
 + F: Add --config for console?

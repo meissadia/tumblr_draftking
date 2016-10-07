@@ -13,35 +13,44 @@ module DK
     # @param keep_tree [Bool] Attach Reblog Tree?
     def initialize(hash, keep_tree: nil)
       return if hash.nil?
-      @data       = JSON.parse(hash.to_json, object_class: OpenStruct)
-      @id         = @data.id # hash['id']
-      @state      = process_state(@data.state) # hash['state'])
-      @tags       = @data.tags # hash['tags']
-      @comment    = @data.reblog.comment # hash['reblog']['comment']
-      @summary    = @data.summary # hash['summary']
-      @blog_url   = tumblr_url(@data.blog_name) # hash['blog_name'])
-      @reblog_key = @data.reblog_key # hash['reblog_key']
-      @image      = begin
-                      @data.photos.first.original_size.url
-                    rescue
-                      nil
-                    end
+      # TODO: remove @data
+      # TODO add post type
+      # TODO add photoset images
+      # TODO add various photo sizes
+      data = JSON.parse(hash.to_json, object_class: OpenStruct)
+      @id         = data.id
+      @state      = process_state(data.state)
+      @tags       = data.tags
+      @comment    = data.reblog.comment
+      @summary    = data.summary
+      @blog_url   = tumblr_url(data.blog_name)
+      @reblog_key = data.reblog_key
+      @image      = data.photos.first.original_size.url if data.photos
       @keep_tree  = keep_tree.nil? ? false : keep_tree
       @changed    = false
       @saved      = 0
+      data = nil
     end
 
     # String of post data
     def to_s
-      "id = #{@id}\n" \
-        "state = #{@state}\n" \
-        "tags = #{@tags}\n" \
-        "comment = #{@comment}\n" \
-        "summary = #{@summary}\n" \
-        "blog_url = #{@blog_url}\n" \
-        "reblog_key = #{@reblog_key}\n" \
-        "keep_tree = #{@keep_tree}\n" \
-        "changed = #{@changed}\n"
+      to_h.map { |k, v| "#{k} = #{v}" }.join("\n")
+    end
+
+    # Hash of post data
+    def to_h
+      {
+        tumblr_id: @id,
+        state: @state,
+        tags: @tags.join(','),
+        comment: @comment,
+        summary: @summary,
+        blog_url: @blog_url,
+        reblog_key: @reblog_key,
+        keep_tree: @keep_tree,
+        modified: @changed,
+        image: @image
+      }
     end
 
     # Change the state of a post
@@ -126,6 +135,12 @@ module DK
     def clear_tags
       @changed = true unless @tags.empty?
       @tags = []
+    end
+
+    # Appends CSV or array of tags
+    def add_tags(tags)
+      tags = csv_to_a(tags) if tags.is_a? String
+      @tags += tags
     end
 
     private

@@ -1,14 +1,13 @@
 module DK
   # User Defined Command
   class UserCommand
-    REQUIRED_FIELDS = %w(command hoboken).freeze
+    REQUIRED_FIELDS = %w(command).freeze
     def initialize(opts)
       opts.each_pair do |k, v|
         singleton_class.class_eval { attr_accessor k.to_s }
         send("#{k}=", v)
       end
       check_required_fields
-      @command_result = nil
     end
 
     # Replace current process with execution of @command
