@@ -41,7 +41,7 @@ module DK
       @tags      = options[:add_tags]  || @tags
       @comment   = options[:comment]   || @comment.to_s
       @auto_tag  = options[:tags].nil? ? true : options[:tags]
-      @source    = options[:source]    || :draft
+      @source    = process_source(options[:source])
       @before_id = options[:before_id] || 0
       @offset    = options[:offset]    || 0
       @limit     = options[:limit]
@@ -74,6 +74,13 @@ module DK
 
     def connected?
       @client && @client.info['status'] != 401
+    end
+
+    def process_source(src)
+      return :draft unless src
+      return src if src.is_a? Symbol
+      return :dashboard if src.include?('dash')
+      return :queue if src.include?('queue')
     end
   end
 end

@@ -123,6 +123,7 @@ module DK
     # @return [[Post]] Array of Post Hash data
     def get_posts
       return some_test_data if @test_data
+      return some_posts(offset: @offset) if dashboard?
       return all_posts.uniq unless @limit
       return some_posts(offset: @offset, before_id: @before_id) if @limit <= 50
       limited_posts
@@ -132,12 +133,21 @@ module DK
     # @param before_id [Int] [:draft] ID of post to begin reading from
     # @param offset [Int] [:queue] Post index to start reading from
     # @return [[Post]] Array of Post Hash data
-    def some_posts(before_id: 0, offset: 0)
+    def some_posts(before_id: 0, offset: 0, max_id: nil, since_id: nil)
       options = { limit: [(@limit || 50), 50].min }
-      options[@source == :draft ? :before_id : :offset] = (@source == :draft ? before_id : offset)
+      options[:max_id]   = max_id if max_id
+      options[:since_id] = since_id if since_id
+      options[@source == :draft ? :before_id : :offset] =
+        (@source == :draft ? before_id : offset) unless dashboard?
 
-      result = @client.send(@source, @blog_url, options).first[1]
+      result = call_source(options)
       result.is_a?(Integer) ? [] : result
+    end
+
+    # Dashboard integration
+    def call_source(options)
+      return @client.send('dashboard', options).first[1] if dashboard?
+      @client.send(@source, @blog_url, options).first[1]
     end
 
     # Get @limit # of Posts
@@ -168,6 +178,10 @@ module DK
     # Handle limits for test data
     def some_test_data
       @limit ? @test_data.take(@limit) : @test_data
+    end
+
+    def dashboard?
+      @source == :dashboard
     end
   end
 end

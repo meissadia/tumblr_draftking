@@ -19,6 +19,7 @@ Version 0.7.0
 + New! (CLI) Updated UI
 + New! (Config) Restructured .dkconfig file format and DK::Config to accommodate new functionality.
 + New! (CLI) Use Reporter for all content output
++ New! (Posts) Support for dashboard access; opts={source: 'dashboard', limit: 50, offset: 0}
 + Bugfix: 'bin/dk' not found error when no default config file is present
 
 + Please report any [issues] you encounter!

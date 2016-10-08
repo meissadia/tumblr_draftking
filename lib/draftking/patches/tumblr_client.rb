@@ -7,4 +7,11 @@ module Tumblr
       get(blog_path(blog_name, 'posts/draft'), options)
     end
   end
+  module User
+    def dashboard(options = {})
+      valid_opts = [:limit, :offset, :type, :since_id, :reblog_info, :notes_info, :max_id]
+      validate_options(valid_opts, options)
+      get('v2/user/dashboard', options)
+    end
+  end
 end
