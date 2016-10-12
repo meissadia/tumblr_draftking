@@ -27,6 +27,6 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'thor', '~> 0.19.1'
   s.add_runtime_dependency 'terminal-table', '~> 1.6'
   s.add_development_dependency 'minitest', '~> 5.9'
-  s.add_development_dependency 'rake', '~> 11.2'
+  s.add_development_dependency 'rake', '~> 10.4'
 
 end

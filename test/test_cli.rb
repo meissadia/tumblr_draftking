@@ -17,42 +17,34 @@ class TestCLI < Minitest::Test
 
     cli.options = { switch: true }
     cli.accounts # Choose 0
-    cli.accounts # Choose utb
+    cli.accounts # Choose your testing configuration to restore it for the remaining tests
   end
 
   def test_comment
     comment = '~MD~'
-    assert  1 <= @@cli.comment(comment), 'Add comment to at least 1 live post'
+    assert  1 <= @@cli.comment(comment).first, 'Add comment to at least 1 live post'
   end
 
   def test_tag
     cli = @@cli.dup
     cli.options = { simulate: true, blog: $test_blog, mute: true, credit: true }
-    assert_equal $client.d_size, cli.tag, 'Tag fail'
+    assert_equal $client.d_size, cli.tag.first, 'Tag fail'
   end
 
   def test_strip
-    assert_equal $client.d_size, @@cli.strip, 'Strip fail'
+    assert_equal $client.d_size, @@cli.strip.first, 'Strip fail'
   end
 
   def test_move_drafts
-    assert_equal $client.d_size, @@cli.movedrafts, 'Move Drafts'
+    assert_equal $client.d_size, @@cli.movedrafts.first, 'Move Drafts'
   end
 
   def test_blogs
-    skip # Need to test Reporter reports? probably not
     result = @@cli.blogs
-    pattern = /#-*\s\w*\s-*#(\n\d*.\s\w*)*/
-    refute_nil pattern.match(result)
   end
 
   def test_status
     strings = @@cli.status('ugly-test-blog')
-    skip # Verify Reporter report?
-    pattern = /(\w*\s\w*:\s\d*\n+)*/
-    strings.all? do |string|
-      assert string.nil? || pattern.match(string)
-    end
   end
 
   def test_version

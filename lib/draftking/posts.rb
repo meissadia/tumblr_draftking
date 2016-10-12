@@ -82,14 +82,13 @@ module DK
     def comment_posts(options = {})
       src = source_string(options[:source])
       options[:message] = "Adding #{src} comment \'#{comment}\': "
-      mod_count, _mod_posts = post_operation(options) do |post, _|
+      post_operation(options) do |post, _|
         post.replace_comment_with(@comment)
         post.generate_tags(keep_tags: @keep_tags,
                            add_tags:  @tags,
                            exclude:   @comment,
                            credit:    @credit) if @auto_tag
       end
-      mod_count
     end
 
     # @param options[:credit] [Bool] Give dk credit?
@@ -104,13 +103,12 @@ module DK
     def tag_posts(options)
       src = source_string(options[:source])
       options[:message] = "Tagging #{src} with #{options[:add_tags]}: "
-      mod_count, _mod_posts = post_operation(options) do |post, _|
+      post_operation(options) do |post, _|
         post.generate_tags(keep_tags: @keep_tags,
                            add_tags:  @tags,
                            exclude:   @comment,
                            credit:    @credit) if @auto_tag
       end
-      mod_count
     end
 
     # Determine draft data to use.
@@ -139,6 +137,7 @@ module DK
       options[:since_id] = since_id if since_id
       options[@source == :draft ? :before_id : :offset] =
         (@source == :draft ? before_id : offset) unless dashboard?
+      options[:type] = @type if @type
 
       result = call_source(options)
       result.is_a?(Integer) ? [] : result

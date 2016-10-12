@@ -5,22 +5,17 @@ DraftKing is not associated with Tumblr
 [![Test Coverage](https://codeclimate.com/github/meissadia/tumblr_draftking/badges/coverage.svg)](https://codeclimate.com/github/meissadia/tumblr_draftking/coverage)
 
 DraftKing for Tumblr takes the hassle out of managing your draft queue!  
-+ **(New!) Save and name your own DK commands!**
++ **(New!) Save and name your own [DK commands](#custom-commands)!**
 + **Automate the addition of comments and tags.**
 + **Strip away old comments.**
 + **Easily replenish your queue.**
 + **Randomize post order to add variety.**
 + **Manage multiple accounts.**
 
-Version 0.7.0
-+ New! (CLI) Store [custom commands](#custom-commands) in .dkconfig then view/execute them using DK ($> dk custom)
-+ New! (Posts) #post_operation Reporter dependency injected via options[:reporter], allowing custom report formats.
-+ New! (CLI) Manually check for updates using `dk update` (no more auto-notifications)
-+ New! (CLI) Updated UI
-+ New! (Config) Restructured .dkconfig file format and DK::Config to accommodate new functionality.
-+ New! (CLI) Use Reporter for all content output
-+ New! (Posts) Support for dashboard access; opts={source: 'dashboard', limit: 50, offset: 0}
-+ Bugfix: 'bin/dk' not found error when no default config file is present
+Version 0.8.0
++ DK#post_operation now returns both modified count and modified posts. Use `post_operation(opts)[0]` for previous behavior.
++ Access all Tumblr Post data via DK::Post. i.e. `DK::Post.new(post_data).photos.first.original_size.url`
++ Post.image (first photo, original size), Post.alt_sizes, Post.photos (array of Photo structs)
 
 + Please report any [issues] you encounter!
 + [Change Log](./CHANGELOG.md)

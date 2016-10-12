@@ -6,7 +6,7 @@ class TestDrafts < Minitest::Test
     expected   = draft_data.size
     options    = { comment: 'different comment', test_data: draft_data,
                    mute: true }
-    tagged     = $client.comment_posts(options)
+    tagged     = $client.comment_posts(options).first
     assert_equal expected, tagged, 'Add comment to all drafts'
   end
 
@@ -15,14 +15,14 @@ class TestDrafts < Minitest::Test
     expected   = 20
     # test_show_progress
     options = { comment: '001 comment', test_data: draft_data, limit: expected }
-    tagged  = $client.comment_posts(options)
+    tagged  = $client.comment_posts(options).first
     assert_equal expected, tagged, 'Comment some drafts'
   end
 
   def test_strip_comments
     opts = { test_data: $test_data.dup, mute: true }
     msg  = 'All drafts have been modified'
-    assert_equal 93, $client.strip_old_comments(opts), msg
+    assert_equal 93, $client.strip_old_comments(opts).first, msg
   end
 
   def test_getdrafts
@@ -54,6 +54,6 @@ class TestDrafts < Minitest::Test
                 mute: true, keep_tree: true }
 
     msg = 'One draft should not pass key_text'
-    assert_equal moved, $client.drafts_to_queue(options), msg
+    assert_equal moved, $client.drafts_to_queue(options).first, msg
   end
 end

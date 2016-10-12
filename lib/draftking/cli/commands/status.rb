@@ -8,17 +8,21 @@ module DK
       fields = %w(Blog Drafts Queued Q.Space)
       opts = process_options(options.dup.merge(blog: blog))
       dk   = get_dk_instance(opts)
-      rows = begin
-               dk.user.blogs.map do |b|
-                 next unless blog.nil? || b.name == blog
-                 [b.name, b.drafts, b.queue, 300 - b.queue.to_i]
-               end.compact
-             rescue
-               []
-             end
+      rows = build_rows(dk)
       report = Reporter.new(title: title, rows: rows, headers: fields)
-      report.show unless simulate
+      report.show unless dk.simulate
       report
+    end
+
+    private
+
+    def build_rows(dk)
+      dk.user.blogs.map do |b|
+        next unless blog.nil? || b.name == blog
+        [b.name, b.drafts, b.queue, 300 - b.queue.to_i]
+      end.compact
+    rescue
+      []
     end
   end
 end

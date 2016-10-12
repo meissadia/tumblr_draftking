@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 gem 'psych', '2.0.8'
-gem 'rake', '~> 11.2'
+gem 'rake', '~> 10.4'
 gem 'tumblr_client'
 gem 'thor', '~> 0.19.1'
 gem 'terminal-table', '~> 1.6.0'

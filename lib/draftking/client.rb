@@ -45,6 +45,7 @@ module DK
       @before_id = options[:before_id] || 0
       @offset    = options[:offset]    || 0
       @limit     = options[:limit]
+      @type      = options[:type]
     end
 
     # Configure tumblr_client gem
@@ -76,6 +77,7 @@ module DK
       @client && @client.info['status'] != 401
     end
 
+    # Process options[:source]
     def process_source(src)
       return :draft unless src
       return src if src.is_a? Symbol

@@ -1,4 +1,9 @@
 # Changelog :: tumblr_draftking
+## Version 0.8.0
++ DK#post_operation now returns both modified count and modified posts. Use `post_operation(opts)[0]` for previous behavior.
++ Access all Tumblr Post data via DK::Post. i.e. `DK::Post.new(post_data).photos.first.original_size.url`
++ Post.image (first photo, original size), Post.alt_sizes, Post.photos (array of Photo structs)
+
 ## Version 0.7.0
 + New! (CLI) Store [custom commands](#custom-commands) in .dkconfig then view/execute them using DK ($> dk custom)
 + New! (Posts) #post_operation Reporter dependency injected via options[:reporter], allowing custom report formats.

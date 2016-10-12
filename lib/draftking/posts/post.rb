@@ -4,32 +4,30 @@ include DK::Posts
 module DK
   # Tumblr Post
   class Post
-    attr_accessor :id, :state, :tags, :comment, :summary, :reblog_key
-    attr_accessor :keep_tree, :changed, :saved, :blog_url
-    attr_accessor :image
-    attr_reader   :data
-
     # @param hash [Hash] Post Data
     # @param keep_tree [Bool] Attach Reblog Tree?
     def initialize(hash, keep_tree: nil)
       return if hash.nil?
-      # TODO: remove @data
-      # TODO add post type
-      # TODO add photoset images
-      # TODO add various photo sizes
-      data = JSON.parse(hash.to_json, object_class: OpenStruct)
-      @id         = data.id
-      @state      = process_state(data.state)
-      @tags       = data.tags
-      @comment    = data.reblog.comment
-      @summary    = data.summary
-      @blog_url   = tumblr_url(data.blog_name)
-      @reblog_key = data.reblog_key
-      @image      = data.photos.first.original_size.url if data.photos
+      @data       = JSON.parse(hash.to_json, object_class: OpenStruct)
+
+      # Translate
+      @state      = process_state(@data.state)
+      @blog_url   = tumblr_url(@data.blog_name)
+      @image      = original_image_url
+      @photoset   = @data.photoset_layout
       @keep_tree  = keep_tree.nil? ? false : keep_tree
       @changed    = false
       @saved      = 0
-      data = nil
+      @comment    = @data.caption
+
+      # Direct map
+      @id         = @data.id
+      @reblog_key = @data.reblog_key
+      @state      = @data.state
+      @summary    = @data.summary
+      @tags       = @data.tags
+
+      make_accessors(instance_variables)
     end
 
     # String of post data
@@ -82,7 +80,7 @@ module DK
     # @param simulate [Bool] Simulate Action?
     def delete(client:, simulate: nil)
       return 1 if simulate
-      res = client.delete @blog_url, @id
+      res = client.delete @blog_url, id
       @changed = true if res['id']
       res['id'] ? 1 : 0
     end
@@ -93,7 +91,7 @@ module DK
     def reblog(client:, simulate: nil)
       return 1 if simulate
       client.reblog @blog_url,
-                    id: @id,
+                    id: id,
                     reblog_key: @reblog_key,
                     comment: @comment
     end
@@ -105,7 +103,7 @@ module DK
       return 0 unless @changed
       return @saved = 1 if simulate
       res = client.edit @blog_url,
-                        id:                 @id,
+                        id:                 id,
                         reblog_key:         @reblog_key,
                         state:              @state,
                         attach_reblog_tree: @keep_tree,
@@ -144,6 +142,24 @@ module DK
     end
 
     private
+
+    def make_accessors(keys)
+      for key in keys
+        singleton_class.class_eval { attr_accessor key.to_s.delete('@') }
+      end
+    end
+
+    def method_missing(method, *args)
+      if @data.respond_to?(method)
+        return @data.send(method) unless method.to_s.include?('=')
+        @data.send(method, args)
+      end
+    end
+
+    def original_image_url
+      return nil unless @data.photos
+      @data.photos.first.original_size.url unless @data.photos.empty?
+    end
 
     def process_state(state)
       return DK::DRAFT unless state
