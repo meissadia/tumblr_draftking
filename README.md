@@ -12,10 +12,8 @@ DraftKing for Tumblr takes the hassle out of managing your draft queue!
 + **Randomize post order to add variety.**
 + **Manage multiple accounts.**
 
-Version 0.8.0
-+ DK#post_operation now returns both modified count and modified posts. Use `post_operation(opts)[0]` for previous behavior.
-+ Access all Tumblr Post data via DK::Post. i.e. `DK::Post.new(post_data).photos.first.original_size.url`
-+ Post.image (first photo, original size), Post.alt_sizes, Post.photos (array of Photo structs)
+Version 0.8.1
++ Bugfix: Commands applied to queued posts resulted in post being published.
 
 + Please report any [issues] you encounter!
 + [Change Log](./CHANGELOG.md)

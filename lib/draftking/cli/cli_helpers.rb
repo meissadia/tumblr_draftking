@@ -1,7 +1,9 @@
 module DK
   # Helpers for Command Line Interface
   module CliHelpers
-    VALID_OPTS = [:simulate, :limit, :blog, :key_text, :comment, :add_tags, :mute, :publish, :keep_tags, :keep_comments, :source, :config].freeze
+    VALID_OPTS = [:simulate, :limit, :blog, :key_text, :comment, :add_tags,
+                  :mute, :publish, :keep_tags, :keep_comments, :source,
+                  :config].freeze
 
     private
 

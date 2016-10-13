@@ -23,7 +23,6 @@ module DK
       # Direct map
       @id         = @data.id
       @reblog_key = @data.reblog_key
-      @state      = @data.state
       @summary    = @data.summary
       @tags       = @data.tags
 
@@ -105,7 +104,7 @@ module DK
       res = client.edit @blog_url,
                         id:                 id,
                         reblog_key:         @reblog_key,
-                        state:              @state,
+                        state:              validate_state,
                         attach_reblog_tree: @keep_tree,
                         tags:               @tags.join(','),
                         caption:            @comment
@@ -176,6 +175,11 @@ module DK
 
     def csv_to_a(csv)
       csv.split(',')
+    end
+
+    def validate_state
+      raise 'Invalid Post.state' unless VALID_STATE.include?(@state)
+      @state
     end
   end
 end

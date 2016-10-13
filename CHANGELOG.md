@@ -1,4 +1,7 @@
 # Changelog :: tumblr_draftking
+## Version 0.8.1
++ Bugfix: Commands applied to queued posts resulted in post being published.
+
 ## Version 0.8.0
 + DK#post_operation now returns both modified count and modified posts. Use `post_operation(opts)[0]` for previous behavior.
 + Access all Tumblr Post data via DK::Post. i.e. `DK::Post.new(post_data).photos.first.original_size.url`
