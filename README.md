@@ -12,7 +12,7 @@ DraftKing for Tumblr takes the hassle out of managing your draft queue!
 + **Randomize post order to add variety.**
 + **Manage multiple accounts.**
 
-Version 0.8.2
+Version 0.8.1.1
 + Bugfix: move_to_drafts was not updating Post.state correctly.
 
 + Please report any [issues] you encounter!
