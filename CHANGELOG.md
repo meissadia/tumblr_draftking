@@ -1,4 +1,7 @@
 # Changelog :: tumblr_draftking
+## Version 0.8.1.1
++ Bugfix: move_to_drafts was not updating Post.state correctly.
+
 ## Version 0.8.1
 + Bugfix: Commands applied to queued posts resulted in post being published.
 

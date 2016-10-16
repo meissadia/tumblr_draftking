@@ -10,6 +10,7 @@ module DK
       options[:state]   = DK::DRAFT
       post_operation(options) do |post, _|
         post.changed = !post.has_key_text?(@key_text)
+        post.change_state(@state) if post.changed
       end
     end
   end

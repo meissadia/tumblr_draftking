@@ -1,3 +1,3 @@
 module DK
-  VERSION = '0.8.1'.freeze
+  VERSION = '0.8.1.1'.freeze
 end
