@@ -18,7 +18,7 @@ module DK
       @keep_tree  = keep_tree.nil? ? false : keep_tree
       @changed    = false
       @saved      = 0
-      @comment    = @data.caption
+      @comment    = @data.reblog.comment
 
       # Direct map
       @id         = @data.id

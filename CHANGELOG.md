@@ -1,4 +1,8 @@
 # Changelog :: tumblr_draftking
+## Version 0.8.2.1
++ Expanded progress messages
++ Bugfix: corrected source of Post.comment (data.reblog.comment instead of data.caption)
+
 ## Version 0.8.2
 + get_posts now returns FIFO order unless the shuffle option is enabled
 

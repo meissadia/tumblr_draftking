@@ -42,6 +42,7 @@ module DK
 
     # Common initialization for post operations
     def setup_operation(options)
+      print "Setup\r" unless @mute
       process_options(options)
       act_on_blog(name: @blog_name)
       posts = @shuffle ? get_posts.reverse.shuffle : get_posts.reverse
@@ -120,6 +121,7 @@ module DK
     # @param options[:offset] [Int] [:queue] Post index to start reading from
     # @return [[Post]] Array of Post Hash data
     def get_posts
+      print "Getting posts...\r" unless @mute
       return some_test_data if @test_data
       return some_posts(offset: @offset) if dashboard?
       return all_posts.uniq unless @limit

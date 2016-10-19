@@ -52,14 +52,14 @@ class TestPosts < Minitest::Test
   def test_generate_tags
     assert_equal $test_blog, @@dk.blog_name
     tags = DK::Post.new(post_with_comments).generate_tags(credit: true)
-    assert_equal 'test,more test,last text,DraftKing for Tumblr', tags.join(',')
+    assert_equal 'test comment,DraftKing for Tumblr', tags.join(',')
 
     tags = DK::Post.new(post_with_comments).generate_tags(keep_tags: true, credit: false)
-    assert_equal 'test,more test,last text,existing,tags', tags.join(',')
+    assert_equal 'test comment,existing,tags', tags.join(',')
 
     add_tags = 'added tags,bonus tag'
     tags = DK::Post.new(post_with_comments).generate_tags(keep_tags: true, add_tags: add_tags)
-    assert_equal 'test,more test,last text,added tags,bonus tag,existing,tags', tags.join(',')
+    assert_equal 'test comment,added tags,bonus tag,existing,tags', tags.join(',')
 
     assert_equal 'tags', DK::Post.new(post_no_comments).generate_tags(keep_tags: true, exclude: 'existing', credit: false).join(',')
   end

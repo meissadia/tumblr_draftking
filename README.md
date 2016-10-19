@@ -12,8 +12,9 @@ DraftKing for Tumblr takes the hassle out of managing your draft queue!
 + **Randomize post order to add variety.**
 + **Manage multiple accounts.**
 
-Version 0.8.2
-+ get_posts now returns FIFO order unless the shuffle option is enabled
+Version 0.8.2.1
++ Expanded progress messages
++ Bugfix: corrected source of Post.comment (data.reblog.comment instead of data.caption)
 
 + Please report any [issues] you encounter!
 + [Change Log](./CHANGELOG.md)
