@@ -1,4 +1,7 @@
 # Changelog :: tumblr_draftking
+## Version 0.8.2
++ get_posts now returns FIFO order unless the shuffle option is enabled
+
 ## Version 0.8.1.1
 + Bugfix: move_to_drafts was not updating Post.state correctly.
 

@@ -44,7 +44,7 @@ module DK
     def setup_operation(options)
       process_options(options)
       act_on_blog(name: @blog_name)
-      posts = @shuffle ? get_posts.shuffle : get_posts
+      posts = @shuffle ? get_posts.reverse.shuffle : get_posts.reverse
       work = posts_to_queue(posts)
       reporter = options[:reporter] || DK::Reporter
       [work, work.size, Queue.new, reporter]
