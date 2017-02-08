@@ -147,7 +147,7 @@ module DK
 
     # Dashboard integration
     def call_source(options)
-      return @client.send('dashboard', options).first[1] if dashboard?
+      return @client.send(@source, options).first[1] if dashboard? || likes?
       @client.send(@source, @blog_url, options).first[1]
     end
 
@@ -183,6 +183,10 @@ module DK
 
     def dashboard?
       @source == :dashboard
+    end
+
+    def likes?
+      @source == :likes
     end
   end
 end

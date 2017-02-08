@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
   s.authors        = ['Meissa Dia']
   s.email          = ['meissadia@gmail.com']
   s.homepage       = 'https://github.com/meissadia/tumblr_draftking'
-  s.license        = 'Apache'
+  s.license        = 'Apache-2.0'
   s.date           = Date.today.to_s
 
   s.summary        = 'Take the hassle out of managing your Tumblr account!'

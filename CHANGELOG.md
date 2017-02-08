@@ -1,4 +1,7 @@
 # Changelog :: tumblr_draftking
+## Version 0.8.2.2
++ Added patch for tumblr_client 0.8.5 to enable passing of all accepted parameters to Client#likes, Client#blog_likes
+
 ## Version 0.8.2.1
 + Expanded progress messages
 + Bugfix: corrected source of Post.comment (data.reblog.comment instead of data.caption)

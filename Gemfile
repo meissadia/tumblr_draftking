@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 gem 'psych', '2.0.8'
 gem 'rake', '~> 10.4'
-gem 'tumblr_client'
+gem 'tumblr_client', '~> 0.8.5'
 gem 'thor', '~> 0.19.1'
 gem 'terminal-table', '~> 1.6.0'
 gem 'minitest', group: :test, require: nil
