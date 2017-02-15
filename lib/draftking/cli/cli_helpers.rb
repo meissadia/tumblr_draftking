@@ -16,9 +16,9 @@ module DK
       DK::Config.setup unless DK::Config.configured?
     end
 
-    def process_source(source)
-      source = source.to_s
-      return :queue if source.include?('q')
+    def process_source(src)
+      src = src.to_s
+      return :queue if src.include?('q')
       :draft
     end
 

@@ -4,6 +4,7 @@ require_relative 'cli/cli_options'
 
 # More complex CLI Commands
 require_relative 'cli/commands/accounts'
+require_relative 'cli/commands/autoposter'
 require_relative 'cli/commands/blogs'
 require_relative 'cli/commands/comment'
 require_relative 'cli/commands/console'

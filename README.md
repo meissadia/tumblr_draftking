@@ -6,14 +6,15 @@ DraftKing is not associated with Tumblr
 
 DraftKing for Tumblr takes the hassle out of managing your draft queue!  
 + **(New!) Save and name your own [DK commands](#custom-commands)!**
++ **Save and name your own [DK commands](#custom-commands)!**
 + **Automate the addition of comments and tags.**
 + **Strip away old comments.**
 + **Easily replenish your queue.**
 + **Randomize post order to add variety.**
 + **Manage multiple accounts.**
 
-Version 0.8.2.2
-+ Added patch for tumblr_client 0.8.5 to enable passing of all accepted parameters to Client#likes, Client#blog_likes
+Version 0.8.3
++ New! (Auto-Poster) Publish up to 200 posts per 24 hours!
 
 + Please report any [issues] you encounter!
 + [Change Log](./CHANGELOG.md)
@@ -35,6 +36,7 @@ Version 0.8.2.2
 			+ [Drafts or Queue](#drafts-or-queue)
 			+ [Stripping Comments](#stripping-comments)
 			+ [Comment & Move](#comment-&-move)
+			+ [Auto-Poster](#auto-poster)
 		+ [Testing Console](#testing-console)
 	+ [API](#api)
 + [Built With](#built-with)
@@ -216,8 +218,21 @@ $ dk strip -b second-blog-name -s
 - Suppress progress message (-m)
 
 ```ruby
-$ dk md -c "draftking for tumblr" -k -a new,tags,to,add -m
+$ dk md -c "draftking for tumblr" -k -t new,tags,to,add -m
 ```
+
+##### Auto-Poster
+- Publish from the Drafts (-s)
+- Add the comment "draftking auto poster" (-c)
+- Target blog named 'test-blog' (-b)
+- Keep existing tags (-k)
+- Remove old comments (default behavior)
+- Add tags #new, #tags, #to, #add (-t)
+
+```ruby
+$ dk ap -b 'test-blog' -c 'draftking auto poster' -k -t 'new,tags,to,add' -s :drafts
+```
+
 #### Testing Console
 The dk console can act as a sandbox while you explore the api or you can use it to actively manage your account.  
 By default it runs in simulation mode so any changes you make will not affect your account.

@@ -1,4 +1,7 @@
 # Changelog :: tumblr_draftking
+## Version 0.8.3
++ New! (Auto-Poster) Publish up to 200 posts per 24 hours!
+
 ## Version 0.8.2.2
 + Added patch for tumblr_client 0.8.5 to enable passing of all accepted parameters to Client#likes, Client#blog_likes
 

@@ -12,7 +12,7 @@ module DK
     # @param options[:blog_name] [String] Name of blog to target
     # @param options[:mute] [String] Suppress progress indicator
     # @param options[:test_data] [[Hash]] Array of post hash data
-    # @param options[:simulate] [bool] Simulation?
+    # @param options[:simulate] [Bool] Simulation?
     # @return [int] Number of modified posts
     def post_operation(options, &block)
       work, total, results, reporter = setup_operation(options)
@@ -73,11 +73,11 @@ module DK
 
     # Add a comment to Posts
     # @param options[:credit] [Bool] Give dk credit?
-    # @param options[:comment] [string] String to add as comment
+    # @param options[:comment] [String] String to add as comment
     # @param options[:limit] [Int] Max number of modified posts
     # @param options[:message] [String] Message to display during processing
     # @param options[:source] [Symbol] Target posts from :draft or :queue
-    # @param options[:simulate] [bool] Simulation?
+    # @param options[:simulate] [Bool] Simulation?
     # @param options[:mute] [String] Suppress progress indicator
     # @return [int] Number of modified posts
     def comment_posts(options = {})
@@ -96,9 +96,9 @@ module DK
     # @param options[:source] [Symbol] Target posts from :draft or :queue
     # @param options[:mute] [String] Suppress progress indicator
     # @param options[:blog_name] [String] Name of blog to target
-    # @param options[:keep_tags] [bool] Preserve existing post tags
-    # @param options[:keep_tree] [bool] Preserve existing post comments
-    # @param options[:simulate] [bool] Simulation?
+    # @param options[:keep_tags] [Bool] Preserve existing post tags
+    # @param options[:keep_tree] [Bool] Preserve existing post comments
+    # @param options[:simulate] [Bool] Simulation?
     # @param options[:comment] [String] Exclude :comment from tags
     # @return [int] Number of modified posts
     def tag_posts(options)
@@ -115,7 +115,7 @@ module DK
     # Determine draft data to use.
     # @param options[:test_data] [[Hash]] Array of post hash data
     # @param options[:limit] [Int] Limit # of posts selected
-    # @param options[:blog_url] [string] URL of blog to read from
+    # @param options[:blog_url] [String] URL of blog to read from
     # @param options[:source] [Symbol] Get posts from :draft or :queue
     # @param options[:before_id] [Int] [:draft] ID of post to begin reading from
     # @param options[:offset] [Int] [:queue] Post index to start reading from
@@ -167,7 +167,7 @@ module DK
     # Collect all Posts
     # @param last_id [Int] ID of post to begin reading from (for reading Drafts)
     # @param offset [Int] Post index to start reading from (for reading Queue)
-    # @param blog_url [string] URL of blog to read from
+    # @param blog_url [String] URL of blog to read from
     # @param source [Symbol] Get posts from :draft or :queue
     # @return [[Post]] Array of Post Hash data
     def all_posts(last_id: 0, offset: 0)
@@ -187,6 +187,44 @@ module DK
 
     def likes?
       @source == :likes
+    end
+
+    # Publish posts at an interval, first in first out
+    # @param options[:comment] [String] String to add as comment
+    # @param options[:source] [Symbol] Target posts from :draft or :queue
+    # @param options[:simulate] [Bool] Simulation?
+    # @param options[:add_tags] [String] Tags to add
+    # @param options[:keep_tags] [Bool] Preserve old tags?
+    # @param options[:keep_tree] [Bool] Preserve old comments?
+    # @return [nil]
+    def auto_poster(options = {})
+      process_options(options)
+      act_on_blog(name: @blog_name)
+      print "Retrieving posts...(can take a while for large queues)\r"
+      posts = all_posts.reverse # FIFO
+      total = posts.size
+      puts "Found #{total} posts in #{@source.capitalize}#{'s' if @source[0] == 'd'}."
+      puts 'Press CTRL + C to exit.'
+      interval = 432 # 200 posts / 24 hours = 432sec
+      posts.each_with_index do |current, idx|
+        print "Publishing post #{idx}/#{total}.\r"
+        post = Post.new(current, keep_tree: @keep_tags)
+        post.change_state(DK::PUBLISH)
+        post.replace_comment_with(@comment)
+        post.generate_tags(keep_tags: @keep_tags,
+                           add_tags:  @tags,
+                           exclude:   @comment,
+                           credit:    true) if @auto_tag
+        unless post.save(client: @client, simulate: @simulate) > 0
+          puts "Error at Index: #{idx}. Unable to save post!"
+          puts "reblog_key: #{post.reblog_key}, id: #{post.post_id}"
+          puts 'Quitting auto-poster.'
+          exit 1
+        end
+        print "Published #{idx}/#{total} posts. Next post at #{Time.now + interval}\r"
+        sleep interval unless idx == total
+      end # End of auto-posting
+      puts 'Auto-Poster has completed!'
     end
   end
 end

@@ -1,12 +1,7 @@
+# Patch for bugs in the tumblr_client 0.8.5 gem
 module Tumblr
   # Tumblr::Blog patch
   module Blog
-    # Patch for a bug in the tumblr_client 0.8.5 gem
-    def draft(blog_name, options = {})
-      validate_options([:limit, :before_id], options)
-      get(blog_path(blog_name, 'posts/draft'), options)
-    end
-
     def blog_likes(blog_name, options = {})
       validate_options([:limit, :before, :after, :offset], options)
       url = blog_path(blog_name, 'likes')
@@ -34,7 +29,7 @@ module Tumblr
     end
 
     def draft(blog_name, options = {})
-      validate_options([:before_id], options)
+      validate_options([:limit, :before_id], options)
       get(blog_path(blog_name, 'posts/draft'), options)
     end
   end
