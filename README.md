@@ -5,7 +5,7 @@ DraftKing is not associated with Tumblr
 [![Test Coverage](https://codeclimate.com/github/meissadia/tumblr_draftking/badges/coverage.svg)](https://codeclimate.com/github/meissadia/tumblr_draftking/coverage)
 
 DraftKing for Tumblr takes the hassle out of managing your draft queue!  
-+ **(New!) Save and name your own [DK commands](#custom-commands)!**
++ **(New!) [Auto-Poster](#auto-poster): Publish up to 200 posts a day!**
 + **Save and name your own [DK commands](#custom-commands)!**
 + **Automate the addition of comments and tags.**
 + **Strip away old comments.**
