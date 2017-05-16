@@ -47,6 +47,7 @@ module DK
       @offset    = options[:offset]    || 0
       @limit     = options[:limit]
       @type      = options[:type]
+      @blog_url  = tumblr_url(@blog_name)
     end
 
     # Configure tumblr_client gem

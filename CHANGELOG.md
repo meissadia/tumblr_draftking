@@ -1,4 +1,7 @@
 # Changelog :: tumblr_draftking
+## Version 0.8.3.1
++ Fix: Update @blog_url in DK::Client#process_options to target posts for a blog_name modified after DK::Client creation.
+
 ## Version 0.8.3
 + New! (Auto-Poster) Publish up to 200 posts per 24 hours!
 

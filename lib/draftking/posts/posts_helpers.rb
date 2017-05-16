@@ -35,6 +35,7 @@ module DK
     # Construct Tumblr URL string
     # @param blog_name [String] Blog Name
     def tumblr_url(blog_name)
+      return '' unless blog_name
       blog_name += '.tumblr.com' unless blog_name.include?('.')
       blog_name
     end
