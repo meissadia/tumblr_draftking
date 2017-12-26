@@ -13,7 +13,6 @@ class TestDrafts < Minitest::Test
   def test_comment_posts_limit
     draft_data = $test_data.dup
     expected   = 20
-    # test_show_progress
     options = { comment: '001 comment', test_data: draft_data, limit: expected }
     tagged  = $client.comment_posts(options).first
     assert_equal expected, tagged, 'Comment some drafts'

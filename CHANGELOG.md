@@ -1,4 +1,7 @@
 # Changelog :: tumblr_draftking
+## Version 0.8.4
++ New: CLI now has (-greedy, -g) flags to select all items in queue before performing action.
+
 ## Version 0.8.3.1
 + Fix: Update @blog_url in DK::Client#process_options to target posts for a blog_name modified after DK::Client creation.
 

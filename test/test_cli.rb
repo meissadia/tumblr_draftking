@@ -55,7 +55,7 @@ class TestCLI < Minitest::Test
   end
 
   def test_options
-    ops  = [:add_tags, :blog, :comment, :key_text, :keep_comments, :keep_tags]
+    ops  = [:add_tags, :blog, :comment, :key_text, :keep_comments, :keep_tags, :greedy]
     ops += [:limit, :mute, :publish, :simulate, :source, :state, :credit, :tags, :config]
     assert DK::Options.op_strings.keys.all? { |op| ops.include?(op) }
     pattern = /^Comma separated string of tags to add.\n\n/

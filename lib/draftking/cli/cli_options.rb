@@ -19,6 +19,7 @@ module DK
       d[:source]        = 'Modify posts from your : d-drafts, q-queue'
       d[:state]         = 'Set post state: d-draft, q-queued'
       d[:tags]          = 'Auto-Generate tags based on user comment.'
+      d[:greedy]        = 'Select entire queue before processing the action.'
       d
     end
 

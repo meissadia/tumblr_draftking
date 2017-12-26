@@ -19,6 +19,7 @@ module DK
     option :mute,          type: :boolean, aliases: :m, desc: Options.op_strings[:mute]
     option :keep_tags,     type: :boolean, aliases: :k, desc: Options.op_strings[:keep_tags]
     option :keep_comments, type: :boolean, aliases: :K, desc: Options.op_strings[:keep_comments]
+    option :greedy,        type: :boolean, aliases: :g, desc: Options.op_strings[:greedy]
     option :credit,        type: :boolean, desc: Options.op_strings[:credit], default: true
     option :tags,          type: :boolean, desc: Options.op_strings[:tags],   default: true
     option :config,        type: :string,  desc: Options.op_strings[:config]
