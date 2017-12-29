@@ -135,14 +135,19 @@ module DK
     # @return [[Post]] Array of Post Hash data
     def some_posts(before_id: 0, offset: 0, max_id: nil, since_id: nil)
       options = { limit: [(@limit || 50), 50].min }
-      options[:max_id]   = max_id if max_id
+      options[:max_id]   = max_id   if max_id
       options[:since_id] = since_id if since_id
       options[@source == :draft ? :before_id : :offset] =
         (@source == :draft ? before_id : offset) unless dashboard?
       options[:type] = @type if @type
 
-      result = call_source(options)
-      result.is_a?(Integer) ? [] : result
+      begin
+        retries ||= 0
+        result = call_source(options)
+        result.is_a?(Integer) ? (raise TypeError) : result
+      rescue TypeError
+        (retries += 1) > MAX_RETRY ? [] : retry
+      end
     end
 
     # Dashboard integration

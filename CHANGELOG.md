@@ -1,4 +1,7 @@
 # Changelog :: tumblr_draftking
+## Version 0.8.5
++ Stability improvement for post retrieval routine
+
 ## Version 0.8.4
 + New: CLI now has (-greedy, -g) flags to select all items in queue before performing action.
 

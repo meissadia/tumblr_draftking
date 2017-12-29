@@ -14,8 +14,8 @@ DraftKing for Tumblr takes the hassle out of managing your draft queue!
 + **Randomize post order to add variety.**
 + **Manage multiple accounts.**
 
-Version 0.8.4
-+ New: CLI now has (-greedy, -g) flags to select all items in queue before performing action.
+Version 0.8.5
++ Stability improvement for post retrieval routine
 
 + Please report any [issues] you encounter!
 + [Change Log](./CHANGELOG.md)
