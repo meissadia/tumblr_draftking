@@ -6,7 +6,7 @@ module DK
       d = {}
       d[:add_tags]      = 'Comma separated string of tags to add.'
       d[:blog]          = 'Name of blog to use. Excluding this will default to main blog.'
-      d[:comment]       = 'Comment to add to any posts which do not already contain it.'
+      d[:comment]       = 'A caption that gets added to your posts.'
       d[:config]        = 'Name or # of Config to use (`dk accounts` for list)'
       d[:credit]        = 'Give draftking credit with a tag'
       d[:keep_comments] = 'Keep the previous comments on a post.'
@@ -20,6 +20,8 @@ module DK
       d[:state]         = 'Set post state: d-draft, q-queued'
       d[:tags]          = 'Auto-Generate tags based on user comment.'
       d[:greedy]        = 'Select entire queue before processing the action.'
+      d[:file]          = 'File path.'
+      d[:link]          = 'URL to visit when photo is clicked.'
       d
     end
 

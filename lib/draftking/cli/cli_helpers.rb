@@ -59,5 +59,9 @@ module DK
         end
       end
     end
+
+    def current_date_string
+      Time.now.strftime('%b %d, %H:%M:%S')
+    end
   end
 end

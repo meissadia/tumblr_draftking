@@ -16,7 +16,7 @@ module DK
     # @param opts[:simulate] [Boolean] Show simulation indicator
     # @param opts[:title] [String] Report Title
     def build_title(opts)
-      "#{opts[:title]}#{REPORT_SIM if opts[:simulate]}"
+      "#{opts[:title]}#{"\n" + REPORT_SIM if opts[:simulate]}"
     end
 
     # Determine Field List

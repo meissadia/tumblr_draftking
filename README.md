@@ -6,7 +6,8 @@ DraftKing is not associated with Tumblr
 [![Test Coverage](https://codeclimate.com/github/meissadia/tumblr_draftking/badges/coverage.svg)](https://codeclimate.com/github/meissadia/tumblr_draftking/coverage)
 
 DraftKing for Tumblr takes the hassle out of managing your draft queue!  
-+ **(New!) [Auto-Poster](#auto-poster): Publish up to 200 posts a day!**
++ **(New!) [Batch Uploader](#batch-uploader): Upload a list of URLs/files**
++ **[Auto-Poster](#auto-poster): Publish up to 200 posts a day!**
 + **Save and name your own [DK commands](#custom-commands)!**
 + **Automate the addition of comments and tags.**
 + **Strip away old comments.**
@@ -14,8 +15,8 @@ DraftKing for Tumblr takes the hassle out of managing your draft queue!
 + **Randomize post order to add variety.**
 + **Manage multiple accounts.**
 
-Version 0.8.5
-+ Stability improvement for post retrieval routine
+Version 0.9.0
++ New! Batch upload and comment photos from a file.
 
 + Please report any [issues] you encounter!
 + [Change Log](./CHANGELOG.md)
@@ -38,6 +39,7 @@ Version 0.8.5
 			+ [Stripping Comments](#stripping-comments)
 			+ [Comment & Move](#comment-&-move)
 			+ [Auto-Poster](#auto-poster)
+			+ [Batch Uploader](#batch-uploader)
 		+ [Testing Console](#testing-console)
 	+ [API](#api)
 + [Built With](#built-with)
@@ -232,7 +234,20 @@ $ dk md -c "draftking for tumblr" -k -t new,tags,to,add -m
 
 ```ruby
 $ dk ap -b 'test-blog' -c 'draftking auto poster' -k -t 'new,tags,to,add' -s :drafts
-```
+```  
+
+##### Batch Uploader
+- Provide input file (-f FILE_PATH)
+- Upload to secondary blog (-b BLOG_NAME)
+- Provide a url to visit when photo is clicked (-l LINK_URL)
+- Add tags #blog2, #my upload (-t)
+- Input file format example available via `$ dk help ups`  
+
+```ruby
+$ dk ups -f /Users/meis/Desktop/new_stuff.txt -b blog2 -l blog2.tumblr.com -t 'blog2, my upload,'
+```  
+
+
 
 #### Testing Console
 The dk console can act as a sandbox while you explore the api or you can use it to actively manage your account.  

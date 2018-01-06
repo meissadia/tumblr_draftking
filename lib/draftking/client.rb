@@ -14,7 +14,7 @@ module DK
     attr_accessor :shuffle,  :keep_tree, :test_data, :mute
     attr_accessor :simulate, :keep_tags, :before_id, :credit
     attr_accessor :message,  :source,    :auto_tag,  :state
-    attr_accessor :type
+    attr_accessor :type,     :tags
 
     # Initialize instance of DraftKing for the specified blog
     # @param options[:blog_name] [String] Target blog name

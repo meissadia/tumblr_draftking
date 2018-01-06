@@ -34,7 +34,7 @@ module DK
       options[:message] = 'Moving Drafts -> Queue: '
       options[:shuffle] = true
       options[:state]   = DK::QUEUE
-      options[:limit] ||= options[:greedy] ? nil : @q_space
+      options[:limit]   = options[:greedy] ? (nil || options[:limit]) : @q_space
       post_operation(options) do |post, index|
         next false unless index_within_limit?(index, @q_space)
         next false unless post.has_key_text?(@key_text)

@@ -12,6 +12,7 @@ require_relative 'cli/commands/movedrafts'
 require_relative 'cli/commands/strip'
 require_relative 'cli/commands/status'
 require_relative 'cli/commands/tag'
+require_relative 'cli/commands/uploads'
 
 # Stored User Commands
 require_relative 'cli/commands/user_command'

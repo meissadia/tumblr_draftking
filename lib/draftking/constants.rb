@@ -22,5 +22,8 @@ module DK
   # PostReporter
   REPORT_TITLE  = 'Post Report'.freeze
   REPORT_FIELDS = %w(id state comment tags).freeze
-  REPORT_SIM    = ' (SIMULATION)'.freeze
+  REPORT_SIM    = '(SIMULATION)'.freeze
+
+  # Uploads
+  UPLOAD_FIELDS = %w(count line file caption status).freeze
 end

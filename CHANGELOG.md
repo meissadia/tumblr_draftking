@@ -1,4 +1,7 @@
 # Changelog :: tumblr_draftking
+## Version 0.9.0
++ New! Batch upload and comment photos from a file.
+
 ## Version 0.8.5
 + Stability improvement for post retrieval routine
 
