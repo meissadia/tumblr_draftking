@@ -45,6 +45,7 @@ module DK
       @source    = process_source(options[:source])
       @before_id = options[:before_id] || 0
       @offset    = options[:offset]    || 0
+      @greedy    = options[:greedy]    || @greedy
       @limit     = options[:limit]
       @type      = options[:type]
       @blog_url  = tumblr_url(@blog_name)

@@ -1,4 +1,7 @@
 # Changelog :: tumblr_draftking
+## Version 0.9.0.1
++ Adjusted movedrafts logic to better account for passed limits
+
 ## Version 0.9.0
 + New! Batch upload and comment photos from a file.
 

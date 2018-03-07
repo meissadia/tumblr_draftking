@@ -4,6 +4,8 @@ include DK::Posts
 module DK
   # Tumblr Post
   class Post
+    attr_accessor :comment, :image, :photoset, :changed, :saved, :comment
+    attr_accessor :state, :data, :reblog_key, :tags, :blog_url, :summary
     # @param hash [Hash] Post Data
     # @param keep_tree [Bool] Attach Reblog Tree?
     def initialize(hash, keep_tree: nil)
@@ -19,6 +21,7 @@ module DK
       @changed    = false
       @saved      = 0
       @comment    = @data.reblog.comment
+      @from       = @data.trail.first.blog.name rescue '<no ID>'
 
       # Direct map
       @id         = @data.id

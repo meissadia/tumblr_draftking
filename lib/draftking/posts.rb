@@ -46,6 +46,7 @@ module DK
       process_options(options)
       act_on_blog(name: @blog_name)
       posts = @shuffle ? get_posts.reverse.shuffle : get_posts.reverse
+      posts = posts.take(@limit) if @limit
       work = posts_to_queue(posts)
       reporter = options[:reporter] || DK::Reporter
       [work, work.size, Queue.new, reporter]
@@ -124,7 +125,7 @@ module DK
       print "Getting posts...\r" unless @mute
       return some_test_data if @test_data
       return some_posts(offset: @offset) if dashboard?
-      return all_posts.uniq unless @limit
+      return all_posts.uniq if @greedy || @limit.nil?
       return some_posts(offset: @offset, before_id: @before_id) if @limit <= 50
       limited_posts
     end
