@@ -1,4 +1,5 @@
 require_relative 'lib/draftking/version'
+require 'date'
 
 Gem::Specification.new do |s|
   s.name           = 'tumblr_draftking'
@@ -23,7 +24,7 @@ Gem::Specification.new do |s|
 
   s.required_ruby_version = '>= 2.1.0'
   s.add_runtime_dependency 'tumblr_client', '~> 0.8.5'
-  s.add_runtime_dependency 'psych', '2.0.8'
+  s.add_runtime_dependency 'psych', '~> 2.0', '>= 2.0.8'
   s.add_runtime_dependency 'thor', '~> 0.19.1'
   s.add_runtime_dependency 'terminal-table', '~> 1.6'
   s.add_development_dependency 'minitest', '~> 5.9'

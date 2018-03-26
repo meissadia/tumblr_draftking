@@ -15,8 +15,8 @@ DraftKing for Tumblr takes the hassle out of managing your draft queue!
 + **Randomize post order to add variety.**
 + **Manage multiple accounts.**
 
-Version 0.9.0
-+ New! Batch upload and comment photos from a file.
+Version 0.9.0.2
++ Updated gemspec constraints for Psych
 
 + Please report any [issues] you encounter!
 + [Change Log](./CHANGELOG.md)

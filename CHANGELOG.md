@@ -1,4 +1,7 @@
 # Changelog :: tumblr_draftking
+## Version 0.9.0.2
++ Updated gemspec constraints for Psych
+
 ## Version 0.9.0.1
 + Adjusted movedrafts logic to better account for passed limits
 
