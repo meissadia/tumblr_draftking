@@ -181,7 +181,7 @@ module DK
     end
 
     def validate_state
-      raise 'Invalid Post.state' unless VALID_STATE.include?(@state)
+      raise "Invalid Post.state: #{@state}" unless VALID_STATE.include?(@state)
       @state
     end
   end

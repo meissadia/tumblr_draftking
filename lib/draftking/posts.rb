@@ -45,11 +45,15 @@ module DK
       print "Setup\r" unless @mute
       process_options(options)
       act_on_blog(name: @blog_name)
-      posts = @shuffle ? get_posts.reverse.shuffle : get_posts.reverse
+      posts = @shuffle ? shufflex(get_posts.reverse, 3) : get_posts.reverse
       posts = posts.take(@limit) if @limit
       work = posts_to_queue(posts)
       reporter = options[:reporter] || DK::Reporter
       [work, work.size, Queue.new, reporter]
+    end
+
+    def shufflex(arr, num)
+      (0..num).to_a.inject(arr) { |m, _| m = m.shuffle; m }
     end
 
     # Create queue of Posts for worker threads
