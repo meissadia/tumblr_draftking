@@ -67,7 +67,7 @@ class TestPosts < Minitest::Test
   def test_getposts_drafts
     dk = @@dk.dup
     dk.limit = 1
-    assert dk.some_posts.size == 1
+    assert_equal dk.some_posts.size, 1
     dk.limit = 2
     assert dk.some_posts.size <= 2
     assert_equal dk.d_size, dk.all_posts.size

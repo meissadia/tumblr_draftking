@@ -20,8 +20,9 @@ module DK
     option :mute,          type: :boolean, aliases: :m, desc: Options.op_strings[:mute]
     option :keep_tags,     type: :boolean, aliases: :k, desc: Options.op_strings[:keep_tags]
     option :keep_comments, type: :boolean, aliases: :K, desc: Options.op_strings[:keep_comments]
-    option :credit,        type: :boolean, desc: Options.op_strings[:credit], default: true
-    option :tags,          type: :boolean, desc: Options.op_strings[:tags],   default: true
+    option :credit,        type: :boolean, desc: Options.op_strings[:credit],  default: true
+    option :tags,          type: :boolean, desc: Options.op_strings[:tags],    default: true
+    option :show_pi,       type: :boolean, desc: Options.op_strings[:show_pi], default: true
     option :config,        type: :string,  desc: Options.op_strings[:config]
     def comment(comm)
       configured?

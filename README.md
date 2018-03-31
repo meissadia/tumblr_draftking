@@ -15,8 +15,8 @@ DraftKing for Tumblr takes the hassle out of managing your draft queue!
 + **Randomize post order to add variety.**
 + **Manage multiple accounts.**
 
-Version 0.9.0.3
-+ Shuffle posts more during movedrafts
+Version 0.9.1.0
++ Added CLI option (--no-show-pi) to hide progress indicators.  (--mute) can still be used to silence progress messages and the final report.
 
 + Please report any [issues] you encounter!
 + [Change Log](./CHANGELOG.md)

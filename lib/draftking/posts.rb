@@ -42,7 +42,7 @@ module DK
 
     # Common initialization for post operations
     def setup_operation(options)
-      print "Setup\r" unless @mute
+      pprint "Setup\r"
       process_options(options)
       act_on_blog(name: @blog_name)
       posts = @shuffle ? shufflex(get_posts.reverse, 3) : get_posts.reverse
@@ -126,7 +126,7 @@ module DK
     # @param options[:offset] [Int] [:queue] Post index to start reading from
     # @return [[Post]] Array of Post Hash data
     def get_posts
-      print "Getting posts...\r" unless @mute
+      pprint "Getting posts...\r"
       return some_test_data if @test_data
       return some_posts(offset: @offset) if dashboard?
       return all_posts.uniq if @greedy || @limit.nil?
@@ -210,14 +210,14 @@ module DK
     def auto_poster(options = {})
       process_options(options)
       act_on_blog(name: @blog_name)
-      print "Retrieving posts...(can take a while for large queues)\r"
+      pprint "Retrieving posts...(can take a while for large queues)\r"
       posts = all_posts.reverse # FIFO
       total = posts.size
-      puts "Found #{total} posts in #{@source.capitalize}#{'s' if @source[0] == 'd'}."
-      puts 'Press CTRL + C to exit.'
+      pputs "Found #{total} posts in #{@source.capitalize}#{'s' if @source[0] == 'd'}."
+      pputs 'Press CTRL + C to exit.'
       interval = 432 # 200 posts / 24 hours = 432sec
       posts.each_with_index do |current, idx|
-        print "Publishing post #{idx}/#{total}.\r"
+        pprint "Publishing post #{idx}/#{total}.\r"
         post = Post.new(current, keep_tree: @keep_tags)
         post.change_state(DK::PUBLISH)
         post.replace_comment_with(@comment)
@@ -226,15 +226,15 @@ module DK
                            exclude:   @comment,
                            credit:    true) if @auto_tag
         unless post.save(client: @client, simulate: @simulate) > 0
-          puts "Error at Index: #{idx}. Unable to save post!"
-          puts "reblog_key: #{post.reblog_key}, id: #{post.post_id}"
-          puts 'Quitting auto-poster.'
+          pputs "Error at Index: #{idx}. Unable to save post!"
+          pputs "reblog_key: #{post.reblog_key}, id: #{post.post_id}"
+          pputs 'Quitting auto-poster.'
           exit 1
         end
-        print "Published #{idx}/#{total} posts. Next post at #{Time.now + interval}\r"
+        pprint "Published #{idx}/#{total} posts. Next post at #{Time.now + interval}\r"
         sleep interval unless idx == total
       end # End of auto-posting
-      puts 'Auto-Poster has completed!'
+      pputs 'Auto-Poster has completed!'
     end
   end
 end

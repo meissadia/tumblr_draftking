@@ -164,7 +164,7 @@ module DK
     end
 
     def process_state(state)
-      return DK::DRAFT unless state
+      return DK::DRAFT unless state || state.empty
       return DK::QUEUE if state == 'queued'
       state
     end

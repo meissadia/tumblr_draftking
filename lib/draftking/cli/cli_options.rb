@@ -22,6 +22,7 @@ module DK
       d[:greedy]        = 'Select entire queue before processing the action.'
       d[:file]          = 'File path.'
       d[:link]          = 'URL to visit when photo is clicked.'
+      d[:show_pi]       = 'Show progress indicators.'
       d
     end
 

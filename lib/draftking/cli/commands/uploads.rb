@@ -33,6 +33,7 @@ module DK
     option :simulate, type: :boolean, aliases: :s, desc: Options.op_strings[:simulate]
     option :mute,     type: :boolean, aliases: :m, desc: Options.op_strings[:mute]
     option :add_tags, type: :string,  aliases: :t, desc: Options.op_strings[:add_tags]
+    option :show_pi,  type: :boolean, desc: Options.op_strings[:show_pi], default: true
     option :config,   type: :string,  desc: Options.op_strings[:config]
     def uploads
       configured?

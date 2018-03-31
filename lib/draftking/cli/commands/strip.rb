@@ -8,6 +8,7 @@ module DK
     option :blog,      type: :string,  aliases: :b, desc: Options.op_strings[:blog]
     option :source,    type: :string,  aliases: :S, desc: Options.op_strings[:source]
     option :simulate,  type: :boolean, aliases: :s, desc: Options.op_strings[:simulate]
+    option :show_pi,   type: :boolean, desc: Options.op_strings[:show_pi], default: true
     option :config,    type: :string,  desc: Options.op_strings[:config]
     def strip
       configured?

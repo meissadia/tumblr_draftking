@@ -49,6 +49,7 @@ module DK
       @limit     = options[:limit]
       @type      = options[:type]
       @blog_url  = tumblr_url(@blog_name)
+      @show_pi   = options[:show_pi]
     end
 
     # Configure tumblr_client gem

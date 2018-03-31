@@ -1,6 +1,13 @@
 module DK
   # Helper Methods
   module Posts
+    def pputs(str)
+      puts str unless @mute || !@show_pi
+    end
+    def pprint(str)
+      puts str unless @mute || !@show_pi
+    end
+
     # Display progress percentage
     # @param current [Int] Progress Counter
     # @param total [Int] # Items to be processed
@@ -8,9 +15,10 @@ module DK
     # @param done [Bool] Processing Complete?
     # @param modified [Int] # of items modified
     def show_progress(current: 0, total: 0, message: '', done: false, modified: 0)
+      return unless @show_pi
       indicator, newline, progress = setup_done(modified) if done
       indicator, newline, progress = setup_undone(current, total) unless done
-      print "#{indicator}#{message}#{progress}#{' ' * 30}\r#{newline}"
+      pprint "#{indicator}#{message}#{progress}#{' ' * 30}\r#{newline}"
       $stdout.flush unless done
     end
 

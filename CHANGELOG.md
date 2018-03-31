@@ -1,4 +1,7 @@
 # Changelog :: tumblr_draftking
+## Version 0.9.1.0
++ Added CLI option (--no-show-pi) to hide progress indicators.  (--mute) can still be used to silence progress messages and the final report.
+
 ## Version 0.9.0.3
 + Shuffle posts more during movedrafts
 
