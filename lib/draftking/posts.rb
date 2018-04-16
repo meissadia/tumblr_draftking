@@ -148,7 +148,7 @@ module DK
 
       begin
         retries ||= 0
-        result = call_source(options)
+        result = call_source(options)['posts']
         result.is_a?(Integer) ? (raise TypeError) : result
       rescue TypeError
         (retries += 1) > MAX_RETRY ? [] : retry
@@ -158,7 +158,12 @@ module DK
     # Dashboard integration
     def call_source(options)
       return @client.send(@source, options).first[1] if dashboard? || likes?
-      @client.send(@source, @blog_url, options).first[1]
+      @client.send(check_for_publish(@source), @blog_url, options)
+    end
+
+    def check_for_publish(source)
+      return source unless source.eql?(PUBLISH)
+      :posts
     end
 
     # Get @limit # of Posts

@@ -4,6 +4,7 @@ module DK
     def pputs(str)
       puts str unless @mute || !@show_pi
     end
+
     def pprint(str)
       puts str unless @mute || !@show_pi
     end

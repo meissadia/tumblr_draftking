@@ -67,7 +67,7 @@ class TestPosts < Minitest::Test
   def test_getposts_drafts
     dk = @@dk.dup
     dk.limit = 1
-    assert_equal dk.some_posts.size, 1
+    assert_equal 1, dk.some_posts.size
     dk.limit = 2
     assert dk.some_posts.size <= 2
     assert_equal dk.d_size, dk.all_posts.size
@@ -87,6 +87,7 @@ class TestPosts < Minitest::Test
     dk = @@dk.dup
     dk.limit = 1
     post = DK::Post.new dk.some_posts.first
+    refute_nil dk.blog_url
     assert post.reblog(client: dk.client, simulate: true)
     assert post.reblog(client: dk.client)
   end

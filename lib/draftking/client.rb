@@ -14,7 +14,7 @@ module DK
     attr_accessor :shuffle,  :keep_tree, :test_data, :mute
     attr_accessor :simulate, :keep_tags, :before_id, :credit
     attr_accessor :message,  :source,    :auto_tag,  :state
-    attr_accessor :type,     :tags
+    attr_accessor :type,     :tags,      :greedy,    :show_pi
 
     # Initialize instance of DraftKing for the specified blog
     # @param options[:blog_name] [String] Target blog name
@@ -87,6 +87,8 @@ module DK
       return src if src.is_a? Symbol
       return :dashboard if src.include?('dash')
       return :queue if src.include?('queue')
+      return :posts if src.include?('publish')
+      return :draft if src.include?('draft')
     end
   end
 end

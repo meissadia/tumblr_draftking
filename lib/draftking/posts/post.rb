@@ -21,7 +21,11 @@ module DK
       @changed    = false
       @saved      = 0
       @comment    = @data.reblog.comment
-      @from       = @data.trail.first.blog.name rescue '<no ID>'
+      @from       = begin
+                      @data.trail.first.blog.name
+                    rescue
+                      '<no ID>'
+                    end
 
       # Direct map
       @id         = @data.id
@@ -166,6 +170,7 @@ module DK
     def process_state(state)
       return DK::DRAFT unless state || state.empty
       return DK::QUEUE if state == 'queued'
+      return DK::PUBLISH if state.include?('pub')
       state
     end
 

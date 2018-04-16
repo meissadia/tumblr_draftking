@@ -1,4 +1,7 @@
 # Changelog :: tumblr_draftking
+## Version 0.10.0
++ Enhanced get_posts logic to handle retrieval of published posts. Set `dk.source = DK::PUBLISH` before calling `dk.get_posts`.
+
 ## Version 0.9.1.0
 + Added CLI option (--no-show-pi) to hide progress indicators.  (--mute) can still be used to silence progress messages and the final report.
 

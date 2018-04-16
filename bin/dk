@@ -1,6 +1,12 @@
 #!/usr/bin/env ruby
 require 'rubygems'
-require_relative '../lib/tumblr_draftking'
+if ENV['DEV_ENV']
+  # DEV ONLY - Run development source using system installed cli
+  rdir = ENV['DIR_RUBY']
+  require File.join(Dir.home, "#{rdir}/tumblr_draftking/lib/tumblr_draftking")
+else
+  require_relative '../lib/tumblr_draftking'
+end
 
 # Display 'update available'
 require 'open-uri'
