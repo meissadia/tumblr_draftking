@@ -15,8 +15,8 @@ DraftKing for Tumblr takes the hassle out of managing your draft queue!
 + **Randomize post order to add variety.**
 + **Manage multiple accounts.**
 
-Version 0.10.0
-+ Enhanced get_posts logic to handle retrieval of published posts. Set `dk.source = DK::PUBLISH` before calling `dk.get_posts`.
+Version 0.10.0.1
++ Fix for Faraday::ConnectionFailed when trying to reach Tumblr
 
 + Please report any [issues] you encounter!
 + [Change Log](./CHANGELOG.md)

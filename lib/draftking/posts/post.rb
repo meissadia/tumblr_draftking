@@ -96,10 +96,17 @@ module DK
     # @param simulate [Bool] Simulate Action?
     def reblog(client:, simulate: nil)
       return 1 if simulate
-      client.reblog @blog_url,
-                    id: id,
-                    reblog_key: @reblog_key,
-                    comment: @comment
+      retries = 0
+      begin
+        client.reblog @blog_url,
+                      id: id,
+                      reblog_key: @reblog_key,
+                      comment: @comment
+      rescue
+        retries += 1
+        retry unless retries > MAX_RETRY
+        raise IOError, 'Connection to Tumblr timed-out!'
+      end
     end
 
     # Save a post
@@ -108,13 +115,20 @@ module DK
     def save(client:, simulate: nil)
       return 0 unless @changed
       return @saved = 1 if simulate
-      res = client.edit @blog_url,
-                        id:                 id,
-                        reblog_key:         @reblog_key,
-                        state:              validate_state,
-                        attach_reblog_tree: @keep_tree,
-                        tags:               @tags.join(','),
-                        caption:            @comment
+      retries = 0
+      begin
+        res = client.edit @blog_url,
+                          id:                 id,
+                          reblog_key:         @reblog_key,
+                          state:              validate_state,
+                          attach_reblog_tree: @keep_tree,
+                          tags:               @tags.join(','),
+                          caption:            @comment
+      rescue
+        retries += 1
+        retry unless retries > MAX_RETRY
+        raise IOError, 'Connection to Tumblr timed-out!'
+      end
       return 0 unless res && res['id']
       @changed = false
       @saved   = 1

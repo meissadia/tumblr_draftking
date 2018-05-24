@@ -65,7 +65,7 @@ module DK
     # @param name [String] Name of blog to target
     def act_on_blog(name: nil)
       return unless connected?
-      @user = JSON.parse(@client.info['user'].to_json, object_class: OpenStruct)
+      @user = client_user_info_to_ostruct
       @blog_name = name ? name.gsub('.tumblr.com', '') : @user.blogs.first.name
       @blog_url  = tumblr_url(@blog_name)
       @user.blogs.each do |blog|
@@ -74,6 +74,21 @@ module DK
         @q_size  = blog.queue
         @d_size  = blog.drafts
         @q_space = 300 - @q_size
+      end
+    end
+
+    def client_user_info_to_ostruct
+      info = block_with_retry { |_| @client.info['user'].to_json }
+      JSON.parse(info, object_class: OpenStruct)
+    end
+
+    def block_with_retry(opts = {}, &block)
+      retries = 0
+      begin
+        return block.call(opts)
+      rescue
+        retry unless (retries += 1) > MAX_RETRY
+        return nil
       end
     end
 

@@ -42,7 +42,8 @@ class TestDrafts < Minitest::Test
     msg = 'Get all available drafts'
     client.test_data = nil
     client.limit     = nil
-    assert client.get_posts.size == client.d_size, msg
+    assert_equal client.d_size, client.get_posts.size
+    # assert client.get_posts.size == client.d_size, msg
   end
 
   def test_drafts_to_queue

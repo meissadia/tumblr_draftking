@@ -1,4 +1,7 @@
 # Changelog :: tumblr_draftking
+## Version 0.10.0.1
++ Fix for Faraday::ConnectionFailed when trying to reach Tumblr
+
 ## Version 0.10.0
 + Enhanced get_posts logic to handle retrieval of published posts. Set `dk.source = DK::PUBLISH` before calling `dk.get_posts`.
 

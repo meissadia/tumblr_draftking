@@ -157,8 +157,12 @@ module DK
 
     # Dashboard integration
     def call_source(options)
-      return @client.send(@source, options).first[1] if dashboard? || likes?
-      @client.send(check_for_publish(@source), @blog_url, options)
+      begin
+        return @client.send(@source, options).first[1] if dashboard? || likes?
+        @client.send(check_for_publish(@source), @blog_url, options)
+      rescue
+        retry
+      end
     end
 
     def check_for_publish(source)

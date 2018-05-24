@@ -17,7 +17,7 @@ module DK
 
   # Scaling
   MAX_THREADS = 3
-  MAX_RETRY   = 2
+  MAX_RETRY   = 3
 
   # PostReporter
   REPORT_TITLE  = 'Post Report'.freeze
