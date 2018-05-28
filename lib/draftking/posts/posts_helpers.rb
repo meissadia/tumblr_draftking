@@ -6,7 +6,7 @@ module DK
     end
 
     def pprint(str)
-      puts str unless @mute || !@show_pi
+      print str unless @mute || !@show_pi
     end
 
     # Display progress percentage

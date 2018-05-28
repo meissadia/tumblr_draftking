@@ -1,4 +1,7 @@
 # Changelog :: tumblr_draftking
+## Version 0.10.0.2
++ Fix CLI::pprint putsing. 
+
 ## Version 0.10.0.1
 + Fix for Faraday::ConnectionFailed when trying to reach Tumblr
 
